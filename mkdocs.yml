@@ -1,15 +1,15 @@
 site_name: aoozoo'blog
 site_author: azoo
-site_url: https://aoozoo.github.io/blog/
+# site_url: https://aoozoo.github.io/blog/
 repo_url: https://github.com/aoozoo/blog
 repo_name: aoozoo/blog
 
 theme:
   name: material
-  logo: https://avatars.githubusercontent.com/u/15232738?v=4&size=64
-  font: # 设置字体 https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/#configuration
-    text: Roboto
-    code: Roboto Mono
+  # logo: https://avatars.githubusercontent.com/u/15232738?v=4&size=64
+  # font: # 设置字体 https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/#configuration
+  #   text: Roboto
+  #   code: Roboto Mono
   # custom_dir: overrides
   icon:
     logo: material/numeric-9-box
