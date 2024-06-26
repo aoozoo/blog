@@ -28,6 +28,15 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.footer
+    # - toc.integrate # 打开之后，文件的结构，嵌入在左侧的目录结构里面，不打开就在右侧
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.annotation
+    - header.autohide
+    - announce.dismiss
 
   palette: 
     - scheme: default
