@@ -38,6 +38,8 @@ theme:
     - header.autohide
     - announce.dismiss
 
+  # language: zh
+
   palette: 
     - scheme: default
       toggle:
