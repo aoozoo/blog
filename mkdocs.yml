@@ -40,15 +40,29 @@ theme:
 
   # language: zh
 
-  palette: 
+  # palette: 
+  #   - scheme: default
+  #     toggle:
+  #       icon: material/theme-light-dark
+  #       name: Switch to dark mode
+  #   - scheme: slate
+  #     toggle:
+  #       icon: material/theme-light-dark
+  #       name: Switch to light mode
+
+  palette:
+    - scheme: slate  # 这里可以设置网站的默认颜色，有两个值可以选择，default 和 slate，浅色模式（称为 default ）和深色模式（称为 slate ）https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#color-scheme 哪组在前面，默认就是那种配色
+      toggle: # 增加一个开关，可以用于手动切换颜色模式 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#color-palette-toggle
+        icon: material/toggle-switch
+        name: Switch to light mode    
+      # primary: red # 这里设置 标题、侧边栏、文本链接和其他一些组件 的颜色 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
+      # accent: deep orange # 强调色用于表示可以交互的元素，例如悬停链接、按钮和滚动条  https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#accent-color
     - scheme: default
       toggle:
-        icon: material/theme-light-dark
+        icon: material/toggle-switch-off-outline 
         name: Switch to dark mode
-    - scheme: slate
-      toggle:
-        icon: material/theme-light-dark
-        name: Switch to light mode
+      # primary: teal
+      # accent: purple 
 
 plugins:
   - search
