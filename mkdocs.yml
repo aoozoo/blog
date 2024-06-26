@@ -1,58 +1,26 @@
 site_name: aoozoo'blog
 site_author: azoo
-# site_url: https://aoozoo.github.io/blog/
 repo_url: https://github.com/aoozoo/blog
 repo_name: aoozoo/blog
 
 theme:
   name: material
-  # logo: https://avatars.githubusercontent.com/u/15232738?v=4&size=64
-  # font: # 设置字体 https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/#configuration
-  #   text: Roboto
-  #   code: Roboto Mono
-  # custom_dir: overrides
+  custom_dir: overrides
   icon:
     logo: material/numeric-9-box
   features:
     - content.code.copy
-    - navigation.sections # 这里打开，目录就显示为灰色，不会有展开的箭头，里面的内容会一直显示在左边栏
-    # - navigation.expand # 左边侧栏目录结构自动展开
+    - navigation.sections
     - navigation.instant
-    # - navigation.tabs # 这里打开可以多一行，选项卡一栏
-    # - navigation.tabs.sticky # 滚动的时候选项卡也保持可见
-    # - navigation.path
-    # - navigation.instant.prefetch
-    # - navigation.instant.progress
-    # - navigation.tracking
-    # - navigation.prune
-    # - navigation.indexes
-    # - navigation.top
-    # - navigation.footer
-    # # - toc.integrate # 打开之后，文件的结构，嵌入在左侧的目录结构里面，不打开就在右侧
-    # - toc.follow
-    # - search.suggest
-    # - search.highlight
-    # - search.share
-    # - content.tabs.link
-    # - content.code.annotation
-    # - header.autohide
-    # - announce.dismiss
-
-  # language: zh
-
-  palette:
-    - scheme: slate  # 这里可以设置网站的默认颜色，有两个值可以选择，default 和 slate，浅色模式（称为 default ）和深色模式（称为 slate ）https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#color-scheme 哪组在前面，默认就是那种配色
-      toggle: # 增加一个开关，可以用于手动切换颜色模式 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#color-palette-toggle
-        icon: material/toggle-switch
-        name: Switch to light mode    
-      # primary: red # 这里设置 标题、侧边栏、文本链接和其他一些组件 的颜色 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
-      # accent: deep orange # 强调色用于表示可以交互的元素，例如悬停链接、按钮和滚动条  https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#accent-color
+  palette: 
     - scheme: default
       toggle:
-        icon: material/toggle-switch-off-outline 
+        icon: material/theme-light-dark
         name: Switch to dark mode
-      # primary: teal
-      # accent: purple 
+    - scheme: slate
+      toggle:
+        icon: material/theme-light-dark
+        name: Switch to light mode
 
 plugins:
   - search
