@@ -1,2 +1,1 @@
-# blog
-aoozoo 的 博客
+# mkdocs-blog-template
