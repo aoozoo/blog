@@ -1,17 +1,45 @@
 site_name: aoozoo'blog
 site_author: azoo
+site_url: https://aoozoo.github.io/blog/
 repo_url: https://github.com/aoozoo/blog
 repo_name: aoozoo/blog
 
 theme:
   name: material
-  custom_dir: overrides
+  logo: https://avatars.githubusercontent.com/u/15232738?v=4&size=64
+  font: # 设置字体 https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/#configuration
+    text: Roboto
+    code: Roboto Mono
+  # custom_dir: overrides
   icon:
     logo: material/numeric-9-box
   features:
     - content.code.copy
-    - navigation.sections
+    # - navigation.sections # 这里打开，目录就显示为灰色，不会有展开的箭头，里面的内容会一直显示在左边栏
+    # - navigation.expand # 左边侧栏目录结构自动展开
     - navigation.instant
+    - navigation.tabs # 这里打开可以多一行，选项卡一栏
+    - navigation.tabs.sticky # 滚动的时候选项卡也保持可见
+    - navigation.path
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.prune
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    # - toc.integrate # 打开之后，文件的结构，嵌入在左侧的目录结构里面，不打开就在右侧
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.annotation
+    - header.autohide
+    - announce.dismiss
+
+  language: zh
+
   palette: 
     - scheme: default
       toggle:
