@@ -72,7 +72,7 @@ plugins:
       authors: true
       post_url_format: "{slug}"
       archive_date_format: MM/dd/yyyy
-  - social
+  # - social
 
 extra:
   social:
