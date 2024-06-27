@@ -1,4 +1,4 @@
-# 书写示例
+# ex
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
