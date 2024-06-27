@@ -73,6 +73,14 @@ plugins:
       post_url_format: "{slug}"
       archive_date_format: MM/dd/yyyy
   # - social
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     type: date
+  #     enable_creation_date: true
+  # - git-committers:
+  #     repository: aoozoo/blog
+  #     branch: main
+  # - git-authors
 
 extra:
   social:
@@ -103,6 +111,19 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.tabbed: 
       alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      title: On this page
+      permalink: true
+      permalink_title: Anchor link to this section for reference
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+      toc_depth: 3
 
 copyright: |
   &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
