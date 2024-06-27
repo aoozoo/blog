@@ -15,7 +15,7 @@ theme:
     logo: material/numeric-9-box
   features:
     - content.code.copy
-    - navigation.sections # 这里打开，目录就显示为灰色，不会有展开的箭头，里面的内容会一直显示在左边栏
+    # - navigation.sections # 这里打开，目录就显示为灰色，不会有展开的箭头，里面的内容会一直显示在左边栏
     - navigation.instant
     - navigation.expand # 左边侧栏目录结构自动展开
     - navigation.tabs # 这里打开可以多一行，选项卡一栏
