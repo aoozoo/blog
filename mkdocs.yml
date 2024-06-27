@@ -71,6 +71,18 @@ plugins:
       blog_dir: .
       authors: true
       post_url_format: "{slug}"
+      archive_date_format: MM/dd/yyyy
+  - social
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: hhttps://github.com/aoozoo
+    - icon: fontawesome/brands/twitter
+      link: hhttps://github.com/aoozoo
+    - icon: fontawesome/brands/linkedin
+      link: https://github.com/aoozoo
+  generator: false
 
 markdown_extensions:
   - admonition
@@ -92,5 +104,5 @@ markdown_extensions:
   - pymdownx.tabbed: 
       alternate_style: true
 
-# nav:
-#   - index.md
+copyright: |
+  &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
