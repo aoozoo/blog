@@ -38,7 +38,7 @@ theme:
     - header.autohide
     - announce.dismiss
 
-  # language: zh
+  language: zh
 
   # palette: 
   #   - scheme: default
