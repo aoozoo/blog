@@ -55,7 +55,7 @@ theme:
       toggle: # 增加一个开关，可以用于手动切换颜色模式 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#color-palette-toggle
         icon: material/toggle-switch
         name: Switch to light mode    
-      # primary: red # 这里设置 标题、侧边栏、文本链接和其他一些组件 的颜色 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
+      primary: black # 这里设置 标题、侧边栏、文本链接和其他一些组件 的颜色 https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
       # accent: deep orange # 强调色用于表示可以交互的元素，例如悬停链接、按钮和滚动条  https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#accent-color
     - scheme: default
       toggle:
