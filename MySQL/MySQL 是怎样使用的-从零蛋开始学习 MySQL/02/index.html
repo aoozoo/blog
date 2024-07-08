@@ -1,0 +1,3865 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="azoo">
+      
+      
+        <link rel="canonical" href="https://aoozoo.github.io/blog/MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/02/">
+      
+      
+        <link rel="prev" href="../01/">
+      
+      
+        <link rel="next" href="../03/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>第2章、MySQL初体验 - aoozoo'blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#第2章mysql初体验" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-header__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aoozoo'blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第2章、MySQL初体验
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-tabs__link">
+        
+  
+    
+  
+  年薪50w-Devops运维开发架构师
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-tabs__link">
+        
+  
+    
+  
+  Linux 下面的常用命令
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ex/" class="md-tabs__link">
+        
+  
+    
+  
+  ex
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-tabs__link">
+        
+  
+    
+  
+  Github工作流
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-tabs__link">
+        
+  
+    
+  
+  本博客是如何搭建的
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-tabs__link">
+        
+  
+    
+  
+  运维博客收集
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-tabs__link">
+          
+  
+    
+  
+  Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00/" class="md-tabs__link">
+          
+  
+    
+  
+  MySQL
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-tabs__link">
+          
+  
+    
+  
+  中间件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  归档
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-nav__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    aoozoo'blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 下面的常用命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github工作流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    本博客是如何搭建的
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运维博客收集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            MySQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MySQL 是怎样使用的 从零蛋开始学习 MySQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            MySQL 是怎样使用的 从零蛋开始学习 MySQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    购买并阅读本小册的建议
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第1章、MySQL概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第2章、MySQL初体验
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第2章、MySQL初体验
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#客户端服务器架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      客户端/服务器架构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bin目录下的可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      bin目录下的可执行文件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bin目录下的可执行文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#在命令行解释器中执行可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      在命令行解释器中执行可执行文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#服务器程序和客户端程序" class="md-nav__link">
+    <span class="md-ellipsis">
+      服务器程序和客户端程序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#连接注意事项" class="md-nav__link">
+    <span class="md-ellipsis">
+      连接注意事项
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql语句使用注意事项" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL语句使用注意事项
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第3章、MySQL数据类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第4章、数据库的基本操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第5章、表的基本操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第6章、列的属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    07
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    08
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    09
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    18
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    19
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    20
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    21
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    23
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    24
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    25
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    26
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    27
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../28/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    28
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    29
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    30
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    31
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    32
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    33
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    34
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    35
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../36/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    36
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../37/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    37
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../38/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    38
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../39/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    39
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    40
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    41
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    43
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    44
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    45
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../46/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    46
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../47/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    47
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../48/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    48
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../49/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    49
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    50
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../51/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    51
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../52/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    52
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../53/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    53
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../54/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    54
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../55/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    55
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../56/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    56
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../57/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    57
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../58/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    58
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../59/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    59
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../60/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    60
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../61/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    61
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../62/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    62
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../63/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    63
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../64/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    64
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    65
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../66/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    66
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../67/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    67
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../68/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    68
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../69/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    69
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    70
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../71/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    71
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../72/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    72
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../73/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    73
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../74/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    74
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../75/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    75
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../76/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    76
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../77/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    77
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../78/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    78
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../79/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    79
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    80
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    81
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../82/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    82
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../83/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    83
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    84
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    85
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    86
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../87/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    87
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../88/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    88
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../89/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    89
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    90
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../91/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    91
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../92/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    92
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    93
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../94/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    94
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    95
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../96/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    96
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../97/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    97
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../98/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    98
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    99
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    中间件
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#客户端服务器架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      客户端/服务器架构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bin目录下的可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      bin目录下的可执行文件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bin目录下的可执行文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#在命令行解释器中执行可执行文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      在命令行解释器中执行可执行文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#服务器程序和客户端程序" class="md-nav__link">
+    <span class="md-ellipsis">
+      服务器程序和客户端程序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#连接注意事项" class="md-nav__link">
+    <span class="md-ellipsis">
+      连接注意事项
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql语句使用注意事项" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL语句使用注意事项
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="第2章mysql初体验">第2章、MySQL初体验<a class="headerlink" href="#第2章mysql初体验" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="客户端服务器架构">客户端/服务器架构<a class="headerlink" href="#客户端服务器架构" title="Anchor link to this section for reference">&para;</a></h2>
+<p>好的，现在<code>MySQL</code>已经装到了我们的计算机上，在进一步唠叨如何使用这个软件之前，我们先从宏观上了解一下这个软件是怎样运行的。以我们平时使用的微信为例，它其实是由两部分组成的，一部分是客户端程序，可以简称为客户端（英文名：client）；一部分是服务器程序，可以简称为服务器（英文名：server）。客户端可能有很多种形式，比如手机APP，电脑软件或者是网页版微信，每个客户端都有一个唯一的用户名，就是你的微信号，另一方面，腾讯公司在他们的机房里运行着一个服务器程序，我们平时操作微信其实都是用客户端来和这个服务器来打交道。比如狗哥用微信给猫爷发了一条消息的过程其实大致是这样的：</p>
+<ul>
+<li>消息被客户端包装了一下，添加了发送者和接收者信息，然后从狗哥的微信客户端传送给微信服务器；</li>
+<li>微信服务器从消息里获取到它的发送者和接收者，根据消息的接收者信息把这条消息送达到猫爷的微信客户端，猫爷的微信客户端里就显示出狗哥给他发了一条消息。</li>
+</ul>
+<p><code>MySQL</code>的使用过程跟这个是差不多的，它的服务器程序直接和我们存储的数据打交道，然后可以有好多客户端程序连接到这个服务器程序，发送增删改查的请求，然后服务器程序就响应这些请求，从而操作它维护的数据。和微信一样，MySQL的每个客户端都需要提供用户名密码才能登录，登录之后才能给服务器发请求来操作某些数据。我们日常使用MySQL的情景一般是这样的：</p>
+<ul>
+<li>启动<code>MySQL</code>服务器程序。</li>
+<li>启动<code>MySQL</code>客户端程序并连接到服务器程序。</li>
+<li>在客户端程序中输入一些命令语句作为请求发送到服务器程序，服务器程序收到这些请求后，会根据请求的内容来操作具体的数据并向客户端返回操作结果。</li>
+</ul>
+<h2 id="bin目录下的可执行文件">bin目录下的可执行文件<a class="headerlink" href="#bin目录下的可执行文件" title="Anchor link to this section for reference">&para;</a></h2>
+<p>上一章中我们以<code>Windows</code>操作系统为例，把<code>MySQL</code>安装到了<code>C:\Program Files\MySQL\MySQL Server 5.7\</code>这个路径下，这个路径下有一个非常重要的<code>bin</code>目录，这个目录下存放着许多可执行文件（使用其他操作系统的同学可以按照自己的安装路径找到该路径下的<code>bin</code>目录）。我们列出一些在Windows系统中这个<code>bin</code>目录下的一部分可执行文件来看一下（文件太多，全列出来会刷屏的）：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>.
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── mysql.exe
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── mysqladmin.exe
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── mysqlbinlog.exe
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── mysqlcheck.exe
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── mysqld.exe
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── mysqldump.exe
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── mysqlimport.exe
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── mysqlpump.exe
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>... (省略其他文件)
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>0 directories, 32 files
+</span></code></pre></div>
+<p>其他操作系统相应的<code>bin</code>目录下的可执行文件大体与Windows操作系统中的类似。这些可执行文件有的是服务器程序，有的是客户端程序。面对这么多可执行文件我们的第一反应的能不能用鼠标点点点的方式来执行它们？哈哈，如果执行该可执行文件时不需要为其传递额外的参数的话当然可以了，不过有些时候我们有向其传递额外参数的需求，就不能这么粗暴的用鼠标点点点了。另外，作为一个程序员或者准程序员，我们推荐使用命令行解释器来执行这些可执行文件。</p>
+<blockquote>
+<p>小贴士：</p>
+<p>命令行解释器通俗的说就是那些黑框框，这里的指的是类UNIX系统中的Shell或者Windows系统中的cmd.exe。关于如何打开Windows下的命令行解释器我们上一章已经唠叨过了，就不赘述了。</p>
+</blockquote>
+<h3 id="在命令行解释器中执行可执行文件">在命令行解释器中执行可执行文件<a class="headerlink" href="#在命令行解释器中执行可执行文件" title="Anchor link to this section for reference">&para;</a></h3>
+<p>下边我们以在Windows系统中执行<code>mysql</code>这个可执行文件为例来看看如何在命令行解释器中执行这些可执行文件：</p>
+<ul>
+<li>使用可执行文件的绝对／相对路径</li>
+</ul>
+<p>在我自己的Windows机器上<code>bin</code>目录的绝对路径就是：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>C:\Program Files\MySQL\MySQL Server 5.7\bin\
+</span></code></pre></div>
+<p>如果我们想执行这个可执行文件，直接把<code>mysql</code>放到上边路径的后边就好：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&quot;C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql&quot;
+</span></code></pre></div>
+<p>我们截个图：</p>
+<p><img alt="image_1dk9uf773qlt14eh1qpb1tkmvsk9.png-44.8kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf1754ea8~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>从页面的输出可以看到执行过程中遇到了一些错误，当然我们现在并不关心这个错误是个啥，只是关心执行某个可执行文件的方式而已～</p>
+<blockquote>
+<p>小贴士：</p>
+<p>可以看到在命令行解释器中我们给完整的命令加了双引号""，这是因为我们的命令中包含空格（Program Files目录名和MySQL Server 5.7目录名中均包含空格），如果不对完整的命令加双引号的话，命令行解释器会以为C:\Program是我们想要执行的命令，而空格后边的内容是这个命令的参数。</p>
+</blockquote>
+<p>在我们一进入<code>cmd.exe</code>这个命令行解释器时，它展示的界面是这样的：</p>
+<p><img alt="image_1dka5dfn917v5btqol3atibc3k.png-45.5kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf1ebdaea~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<ul>
+<li><code>&gt;</code>符号前边的一串路径：<code>C:\Users\Administrator</code>就是所谓的<code>当前工作目录</code>，如果我们想改变这个<code>当前工作目录</code>的话，可以使用<code>cd</code>命令，然后在命令后写上对应的目录路径，就像这样：</li>
+</ul>
+<p><img alt="image_1dka5l5if1ifpmm01dgh1ui416dr41.png-43.6kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf228fba4~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>可以看到当前工作目录就已经切换到了：<code>C:\Program Files\MySQL\MySQL Server 5.7\bin\</code>。此时我们就可以输入当前工作目录下的可执行文件的文件名来直接执行对应的文件，就像这样：</p>
+<p><img alt="image_1dk9uuld56ok9potvguin1gmem.png-46.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf2f72dae~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<ul>
+<li>将该<code>bin</code>目录的路径加入到环境变量<code>Path</code>中</li>
+</ul>
+<p>如果我们觉得每次执行一个文件都要输入一串长长的路径名贼麻烦的话，可以把该<code>bin</code>目录所在的路径添加到环境变量<code>PATH</code>中。稍等一下，环境变量是个啥？我们可以把<code>环境变量</code>理解为操作系统维护的一些变量，在程序运行过程中可以访问到这些变量的值。如何查看这些<code>环境变量</code>呢？右键桌面上的<code>计算机</code>（或者叫<code>我的电脑</code>）图标：</p>
+<p><img alt="image_1dk9vp9hu1t6usk7oqv4m2dlj13.png-97.6kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf2ad5bc5~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>点击<code>属性</code>按钮，弹出了如下界面：</p>
+<p><img alt="image_1dk9vvj7v13nc1vbf1bbg1ci6d1o1g.png-168.6kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdaf2cfa373~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>然后继续点击左侧的<code>高级系统设置</code>按钮，弹出如下界面：</p>
+<p><img alt="image_1dka01s1578p17t3cga1bl4dla1t.png-40.9kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdba4291ab1~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>然后在弹出的界面中点击<code>环境变量</code>按钮，弹出如下界面：</p>
+<p><img alt="image_1dka04ibel0tj9u10hm1j3k1dd92q.png-36.4kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdba54b7d6a~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>我们在弹出的界面的下方看到了一个称之为<code>系统变量</code>的框，框里边儿有一个称之为<code>Path</code>的条目，我们双击一下这个条目就可以查看或者编辑一下这个名叫<code>Path</code>的系统变量的值：</p>
+<p><img alt="image_1dka09h3e4ij1kc21najitr1q9t37.png-18.3kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdba5ef8368~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>我们把我的Windows机器上这个名叫<code>Path</code>的系统变量值复制下来给大家看看：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Program Files\runtime\win64;D:\JDK\bin;%SystemRoot%
+</span></code></pre></div>
+<p>可以看到这个环境变量<code>Path</code>的值其实是一系列路径的集合，各个路径之间使用分号<code>;</code>隔离开。每当我们在命令行解释器中输入一个命令，比如输入<code>mysql</code>时，系统便会在环境变量<code>Path</code>代表的各个路径下依次查找有没有一个名叫<code>mysql</code>的可执行文件，如果有，则执行该文件。如果各个路径下都没有一个名叫<code>mysql</code>的可执行文件，那么很遗憾，就会提示下边的信息（注意当前工作目录是<code>C:\Users\Administrator</code>）：</p>
+<p><img alt="image_1dka65m6h1tppd24k9rnh91gfn4e.png-44.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/11/16d1f7b4643eba0a~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<blockquote>
+<p>小贴士：</p>
+<p>当然，除了环境变量代表的一系列路径以外，系统还会在当前工作目录下寻找有没有相应的可执行文件。</p>
+</blockquote>
+<p>此时我们把<code>mysql</code>可执行文件所在的目录路径加入到<code>Path</code>环境变量中，也就是在<code>Path</code>环境变量的原有值后边再加上<code>C:\Program Files\MySQL\MySQL Server 5.7\bin\</code>，并且用分号<code>;</code>分开就好。所以在我的Windows机器上现在<code>Path</code>环境变量的值应该是这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Program Files\runtime\win64;D:\JDK\bin;%SystemRoot%;C:\Program Files\MySQL\MySQL Server 5.7\bin\
+</span></code></pre></div>
+<ul>
+<li>我们将该变量值修改之后点击确定按钮：</li>
+</ul>
+<p><img alt="image_1dka6fr0e177d15dn1k1r2no1fup4r.png-19kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/11/16d1f7bea049ca74~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>之后在<code>环境变量</code>界面继续点击确定按钮：</p>
+<p><img alt="image_1dka6jjcr1hdk1cgp1mcf36v1fdc5l.png-37.3kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/11/16d1f7bea138369b~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>这个<code>Path</code>环境变量的值就修改成功了，此时我们重新打开一个<code>cmd.exe</code>命令行解释器，重新输入<code>mysql</code>命令试一下：</p>
+<p><img alt="image_1dka6odr61tuo2e8a103h8co62.png-45.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/11/16d1f7bea6ea2608~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>可以看到这回就不会提示<code>mysql</code>不是内部或外部命令，也不是可运行的程序或提出里文件的错误了。</p>
+<h3 id="服务器程序和客户端程序">服务器程序和客户端程序<a class="headerlink" href="#服务器程序和客户端程序" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="服务器程序">服务器程序<a class="headerlink" href="#服务器程序" title="Anchor link to this section for reference">&para;</a></h4>
+<p>MySQL安装目录下的<code>bin</code>目录下的<code>mysqld</code>可执行文件代表着服务器程序，我们运行这个可执行文件就会启动<code>MySQL</code>服务器：</p>
+<p><img alt="image_1dka9pppvbks1foo1e9139es5jp.png-63.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdba74e2439~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<blockquote>
+<p>小贴士：</p>
+<p>在使用mysqld可执行文件启动MySQL服务器时，请先停止原先运行在计算机上的MySQL服务器程序（可能我们之前通过net start MySQL57的方式启动了MySQL服务器，只要运行一遍net stop MySQL57名命令就可以将其停止了。</p>
+</blockquote>
+<p>可以看到输出的日志中有一些<code>ERROR</code>字样的句子，这说明了在启动MySQL服务器过程中遇到了一些错误。其实这是由于MySQL服务器运行过程中严重依赖一个称之为<code>数据目录</code>的路径，不过我们安装MySQL时使用的<code>MySQL Installer</code>把这个<code>数据目录</code>的路径设置为了（当然不同版本的<code>MySQL Installer</code>可能将<code>数据目录</code>的路径设置为不同的值，我们只是用下边的值做一个例子来讲解一下如何在执行可执行文件时传递参数的例子）：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>C:\ProgramData\MySQL\MySQL Server 5.7\Data
+</span></code></pre></div>
+<p>在使用<code>mysqld</code>可执行文件启动MySQL服务器程序时，它默认并不会将上述路径设置为<code>数据目录</code>的路径，这时就需要我们在启动MySQL服务器时显式地指定一个称之为<code>datadir</code>的参数，该参数就代表着<code>数据目录</code>的路径，所以使用下边的命令启动MySQL服务器就不会报错了：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mysqld --datadir=&quot;C:\ProgramData\MySQL\MySQL Server 5.7\Data&quot;
+</span></code></pre></div>
+<p>我们截个图：</p>
+<p><img alt="image_1dkaa7ib11l2jj26qnb13j4193116.png-47.3kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/9/16d14cdba81eabcf~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>可以看到我们按下回车键后<code>cmd.exe</code>命令行解释器貌似卡住不动了，这就意味着MySQL服务器启动了。如果此时我们把这个<code>cmd.exe</code>命令行显示器关掉，或者按下<code>Ctrl + C</code>键，就会停止MySQL服务器程序的运行。我们还是推荐使用<code>Windows</code>服务的方式来启动或者停止MySQL服务器程序。</p>
+<p>如果我们想查看在使用<code>mysqld</code>可执行文件启动MySQL服务器的过程中输出的日志信息，可以在上述命令后边加上<code>--console</code>，就像这样：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">mysqld</span><span class="w"> </span><span class="c1">--datadir=&quot;C:\ProgramData\MySQL\MySQL Server 5.7\Data&quot; --console</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">mysqld</span><span class="w"> </span><span class="c1">--datadir=&quot;C:\ProgramData\MySQL\MySQL Server 5.7\Data&quot;</span>
+</span></code></pre></div>
+<p>大家可以亲自试一试</p>
+<h4 id="客户端程序">客户端程序<a class="headerlink" href="#客户端程序" title="Anchor link to this section for reference">&para;</a></h4>
+<p>在服务器程序启动之后（不管是使用<code>mysqld</code>可执行文件启动的还是使用Windows服务的方式启动的），就可以接着启动客户端程序来连接到这个服务器喽。<code>bin</code>目录下有许多客户端程序，比方说<code>mysqladmin</code>、<code>mysqldump</code>、<code>mysqlcheck</code>等等等等（好多呢，就不一一列举了）。这里我们重点要关注的是可执行文件<code>mysql</code>，通过这个可执行文件可以让我们和服务器程序进程交互，也就是发送请求以及接收服务器的处理结果。启动这个可执行文件时一般需要一些参数，格式如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mysql -h主机名  -u用户名 -p密码
+</span></code></pre></div>
+<p>各个参数的意义如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-h</code></td>
+<td>表示启动服务器程序的计算机的域名或者IP地址，如果服务器程序就运行在本机的话，可以省略这个参数，也可以填<code>localhost</code>或者<code>127.0.0.1</code>。也可以写作 <code>--host=主机</code>的形式。</td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>表示用户名，我们刚刚安装完，作为超级管理员的我们的用户名是<code>root</code>。也可以写作 <code>--user=用户名</code>的形式。</td>
+</tr>
+<tr>
+<td><code>-p</code></td>
+<td>表示密码。也可以写作 <code>--password=密码</code>的形式。</td>
+</tr>
+</tbody>
+</table>
+<p>比如我这样执行下边这个可执行文件(用户名密码按你的实际情况填写)，就可以启动<code>MySQL</code>客户端，并且连接到服务器了。</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">mysql</span><span class="w"> </span><span class="o">-</span><span class="n">hlocalhost</span><span class="w"> </span><span class="o">-</span><span class="n">uroot</span><span class="w"> </span><span class="o">-</span><span class="n">p123456</span>
+</span></code></pre></div>
+<p>也可以这么写：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mysql --host=localhost --user=root --password=123456
+</span></code></pre></div>
+<p>我们看一下连接成功后的界面：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mysql: [Warning] Using a password on the command line interface can be insecure.
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Welcome to the MySQL monitor.  Commands end with ; or \g.
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Your MySQL connection id is 2
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Server version: 5.7.27 MySQL Community Server (GPL)
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Oracle is a registered trademark of Oracle Corporation and/or its
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>affiliates. Other names may be trademarks of their respective
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>owners.
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>mysql&gt;
+</span></code></pre></div>
+<p>最后一行的<code>mysql&gt;</code>是一个客户端的提示符，之后客户端发送给服务器的命令都需要写在这个提示符后边。</p>
+<p>如果我们想断开客户端与服务器的连接并且关闭客户端的话，可以在<code>mysql&gt;</code>提示符后输入下边任意一个命令：</p>
+<ol>
+<li><code>quit</code></li>
+<li><code>exit</code></li>
+<li><code>\q</code></li>
+</ol>
+<p>比如我们输入<code>quit</code>试试：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mysql&gt; quit
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Bye
+</span></code></pre></div>
+<p>输出了<code>Bye</code>说明客户端程序已经关掉了。注意注意注意，这是关闭客户端程序的方式，不是关闭服务器程序的方式，怎么关闭服务器上一节里唠叨过了。</p>
+<p>如果你愿意，你可以多打开几个黑框框，每个黑框框都使用可以执行<code>mysql -hlocalhost -uroot -p123456</code>命令，从而达到运行多个客户端程序的效果，每个客户端程序都是互不影响的。如果你有多个电脑，也可以试试把它们用局域网连起来，在一个电脑上启动<code>MySQL</code>服务器程序，在另一个电脑上执行<code>mysql</code>命令时使用<code>IP</code>地址作为主机名来连接到服务器。</p>
+<h3 id="连接注意事项">连接注意事项<a class="headerlink" href="#连接注意事项" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li>最好不要在一行命令中输入密码。</li>
+</ol>
+<p>我们直接在黑框框里把密码敲出去被别人看到咋办，这和你当别人的面输入银行卡密码没啥区别，所以我们在执行<code>mysql</code>连接服务器的时候可以不显式的写出密码，就像这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>mysql -hlocalhost -uroot -p
+</span></code></pre></div>
+<p>点击回车之后才会提示你输入密码：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Enter password:
+</span></code></pre></div>
+<p>不过这回你输入的密码不会被显示出来，心怀不轨的人也就看不到了，输入完成点击回车就成功连接到了服务器。</p>
+<ol>
+<li>如果你非要在显式的把密码输出来，那密码值和<code>-p</code>之间不能有空白字符，其他参数名之间可以有空白字符，就像这样：</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mysql -h localhost -u root -p123456
+</span></code></pre></div>
+<p>如果加上了空白字符就是错误的，比如这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>mysql -h localhost -u root -p 123456
+</span></code></pre></div>
+<ol>
+<li><code>mysql</code>的各个参数的摆放顺序没有硬性规定，也就是说你也可以这么写：</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>mysql -p  -u root -h localhost
+</span></code></pre></div>
+<ol>
+<li>如果你的服务器和客户端安装在同一台机器上，<code>-h</code>参数可以省略，就像这样：</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>mysql -u root -p  
+</span></code></pre></div>
+<ol>
+<li>如果你使用的是类Unix系统，并且省略<code>-u</code>参数后，会把你登陆操作系统的用户名当作<code>MySQL</code>的用户名去处理。</li>
+</ol>
+<p>比方说我用登录操作系统的用户名是<code>xiaohaizi</code>，那么在我的机器上下边这两条命令是等价的：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>mysql -u xiaohaizi -p
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>mysql -p
+</span></code></pre></div>
+<ol>
+<li>对于Windows系统来说，默认的用户名是<code>ODBC</code>，你可以通过设置环境变量<code>USER</code>来添加一个默认用户名。</li>
+</ol>
+<h2 id="mysql语句使用注意事项">MySQL语句使用注意事项<a class="headerlink" href="#mysql语句使用注意事项" title="Anchor link to this section for reference">&para;</a></h2>
+<p><code>MySQL</code>的基本运行过程就是：通过客户端程序发送命令给服务器程序，服务器程序按照接收的命令去操作实际的数据。在我们使用黑框框启动了<code>MySQL</code>客户端程序之后，界面上会一直显示一行字儿：<code>mysql&gt;</code>，这是一个提示符，你可以在它后边输入我们的命令然后按下回车键就把命令从客户端程序发送到了服务器程序，在书写命令的时候需要注意下边这几点：</p>
+<ul>
+<li>[ ] 命令结束符号。</li>
+</ul>
+<p>在书写完一个命令之后需要以下边这几个符号之一结尾：</p>
+<ul>
+<li><code>;</code></li>
+<li><code>\g</code></li>
+<li><code>\G</code></li>
+</ul>
+<p>比如说我们执行一个简单的查询当前时间的命令：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">17</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">55</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>其中的<code>SELECT</code>意味着这是一个查询命令，<code>NOW()</code>是<code>MySQL</code>内置的函数，用于返回当前时间（我们现在并不是深究具体的某个命令是什么意思，只是想介绍一下书写命令时需要注意的一些事情，所以大家不要纠结函数是个啥，我们后边会讲的）。结果中<code>1 row in set (0.00 sec)</code>的意思是结果只有1行数据，用时0.00秒。使用<code>\g</code>可以起到一样的效果：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="err">\</span><span class="k">g</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">17</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">55</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p><code>\G</code>有一点特殊，它并不以表格的形式返回查询结果，而是以<code>垂直</code>的形式将每个列都展示在单独的一行中：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>mysql&gt; SELECT NOW()\G
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>*************************** 1. row ***************************
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>NOW(): 2018-02-06 17:51:51
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>1 row in set (0.00 sec)
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>mysql&gt;
+</span></code></pre></div>
+<p>如果查询结果的列数非常多的话，使用<code>\G</code>可以让我们看清结果。</p>
+<ul>
+<li>[ ] 命令可以随意换行。</li>
+</ul>
+<p>并不是按了回车键就提交命令了，只要按回车键的时候输入的语句里没有<code>;</code>、<code>\g</code>或者<code>\G</code>这些语句结束符号，该语句就算是没结束。比如上边查询当前时间的命令还可以这么写：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">    </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">    </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">;</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">17</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">15</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<ul>
+<li>[ ] 可以一次提交多个命令</li>
+</ul>
+<p>我们可以在一条语句里写多个命令(命令之间用上面说的结束符分隔)，比如这样：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">05</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">05</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>
+</span><span id="__span-25-16"><a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="o">|</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-25-18"><a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-19"><a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">05</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-25-21"><a id="__codelineno-25-21" name="__codelineno-25-21" href="#__codelineno-25-21"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-25-22"><a id="__codelineno-25-22" name="__codelineno-25-22" href="#__codelineno-25-22"></a>
+</span><span id="__span-25-23"><a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>连着输入了3个查询当前时间的命令，只要没按回车键，就不会提交命令。</p>
+<blockquote>
+<p>小贴士：</p>
+<p>后边我们还会介绍把命令都写在文件里，然后再批量执行文件中的命令，那个感觉更爽！</p>
+</blockquote>
+<ul>
+<li>[ ] 使用<code>\c</code>放弃本次操作。</li>
+</ul>
+<p>如果你想放弃本次编写的命令，可以在输入的命令后边加上<code>\c</code>，比如这样：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="err">\</span><span class="k">c</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>如果不使用<code>\c</code>，那客户端会以为这是一个多行命令，还在一直傻傻的等你输入命令～</p>
+<ul>
+<li>[ ] 大小写问题。</li>
+</ul>
+<p><code>MySQL</code>默认对命令的大小写并没有限制，也就是说我们这样查询当前时间也是可以的：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="o">|</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">               </span><span class="o">|</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="o">|</span><span class="w"> </span><span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">01</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="o">+</span><span class="c1">---------------------+</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>不过按照习俗，这些命令、函数什么的都是要大写的，而一些名称类的东西，比如数据库名，表名、列名啥的都是要小写的，更多具体的书写规范等我们遇着再详细介绍。</p>
+<ul>
+<li>[ ] 字符串的表示。</li>
+</ul>
+<p>在命令里有时会使用到字符串，我们可以使用单引号<code>''</code>或者双引号<code>""</code>把字符串内容引起来，比如这样：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;aaa&#39;</span><span class="p">;</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="o">+</span><span class="c1">-----+</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="o">|</span><span class="w"> </span><span class="n">aaa</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="o">+</span><span class="c1">-----+</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="o">|</span><span class="w"> </span><span class="n">aaa</span><span class="w"> </span><span class="o">|</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="o">+</span><span class="c1">-----+</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>这个语句只是简单的把字符串<code>'aaa'</code>又输出来了而已。但是一定要在字符串内容上加上引号，不然的话<code>MySQL</code>服务器会把它当作列名，比如这样就会返回一个错误：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">aaa</span><span class="p">;</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="n">ERROR</span><span class="w"> </span><span class="mi">1054</span><span class="w"> </span><span class="p">(</span><span class="mi">42</span><span class="n">S22</span><span class="p">):</span><span class="w"> </span><span class="k">Unknown</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="s1">&#39;aaa&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s1">&#39;field list&#39;</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="n">mysql</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>但是<code>MySQL</code>中有一种叫<code>ANSI_QUOTES</code>的模式，如果开启了这种模式，双引号就有其他特殊的用途了，至于是什么用途对于小白的你并不重要，你也不需要理解什么是个<code>ANSI_QUOTES</code>模式，重要的建议你最好使用单引号来表示字符串～</p>
+<p>当一条命令从客户端发送给了MySQL服务器之后，服务器处理完后就会给客户端发送回来处理结果，然后显示到界面上。然后你就可以接着输入下一条命令了。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../01/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第1章、MySQL概述">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第1章、MySQL概述
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第3章、MySQL数据类型">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第3章、MySQL数据类型
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.instant", "navigation.expand", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tabs.link", "content.code.annotation", "header.autohide", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

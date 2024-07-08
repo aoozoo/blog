@@ -1,0 +1,3975 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="azoo">
+      
+      
+        <link rel="canonical" href="https://aoozoo.github.io/blog/Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/005/">
+      
+      
+        <link rel="prev" href="../004/">
+      
+      
+        <link rel="next" href="../006/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>第四章 k8s弃用docker，青睐containerd的原因分析 - aoozoo'blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#第四章-k8s弃用docker青睐containerd的原因分析" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-header__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aoozoo'blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第四章 k8s弃用docker，青睐containerd的原因分析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-tabs__link">
+        
+  
+    
+  
+  年薪50w-Devops运维开发架构师
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-tabs__link">
+        
+  
+    
+  
+  Linux 下面的常用命令
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ex/" class="md-tabs__link">
+        
+  
+    
+  
+  ex
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-tabs__link">
+        
+  
+    
+  
+  Github工作流
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-tabs__link">
+        
+  
+    
+  
+  本博客是如何搭建的
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-tabs__link">
+        
+  
+    
+  
+  运维博客收集
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../001/" class="md-tabs__link">
+          
+  
+    
+  
+  Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-tabs__link">
+          
+  
+    
+  
+  MySQL
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-tabs__link">
+          
+  
+    
+  
+  中间件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  归档
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-nav__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    aoozoo'blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 下面的常用命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github工作流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    本博客是如何搭建的
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运维博客收集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    韩先超
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            韩先超
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../001/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    [2024]kubernetes/k8s+DevOps云原生全栈技术:基于世界1000强实战课程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../002/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程大纲内容介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../003/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程更新通知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../004/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三章 K8s必备知识-Docker容器基础入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第四章 k8s弃用docker，青睐containerd的原因分析
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第四章 k8s弃用docker，青睐containerd的原因分析
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#镜像相关操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      镜像相关操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#容器相关操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      容器相关操作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="容器相关操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#以交互式方式启动并进入容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      以交互式方式启动并进入容器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#以守护进程方式启动容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      以守护进程方式启动容器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-run运行nginx服务" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker run运行nginx服务
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k8s弃用docker的原因分析" class="md-nav__link">
+    <span class="md-ellipsis">
+      k8s弃用Docker的原因分析
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#安装和配置containerd" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装和配置containerd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd和docker对比-基本使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      containerd和docker对比 基本使用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd常用命令介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      containerd常用命令介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="containerd常用命令介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ctr-运行一个容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 运行一个容器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctr-删除容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 删除容器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctr-给镜像打标签" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 给镜像打标签
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-和-ctr-常用命令对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker 和 ctr 常用命令对比
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../006/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五章 dockerfile基础篇-基本语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../007/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六章 dockerfile实战篇-构建企业镜像
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../008/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七章 docker运行容器并进行数据持久化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../009/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八章 docker容器网络核心技术讲解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../010/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九章 docker资源配额
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../011/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十章 存放docker镜像的私有仓库harbor安装配置和使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../012/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一章 k8s入门篇：架构-组件-核心资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../013/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二章 kubeadm搭建k8s集群-本课程基于此版本实验-必看
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../014/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六章 pod基础篇：入门知识讲解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../015/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    015
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../016/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    016
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../017/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    017
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../018/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    018
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../019/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    019
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../020/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    020
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../022/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    022
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../023/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../024/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    024
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../025/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    025
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../026/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    026
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../027/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    027
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../028/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    028
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../029/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    029
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../030/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    030
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../031/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    031
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../032/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    032
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../033/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    033
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../034/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    034
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../035/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    035
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../036/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    036
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../037/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    037
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../038/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    038
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../039/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    039
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../040/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    040
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../041/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    041
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../042/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    042
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../043/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    043
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../044/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    044
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../045/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    045
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../046/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    046
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../047/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    047
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../048/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    048
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../049/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    049
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../050/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    050
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../051/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    051
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../052/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    052
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../053/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    053
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../054/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    054
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../055/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    055
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../056/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    056
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../057/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    057
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../058/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    058
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../059/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    059
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../060/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    060
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../061/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    061
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../062/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    062
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../063/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    063
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../064/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    064
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../065/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    065
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../066/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    066
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../067/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    067
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../068/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    068
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../069/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    069
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../070/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    070
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../071/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    071
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../072/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    072
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../073/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    073
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../074/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    074
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../075/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    075
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../076/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    076
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../077/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    077
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../078/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    078
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../079/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    079
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../080/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    080
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../081/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    081
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../082/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    082
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../083/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    083
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../084/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    084
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../085/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    085
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../086/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    086
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../087/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    087
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../088/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    088
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../089/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    089
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../090/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    090
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../091/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    091
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../092/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    092
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../093/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    093
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../094/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    094
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../095/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    095
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../096/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    096
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../097/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    097
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../098/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    098
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../099/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    099
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../100/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    100
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    中间件
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#镜像相关操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      镜像相关操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#容器相关操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      容器相关操作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="容器相关操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#以交互式方式启动并进入容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      以交互式方式启动并进入容器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#以守护进程方式启动容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      以守护进程方式启动容器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-run运行nginx服务" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker run运行nginx服务
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k8s弃用docker的原因分析" class="md-nav__link">
+    <span class="md-ellipsis">
+      k8s弃用Docker的原因分析
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#安装和配置containerd" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装和配置containerd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd和docker对比-基本使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      containerd和docker对比 基本使用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd常用命令介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      containerd常用命令介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="containerd常用命令介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ctr-运行一个容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 运行一个容器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctr-删除容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 删除容器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctr-给镜像打标签" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctr 给镜像打标签
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-和-ctr-常用命令对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker 和 ctr 常用命令对比
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="第四章-k8s弃用docker青睐containerd的原因分析">第四章 k8s弃用docker，青睐containerd的原因分析<a class="headerlink" href="#第四章-k8s弃用docker青睐containerd的原因分析" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="镜像相关操作">镜像相关操作<a class="headerlink" href="#镜像相关操作" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#从 dockerhub 查找镜像 </span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker search centos</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>NAME<span class="w">                                   </span>DESCRIPTION<span class="w">                                     </span>STARS<span class="w">     </span>OFFICIAL
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>centos<span class="w">                                 </span>DEPRECATED<span class="p">;</span><span class="w"> </span>The<span class="w"> </span>official<span class="w"> </span>build<span class="w"> </span>of<span class="w"> </span>CentOS.<span class="w">       </span><span class="m">7739</span><span class="w">      </span><span class="o">[</span>OK<span class="o">]</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>kasmweb/centos-7-desktop<span class="w">               </span>CentOS<span class="w"> </span><span class="m">7</span><span class="w"> </span>desktop<span class="w"> </span><span class="k">for</span><span class="w"> </span>Kasm<span class="w"> </span>Workspaces<span class="w">            </span><span class="m">44</span><span class="w">        </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>bellsoft/liberica-openjdk-centos<span class="w">       </span>Liberica<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span><span class="m">100</span>%<span class="w"> </span>open-source<span class="w"> </span>Java<span class="w"> </span>implemen…<span class="w">   </span><span class="m">4</span><span class="w">         </span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>rancher/os-centosconsole<span class="w">                                                               </span><span class="m">0</span><span class="w">   </span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>解释说明：<span class="w"> </span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>NAME:<span class="w"> </span>镜像仓库源的名称<span class="w"> </span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>DESCRIPTION:<span class="w"> </span>镜像的描述<span class="w"> </span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>OFFICIAL:<span class="w"> </span>是否<span class="w"> </span>docker<span class="w"> </span>官方发布<span class="w"> </span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>stars:<span class="w"> </span>类似<span class="w"> </span>Github<span class="w"> </span>里面的<span class="w"> </span>star，表示点赞、喜欢的意思。<span class="w"> </span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>AUTOMATED:<span class="w"> </span>自动构建。<span class="w"> </span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">#下载镜像 </span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker pull centos </span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">#查看本地镜像 </span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker images </span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1">#把镜像做成离线压缩包 </span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker save -o centos.tar.gz centos </span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">#解压离线镜像包 </span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker load -i centos.tar.gz  </span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="c1">#删除镜像 </span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker rmi -f centos:latest </span>
+</span></code></pre></div>
+<h2 id="容器相关操作">容器相关操作<a class="headerlink" href="#容器相关操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="以交互式方式启动并进入容器">以交互式方式启动并进入容器<a class="headerlink" href="#以交互式方式启动并进入容器" title="Anchor link to this section for reference">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker run --name=hello -it centos /bin/bash </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">[</span>root@09c4933b5cd7<span class="w"> </span>/<span class="o">]</span><span class="c1"># </span>
+</span></code></pre></div>
+<p>输入 exit，退出容器，退出之后容器也会停止，不会再前台运行 </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>#docker run 运行并创建容器 
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>--name 容器的名字 
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>-i 交互式 
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>-t 分配伪终端 
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>centos: 启动 docker 需要的镜像 
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>/bin/bash 说明你的 shell 类型为 bash，bash shell 是最常用的一种 shell, 是大多数 Linux 发行版默 
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>认的 shell。 此外还有 C shell 等其它 shell。 
+</span></code></pre></div>
+<h2 id="以守护进程方式启动容器">以守护进程方式启动容器<a class="headerlink" href="#以守护进程方式启动容器" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker run --name=hello1 -td centos # 一定要带上 t 选项，否则 shell退出，容器会停止</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker ps |grep hello1 </span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>1a2b73ba0ac2<span class="w">   </span>centos<span class="w">            </span><span class="s2">&quot;/bin/bash&quot;</span><span class="w">             </span>hello1<span class="w"> </span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>-d<span class="w"> </span>在后台运行<span class="w"> </span>docker<span class="w">  </span>
+</span></code></pre></div>
+<p>进入一个已经启动的容器</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[root@xianchaomaster1 ~]# docker exec -it hello1 /bin/bash 
+</span></code></pre></div>
+<p>查看正在运行的容器 </p>
+<p><code>docker ps</code></p>
+<p>停止容器 </p>
+<p><code>docker stop hello1</code> </p>
+<p>启动已经停止的容器 </p>
+<p><code>docker start hello1</code></p>
+<p>进入容器 </p>
+<p><code>docker exec -it hello1 /bin/bash</code> </p>
+<p>删除容器</p>
+<p><code>docker rm -f hello1</code></p>
+<p>查看 docker 帮助命令</p>
+<p><code>docker --help</code></p>
+<h2 id="docker-run运行nginx服务">docker run运行nginx服务<a class="headerlink" href="#docker-run运行nginx服务" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker run --name nginx -p  80 -itd centos  </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">#-p 把容器端口随机在物理机随机映射一个端口 </span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker ps | grep nginx </span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>ecfa046e9681<span class="w">   </span>centos<span class="w">                                              </span><span class="s2">&quot;/bin/bash&quot;</span><span class="w">              </span><span class="m">5</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">   </span><span class="m">0</span>.0.0.0:49153-&gt;80/tcp,<span class="w"> </span>:::49153-&gt;80/tcp<span class="w">   </span>nginx<span class="w"> </span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># 在 docker 里安装 nginx </span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>nginx<span class="w"> </span>/bin/bash<span class="w">  </span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="o">[</span>root@ecfa046e9681<span class="o">]</span><span class="c1"># ip addr </span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="m">1</span>:<span class="w"> </span>lo:<span class="w"> </span>&lt;LOOPBACK,UP,LOWER_UP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">65536</span><span class="w"> </span>qdisc<span class="w"> </span>noqueue<span class="w"> </span>state<span class="w"> </span>UNKNOWN<span class="w"> </span>group<span class="w"> </span>default<span class="w"> </span>qlen<span class="w"> </span><span class="m">1000</span><span class="w"> </span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span>link/loopback<span class="w"> </span><span class="m">00</span>:00:00:00:00:00<span class="w"> </span>brd<span class="w"> </span><span class="m">00</span>:00:00:00:00:00<span class="w"> </span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span>inet<span class="w"> </span><span class="m">127</span>.0.0.1/8<span class="w"> </span>scope<span class="w"> </span>host<span class="w"> </span>lo<span class="w"> </span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">       </span>valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever<span class="w"> </span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="m">2</span>:<span class="w"> </span>tunl0@NONE:<span class="w"> </span>&lt;NOARP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">1480</span><span class="w"> </span>qdisc<span class="w"> </span>noop<span class="w"> </span>state<span class="w"> </span>DOWN<span class="w"> </span>group<span class="w"> </span>default<span class="w"> </span>qlen<span class="w"> </span><span class="m">1000</span><span class="w"> </span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span>link/ipip<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>brd<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="m">21</span>:<span class="w"> </span>eth0@if22:<span class="w"> </span>&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">1500</span><span class="w"> </span>qdisc<span class="w"> </span>noqueue<span class="w"> </span>state<span class="w"> </span>UP<span class="w"> </span>group<span class="w"> </span>default<span class="w">  </span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>link/ether<span class="w"> </span><span class="m">02</span>:42:ac:11:00:03<span class="w"> </span>brd<span class="w"> </span>ff:ff:ff:ff:ff:ff<span class="w"> </span>link-netnsid<span class="w"> </span><span class="m">0</span><span class="w"> </span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span>inet<span class="w"> </span><span class="m">172</span>.17.0.3/16<span class="w"> </span>brd<span class="w"> </span><span class="m">172</span>.17.255.255<span class="w"> </span>scope<span class="w"> </span>global<span class="w"> </span>eth0<span class="w"> </span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">       </span>valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever<span class="w"> </span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1">#通过上面可以看到容器的 ip 是 172.17.0.3 </span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1">#yum 安装 nginx </span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/etc/yum.repos.d/*<span class="w"> </span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>curl<span class="w"> </span>-o<span class="w"> </span>/etc/yum.repos.d/CentOS-Base.repo<span class="w"> </span>https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo<span class="w"> </span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>yum<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span>nginx<span class="w"> </span>vim-enhanced<span class="w"> </span>-y<span class="w"> </span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>创建静态页面<span class="w"> </span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>mkdir<span class="w"> </span>/var/www/html<span class="w"> </span>-p<span class="w"> </span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="nb">cd</span><span class="w"> </span>/var/www/html/<span class="w"> </span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;&#39;&#39;&lt;html&gt; </span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="s1">        &lt;head&gt; </span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="s1">                 &lt;title&gt;nginx in docker&lt;/title&gt; </span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="s1">        &lt;/head&gt; </span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="s1">        &lt;body&gt; </span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="s1">                &lt;h1&gt;hello,My Name is xianchao&lt;/h1&gt; </span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="s1">        &lt;/body&gt; </span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="s1">&lt;/html&gt;&#39;&#39;&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>index.html
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>修改<span class="w"> </span>nginx<span class="w"> </span>配置文件中的<span class="w"> </span>root<span class="w"> </span>路径，如下<span class="w"> </span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>vim<span class="w"> </span>/etc/nginx/nginx.conf<span class="w"> </span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>root<span class="w">         </span>/var/www/html/<span class="p">;</span><span class="w"> </span>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>启动<span class="w"> </span>nginx<span class="w"> </span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>/usr/sbin/nginx<span class="w"> </span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>访问<span class="w"> </span>docker<span class="w"> </span>里的<span class="w"> </span>nginx<span class="w"> </span>服务,复制一个终端窗口，执行如下命令<span class="w"> </span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># docker ps | grep nginx </span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>ecfa046e9681<span class="w">   </span>centos<span class="w">                                              </span><span class="s2">&quot;/bin/bash&quot;</span><span class="w">              </span><span class="m">12</span><span class="w"> </span>minutes<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">12</span><span class="w"> </span>minutes<span class="w">   </span><span class="m">0</span>.0.0.0:49153-&gt;80/tcp,<span class="w"> </span>:::49153-&gt;80/tcp<span class="w">   </span>nginx<span class="w"> </span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="c1">#能查看到 nginx 容器在物理机映射的端口是 49153 </span>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># curl http://192.168.40.180:49153 </span>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>&lt;html&gt;<span class="w"> </span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a><span class="w"> </span>&lt;head&gt;<span class="w"> </span>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="w">   </span>&lt;title&gt;nginx<span class="w"> </span><span class="k">in</span><span class="w"> </span>docker&lt;/title&gt;<span class="w"> </span>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="w"> </span>&lt;/head&gt;<span class="w"> </span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="w"> </span>&lt;body&gt;<span class="w"> </span>
+</span><span id="__span-5-59"><a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="w">  </span>&lt;h1&gt;hello,My<span class="w"> </span>Name<span class="w"> </span>is<span class="w"> </span>xianchao&lt;/h1&gt;<span class="w"> </span>
+</span><span id="__span-5-60"><a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a><span class="w"> </span>&lt;/body&gt;<span class="w"> </span>
+</span><span id="__span-5-61"><a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a>&lt;/html&gt;<span class="w"> </span>
+</span><span id="__span-5-62"><a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a>
+</span><span id="__span-5-63"><a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a>也可以直接访问容器的<span class="w"> </span>ip:port<span class="w"> </span>
+</span><span id="__span-5-64"><a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># curl 172.17.0.3:80 </span>
+</span><span id="__span-5-65"><a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a>&lt;html&gt;<span class="w"> </span>
+</span><span id="__span-5-66"><a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a><span class="w"> </span>&lt;head&gt;<span class="w"> </span>
+</span><span id="__span-5-67"><a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="w">   </span>&lt;title&gt;nginx<span class="w"> </span><span class="k">in</span><span class="w"> </span>docker&lt;/title&gt;<span class="w"> </span>
+</span><span id="__span-5-68"><a id="__codelineno-5-68" name="__codelineno-5-68" href="#__codelineno-5-68"></a><span class="w"> </span>&lt;/head&gt;<span class="w"> </span>
+</span><span id="__span-5-69"><a id="__codelineno-5-69" name="__codelineno-5-69" href="#__codelineno-5-69"></a><span class="w"> </span>&lt;body&gt;<span class="w"> </span>
+</span><span id="__span-5-70"><a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a><span class="w">  </span>&lt;h1&gt;hello,My<span class="w"> </span>Name<span class="w"> </span>is<span class="w"> </span>xianchao&lt;/h1&gt;<span class="w"> </span>
+</span><span id="__span-5-71"><a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="w"> </span>&lt;/body&gt;<span class="w"> </span>
+</span><span id="__span-5-72"><a id="__codelineno-5-72" name="__codelineno-5-72" href="#__codelineno-5-72"></a>&lt;/html&gt;<span class="w"> </span>
+</span><span id="__span-5-73"><a id="__codelineno-5-73" name="__codelineno-5-73" href="#__codelineno-5-73"></a>
+</span><span id="__span-5-74"><a id="__codelineno-5-74" name="__codelineno-5-74" href="#__codelineno-5-74"></a>流量走向：<span class="w"> </span>
+</span><span id="__span-5-75"><a id="__codelineno-5-75" name="__codelineno-5-75" href="#__codelineno-5-75"></a>访问物理节点<span class="w"> </span>ip:port（容器在物理节点映射的端口）--<span class="w"> </span>容器<span class="w"> </span>ip:port（容器里部署的服务的端口）
+</span><span id="__span-5-76"><a id="__codelineno-5-76" name="__codelineno-5-76" href="#__codelineno-5-76"></a>就可以访问到容器里部署的应用了<span class="w"> </span>
+</span></code></pre></div>
+<h2 id="k8s弃用docker的原因分析">k8s弃用Docker的原因分析<a class="headerlink" href="#k8s弃用docker的原因分析" title="Anchor link to this section for reference">&para;</a></h2>
+<p><strong>containerd 容器概述</strong> </p>
+<p><a href="https://containerd.io">**官方文档: **</a> </p>
+<p>在 2016 年 12 月 14 日，Docker 公司宣布将 containerd 从 Docker 中分离，由开源社区独立发展和 运营。</p>
+<p>Containerd 完全可以单独运行并管理容器，而 Containerd 的主要职责是镜像管理和容器执 行。</p>
+<p>同时，Containerd 提供了 containerd-shim 接口封装层，向下继续对接 runC 项目，使得容器 引擎 Docker Daemon 可以独立升级。 </p>
+<p>Containerd 可以在宿主机中管理完整的容器生命周期：容器镜像的传输和存储、容器的执行和管 理、存储和网络等。</p>
+<p>总结一下，它主要负责干以下事情： </p>
+<ul>
+<li>管理容器的生命周期(从创建容器到销毁容器) </li>
+<li>拉取/推送容器镜像 </li>
+<li>存储管理(管理镜像及容器数据的存储) </li>
+<li>调用 runC 运行容器(与 runC 等容器运行时交互) </li>
+<li>管理容器网络接口及网络 </li>
+</ul>
+<p><img alt="img" src="https://imgs.ilee.xyz/img/1459790-20221117154917825-1550951423.png" /></p>
+<p>docker 和 containerd区别</p>
+<p>1、docker 由 docker-client ,dockerd,containerd,docker-shim,runc组成，所以containerd是docker的基础组件之一</p>
+<p>2、从k8s的角度看，可以选择 containerd 或 docker 作为运行时组件：其中 containerd 调用链更短，组件更少，更稳定，占用节点资源更少。所以k8s后来的版本开始默认使用 containerd 。</p>
+<p>3、<code>containerd 相比于docker , 多了 namespace 概念，每个 image 和 container 都会在各自的namespace下可见</code>。</p>
+<p>4、docker 作为 k8s 容器运行时，调用关系为：kubelet --&gt; dockershim （在 kubelet 进程中） --&gt; dockerd --&gt; containerd</p>
+<p>containerd 作为 k8s 容器运行时，调用关系为：kubelet --&gt; cri plugin（在 containerd 进程中） --&gt; containerd</p>
+<p>ctr：containerd 的命令行客户端。</p>
+<ul>
+<li>[x] Containerd 和 Docker 之间的关系 </li>
+</ul>
+<p>​   Docker 包含 Containerd，Containerd 专注于运行时的容器管理，而 Docker 除了容器管理之 外，还可以完成镜像构建之类的功能。 </p>
+<p>​   Containerd 提供的 API 偏底层，不是给普通用户直接用的，容器编排的开发者才需要 Containerd。 </p>
+<ul>
+<li>[x] Containerd 在容器生态中扮演的角色 </li>
+</ul>
+<p>Containerd 并不是直接面向最终用户的，而是主要用于集成到更上层的系统里，比如 Kubernetes 等容器编排系统。 </p>
+<p>Containerd 以 daemon 的形式运行在系统上，通过 unix domain socket 暴露底层的 grpc API，上层系统可以通过这些 API 管理机器上的容器。 </p>
+<ul>
+<li>[x] 互动 1：K8S 为什么要放弃使用 Docker 作为容器运行时，而使用 containerd 呢？ </li>
+</ul>
+<p>知道：1 </p>
+<p>不：2 </p>
+<p>Docker，Kubernetes 等工具来运行一个容器时会调用容器运行时（CRI），比如 containerd，CRIO，通过容器运行时来完成容器的创建、运行、销毁等实际工作，Docker 使用的是 containerd 作为 其运行时；Kubernetes 支持 docker（在 k8s1.24 版本之前用，1.24 开始废弃了）、containerd， CRI-O 等多种容器运行时，这些容器运行时都遵循了 OCI 规范，并通过 runc 来实现与操作系统内核 交互来完成容器的创建和运行 </p>
+<ul>
+<li>[x] 备注：CRI </li>
+</ul>
+<p>CRI 是一个插件接口，它使 kubelet 能够使用各种容器运行时，你需要在集群中的每个节点上都有一个 可以正常工作的容器运行时， 这样 kubelet 能启动 Pod 及其容器。容器运行时接口（CRI）是 kubelet 和容器运行时之间通信的主要协议。 </p>
+<ul>
+<li>[x] OCI： </li>
+</ul>
+<p>OCI， Open Container Initiative ，是一个轻量级，开放的治理结构（项目），在 Linux 基金会的支 持下成立，致力于围绕容器格式和运行时创建开放的行业标准。 OCI 项目由 Docker，CoreOS（后来被 Red Hat 收购了，相应的席位被 Red Hat 继承）和容器行业中的其他领导者在 2015 年 6 月的时 候启动。 </p>
+<p>如果你使用 Docker 作为 K8S 容器运行时的话，kubelet 需要先要通过 dockershim 去调用 Docker， 再通过 Docker 去调用 containerd。 </p>
+<p>如果你使用 containerd 作为 K8S 容器运行时的话， kubelet 可以直接调用 containerd。 </p>
+<p>使用 containerd 不仅性能提高了（调用链变短了），而且资源占用也会变小（Docker 不是一个纯粹的 容器运行时，具有大量其他功能）。</p>
+<p>​   调用链 </p>
+<p>​   Docker 作为 k8s 容器运行时，调用关系如下： </p>
+<p>​       kubelet --&gt; docker shim （在 kubelet 进程中） --&gt; dockerd --&gt; containerd </p>
+<p>​   Containerd 作为 k8s 容器运行时，调用关系如下： </p>
+<p>​       kubelet --&gt; cri plugin（在 containerd 进程中） --&gt; containerd</p>
+<h2 id="安装和配置containerd">安装和配置containerd<a class="headerlink" href="#安装和配置containerd" title="Anchor link to this section for reference">&para;</a></h2>
+<p>containerd 安装和配置 </p>
+<p><code>安装 docker 会自动把 containerd 安装出来</code>，也可以通过如下命令直接安装 containerd。</p>
+<p>需要和安装 docker 一样，先做好系统配置</p>
+<ul>
+<li>[x] 需要配置 docker-ce.repo 这个 yum 源</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>[root@xianchaomaster1 ~]#yum install yum-utils -y 
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>[root@xianchaomaster1 ~]#yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo 
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>[root@xianchaomaster1 ~]# yum install   containerd  -y 
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>[root@xianchaomaster1 ~]# systemctl enable containerd 
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>[root@xianchaomaster1 ~]# systemctl start containerd
+</span></code></pre></div>
+<ul>
+<li>[x] 初始化 Containerd 配置</li>
+</ul>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># containerd config default &gt; /etc/containerd/config.toml </span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># systemctl enable containerd </span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># systemctl start containerd </span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>替换<span class="w"> </span>containerd<span class="w"> </span>默认的<span class="w"> </span>sand_box<span class="w"> </span>镜像，编辑/etc/containerd/config.toml<span class="w"> </span>文件：<span class="w"> </span><span class="nv">sandbox_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;k8s.gcr.io/pause:3.2&quot;</span><span class="w"> </span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>替换成<span class="w"> </span>registry.cnhangzhou.aliyuncs.com/google_containers/pause-amd64:3.2<span class="w"> </span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>应用配置并重新运行<span class="w"> </span>containerd<span class="w"> </span>服务<span class="w"> </span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># systemctl daemon-reload </span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># systemctl restart containerd </span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># systemctl status  containerd </span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>containerd.service<span class="w"> </span>-<span class="w"> </span>containerd<span class="w"> </span>container<span class="w"> </span>runtime<span class="w"> </span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">   </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/usr/lib/systemd/system/containerd.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>vendor<span class="w"> </span>preset:<span class="w"> </span>disabled<span class="o">)</span><span class="w"> </span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">   </span>Active:<span class="w"> </span>active<span class="w"> </span><span class="o">(</span>running<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span><span class="m">2021</span>-04-20<span class="w"> </span><span class="m">21</span>:10:45<span class="w"> </span>CST<span class="p">;</span><span class="w"> </span>8s<span class="w"> </span>ago<span class="w"> </span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr images pull registry.cnhangzhou.aliyuncs.com/google_containers/pause-amd64:3.2 </span>
+</span></code></pre></div>
+<h2 id="containerd和docker对比-基本使用">containerd和docker对比 基本使用<a class="headerlink" href="#containerd和docker对比-基本使用" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li>
+<p>[x] containerd 容器相关操作</p>
+</li>
+<li>
+<p>查看 containerd 命名空间 </p>
+</li>
+</ul>
+<p>​   [root@xianchaomaster1 ~]# <code>ctr namespace ls</code></p>
+<p>​   ctr 有命名空间 namespace 来指定类似于工作空间的隔离区域。</p>
+<p>​   使用方法 ctr -n default images ls 来查看 default 命名空间的镜像，不加 -n 参数，默认也是使用 default 的命名空间。</p>
+<ul>
+<li>
+<p>查看默认名称空间镜像有哪些 
+  [root@xianchaomaster1 ~]#  <code>ctr image ls</code> </p>
+</li>
+<li>
+<p>查看 k8s 命名空间下的镜像 
+  [root@xianchaomaster1 ~]# <code>ctr -n=k8s.io images ls</code> </p>
+</li>
+<li>
+<p>拉取 busybox 镜像 
+  [root@xianchaomaster1 ~]# <code>ctr image  pull docker.io/library/busybox:latest</code> </p>
+</li>
+</ul>
+<p>​ 注：必须全路径，从 dockerhub 上下载默认 busybox 镜像。 docker  命令不用写全
+  [root@xianchaomaster1 ~]# <code>ctr images rm 删除镜像</code> </p>
+<ul>
+<li>压缩（导出）镜像 
+  [root@xianchaomaster1 ~]# ctr images pull docker.io/library/mysql:latest </li>
+</ul>
+<p>[root@xianchaomaster1 ~]# ctr images export mysql.tar.gz docker.io/library/mysql:latest </p>
+<ul>
+<li>
+<p>导入镜像 
+  [root@xianchaomaster1 ~]# ctr images import mysql.tar.gz </p>
+</li>
+<li>
+<p>[x] 互动 1：docker 的镜像和 containerd 镜像通用吗？ </p>
+</li>
+</ul>
+<p>答：通用的，docker save -o 生成的镜像文件，可以基于 ctr images import 导入</p>
+<h2 id="containerd常用命令介绍">containerd常用命令介绍<a class="headerlink" href="#containerd常用命令介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="ctr-运行一个容器">ctr 运行一个容器<a class="headerlink" href="#ctr-运行一个容器" title="Anchor link to this section for reference">&para;</a></h3>
+<p><img alt="image-20240701042607183" src="https://imgs.ilee.xyz/img/image-20240701042607183.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ctr<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>docker.io/library/busybox:latest<span class="w"> </span>busybox-1
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># 需要注意的是 run 之前，image 必须实现存在，否则 run 失败</span>
+</span></code></pre></div>
+<p><img alt="image-20240701042840411" src="https://imgs.ilee.xyz/img/image-20240701042840411.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr task list                                                                                                                                    </span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>TASK<span class="w">         </span>PID<span class="w">     </span>STATUS<span class="w">                                                                                                                                                </span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>busybox-1<span class="w">    </span><span class="m">7451</span><span class="w">    </span>RUNNING<span class="w">                                                                                                                                               </span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr c list                                                                                                                                       </span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>CONTAINER<span class="w">    </span>IMAGE<span class="w">                               </span>RUNTIME<span class="w">                                                                                                                   </span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>busybox-1<span class="w">    </span>docker.io/library/busybox:latest<span class="w">    </span>io.containerd.runc.v2<span class="w">                                                                                                     </span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1">#      </span>
+</span></code></pre></div>
+<h3 id="ctr-删除容器">ctr 删除容器<a class="headerlink" href="#ctr-删除容器" title="Anchor link to this section for reference">&para;</a></h3>
+<p><img alt="image-20240701043137687" src="C:/Users/2021/AppData/Roaming/Typora/typora-user-images/image-20240701043137687.png" /></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ctr task exec -t --exec-id 7451 busybox-1 /bin/sh
+</span></code></pre></div>
+<p><img alt="image-20240701043155705" src="C:/Users/2021/AppData/Roaming/Typora/typora-user-images/image-20240701043155705.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr task rm busybox-1                                                                                                                            </span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>ERRO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>delete<span class="w"> </span>busybox-1<span class="w">                    </span><span class="nv">error</span><span class="o">=</span><span class="s2">&quot;task must be stopped before deletion: running: failed precondition&quot;</span><span class="w">                                        </span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>ctr:<span class="w"> </span>task<span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>stopped<span class="w"> </span>before<span class="w"> </span>deletion:<span class="w"> </span>running:<span class="w"> </span>failed<span class="w"> </span>precondition<span class="w">     </span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr task rm -f busybox-1                                                                                                                         </span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>WARN<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>task<span class="w"> </span>busybox-1<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>with<span class="w"> </span>non-zero<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span><span class="m">137</span><span class="w">         </span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr task list                                                                                                                                    </span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>TASK<span class="w">    </span>PID<span class="w">    </span>STATUS<span class="w">                                                                                                                                                      </span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr c list                                                                                                                                       </span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>CONTAINER<span class="w">    </span>IMAGE<span class="w">                               </span>RUNTIME<span class="w">                                                                                                                   </span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>busybox-1<span class="w">    </span>docker.io/library/busybox:latest<span class="w">    </span>io.containerd.runc.v2<span class="w">      </span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr c rm busybox-1                                                                                                                                                                                                                                                         </span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1"># ctr c list                                                                                                                                       </span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>CONTAINER<span class="w">    </span>IMAGE<span class="w">    </span>RUNTIME<span class="w">                                                                                                                                              </span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="o">[</span>root@xianchaomaster1<span class="w"> </span>~<span class="o">]</span><span class="c1">#  </span>
+</span></code></pre></div>
+<h3 id="ctr-给镜像打标签">ctr 给镜像打标签<a class="headerlink" href="#ctr-给镜像打标签" title="Anchor link to this section for reference">&para;</a></h3>
+<p><img alt="image-20240701043353848" src="https://imgs.ilee.xyz/img/image-20240701043353848.png" /></p>
+<p><img alt="image-20240701043445147" src="https://imgs.ilee.xyz/img/image-20240701043445147.png" /></p>
+<p>run 会同时创建 task 和 容器</p>
+<p><img alt="image-20240701043808620" src="C:/Users/2021/AppData/Roaming/Typora/typora-user-images/image-20240701043808620.png" /></p>
+<p>删除 容器 task 也会被自动删除</p>
+<h3 id="docker-和-ctr-常用命令对比">docker 和 ctr 常用命令对比<a class="headerlink" href="#docker-和-ctr-常用命令对比" title="Anchor link to this section for reference">&para;</a></h3>
+<p><img alt="image-20240701044012434" src="https://imgs.ilee.xyz/img/image-20240701044012434.png" /></p>
+<h1 id="dockercontainerd-ctrcrictl-区别"><a href="https://www.cnblogs.com/hwj4191/p/17295075.html">docker、Containerd ctr、crictl 区别</a><a class="headerlink" href="#dockercontainerd-ctrcrictl-区别" title="Anchor link to this section for reference">&para;</a></h1>
+<p><img alt="image-20240703160249974" src="https://imgs.ilee.xyz/img/image-20240703160249974.png" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../004/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第三章 K8s必备知识-Docker容器基础入门">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第三章 K8s必备知识-Docker容器基础入门
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../006/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第五章 dockerfile基础篇-基本语法">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第五章 dockerfile基础篇-基本语法
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.instant", "navigation.expand", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tabs.link", "content.code.annotation", "header.autohide", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

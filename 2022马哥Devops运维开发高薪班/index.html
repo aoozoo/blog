@@ -1,0 +1,2022 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="azoo">
+      
+      
+        <link rel="canonical" href="https://aoozoo.github.io/blog/2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../Linux%20%E5%91%BD%E4%BB%A4/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>年薪50w-Devops运维开发架构师 - aoozoo'blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#年薪50w-devops运维开发架构师" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="aoozoo&#39;blog" class="md-header__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aoozoo'blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              年薪50w-Devops运维开发架构师
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  年薪50w-Devops运维开发架构师
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Linux%20%E5%91%BD%E4%BB%A4/" class="md-tabs__link">
+        
+  
+    
+  
+  Linux 下面的常用命令
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ex/" class="md-tabs__link">
+        
+  
+    
+  
+  ex
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-tabs__link">
+        
+  
+    
+  
+  Github工作流
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-tabs__link">
+        
+  
+    
+  
+  本博客是如何搭建的
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-tabs__link">
+        
+  
+    
+  
+  运维博客收集
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-tabs__link">
+          
+  
+    
+  
+  Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-tabs__link">
+          
+  
+    
+  
+  MySQL
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-tabs__link">
+          
+  
+    
+  
+  中间件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  归档
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="aoozoo&#39;blog" class="md-nav__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    aoozoo'blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2021devops课程大纲" class="md-nav__link">
+    <span class="md-ellipsis">
+      2021devops课程大纲
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Linux%20%E5%91%BD%E4%BB%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 下面的常用命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github工作流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    本博客是如何搭建的
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运维博客收集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    中间件
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2021devops课程大纲" class="md-nav__link">
+    <span class="md-ellipsis">
+      2021devops课程大纲
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="年薪50w-devops运维开发架构师">年薪50w-Devops运维开发架构师<a class="headerlink" href="#年薪50w-devops运维开发架构师" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="2021devops课程大纲">2021devops课程大纲<a class="headerlink" href="#2021devops课程大纲" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习计算机基础和linux操作系统入门">【预习】计算机基础和linux操作系统入门<a class="headerlink" href="#预习计算机基础和linux操作系统入门" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="计算机基础">计算机基础<a class="headerlink" href="#计算机基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="计算机基础硬件">计算机基础硬件<a class="headerlink" href="#计算机基础硬件" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="计算机硬件和操作系统基础">计算机硬件和操作系统基础<a class="headerlink" href="#计算机硬件和操作系统基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux发展历史和思想">Linux发展历史和思想<a class="headerlink" href="#linux发展历史和思想" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="安装centos和ubuntu系统">安装CentOS和Ubuntu系统<a class="headerlink" href="#安装centos和ubuntu系统" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习linux中的shell和基础命令">【预习】Linux中的shell和基础命令<a class="headerlink" href="#预习linux中的shell和基础命令" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="linux基础操作">Linux基础操作<a class="headerlink" href="#linux基础操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux基础操作_1">linux基础操作<a class="headerlink" href="#linux基础操作_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux基本命令分类和执行">Linux基本命令分类和执行<a class="headerlink" href="#linux基本命令分类和执行" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux基本命令和编码">Linux基本命令和编码<a class="headerlink" href="#linux基本命令和编码" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux的帮助用法">Linux的帮助用法<a class="headerlink" href="#linux的帮助用法" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习linux中的文件管理">【预习】Linux中的文件管理<a class="headerlink" href="#预习linux中的文件管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="linux文件管理相关命令">linux文件管理相关命令<a class="headerlink" href="#linux文件管理相关命令" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux的文件复制移动和删除">Linux的文件复制移动和删除<a class="headerlink" href="#linux的文件复制移动和删除" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文件系统节点结构和链接文件">文件系统节点结构和链接文件<a class="headerlink" href="#文件系统节点结构和链接文件" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="标准输入输出和错误重定向">标准输入输出和错误重定向<a class="headerlink" href="#标准输入输出和错误重定向" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="用户和组及相关文件">用户和组及相关文件<a class="headerlink" href="#用户和组及相关文件" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习linux中重定向和用户管理">【预习】linux中重定向和用户管理<a class="headerlink" href="#预习linux中重定向和用户管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="用户和组相关配置文件和命令">用户和组相关配置文件和命令<a class="headerlink" href="#用户和组相关配置文件和命令" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文件权限管理">文件权限管理<a class="headerlink" href="#文件权限管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="特殊权限和facl">特殊权限和FACL<a class="headerlink" href="#特殊权限和facl" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文本编辑工具之神vim">文本编辑工具之神vim<a class="headerlink" href="#文本编辑工具之神vim" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文本编辑工具之神vim_1">文本编辑工具之神vim<a class="headerlink" href="#文本编辑工具之神vim_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习linux文本编辑工具和文本三剑客">【预习】linux文本编辑工具和文本三剑客<a class="headerlink" href="#预习linux文本编辑工具和文本三剑客" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="文本处理工具">文本处理工具<a class="headerlink" href="#文本处理工具" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文本处理三剑客之grep">文本处理三剑客之grep<a class="headerlink" href="#文本处理三剑客之grep" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="基本和扩展正则表达式">基本和扩展正则表达式<a class="headerlink" href="#基本和扩展正则表达式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell脚本编程基础">shell脚本编程基础<a class="headerlink" href="#shell脚本编程基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell脚本编程基础各种变量类型">shell脚本编程基础各种变量类型<a class="headerlink" href="#shell脚本编程基础各种变量类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习编程基础">【预习】编程基础<a class="headerlink" href="#预习编程基础" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="python开发环境安装">Python开发环境安装<a class="headerlink" href="#python开发环境安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="冯诺依曼体系和计算机基础">冯诺依曼体系和计算机基础<a class="headerlink" href="#冯诺依曼体系和计算机基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="python编程基本概念">Python编程基本概念<a class="headerlink" href="#python编程基本概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="进制详解">进制详解<a class="headerlink" href="#进制详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="码制和算数及位运算">码制和算数及位运算<a class="headerlink" href="#码制和算数及位运算" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="比较逻辑运算及优先级">比较逻辑运算及优先级<a class="headerlink" href="#比较逻辑运算及优先级" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="内建函数和数值处理">内建函数和数值处理<a class="headerlink" href="#内建函数和数值处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="分支循环语句">分支循环语句<a class="headerlink" href="#分支循环语句" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线性表原理">线性表原理<a class="headerlink" href="#线性表原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习线性数据结构一">【预习】线性数据结构(一)<a class="headerlink" href="#预习线性数据结构一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="列表初始化和索引">列表初始化和索引<a class="headerlink" href="#列表初始化和索引" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表搜索修改新增和时间复杂度分析">列表搜索修改新增和时间复杂度分析<a class="headerlink" href="#列表搜索修改新增和时间复杂度分析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表模型和操作时间复杂度分析">列表模型和操作时间复杂度分析<a class="headerlink" href="#列表模型和操作时间复杂度分析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="深浅拷贝和线性数据结构对比">深浅拷贝和线性数据结构对比<a class="headerlink" href="#深浅拷贝和线性数据结构对比" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="第一章习题讲解">第一章习题讲解<a class="headerlink" href="#第一章习题讲解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="九九乘法表详解">九九乘法表详解<a class="headerlink" href="#九九乘法表详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="打印图形斐波那契质数详解">打印图形斐波那契质数详解<a class="headerlink" href="#打印图形斐波那契质数详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="python内存管理和random模块">Python内存管理和random模块<a class="headerlink" href="#python内存管理和random模块" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="元组">元组<a class="headerlink" href="#元组" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="三数比较三种方法详解">三数比较三种方法详解<a class="headerlink" href="#三数比较三种方法详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习线性数据结构二">【预习】线性数据结构(二)<a class="headerlink" href="#预习线性数据结构二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="算法之冒泡排序">算法之冒泡排序<a class="headerlink" href="#算法之冒泡排序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串连接和查找">字符串连接和查找<a class="headerlink" href="#字符串连接和查找" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串的分割和替换">字符串的分割和替换<a class="headerlink" href="#字符串的分割和替换" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串的移除判断格式化">字符串的移除判断格式化<a class="headerlink" href="#字符串的移除判断格式化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="编码与解码">编码与解码<a class="headerlink" href="#编码与解码" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="bytes和bytearray及字节序">bytes和bytearray及字节序<a class="headerlink" href="#bytes和bytearray及字节序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="切片">切片<a class="headerlink" href="#切片" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业求素数详解">作业求素数详解<a class="headerlink" href="#作业求素数详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业杨辉三角三种方法精讲">作业杨辉三角三种方法精讲<a class="headerlink" href="#作业杨辉三角三种方法精讲" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业字符串统计精讲">作业字符串统计精讲<a class="headerlink" href="#作业字符串统计精讲" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习哈希表一">【预习】哈希表（一）<a class="headerlink" href="#预习哈希表一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="python使用">Python使用<a class="headerlink" href="#python使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="set集合">set集合<a class="headerlink" href="#set集合" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="set集合运算">set集合运算<a class="headerlink" href="#set集合运算" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字典1">字典1<a class="headerlink" href="#字典1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字典2">字典2<a class="headerlink" href="#字典2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="封装和解构">封装和解构<a class="headerlink" href="#封装和解构" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="预习哈希表二">【预习】哈希表（二）<a class="headerlink" href="#预习哈希表二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="作业猴子吃桃杨辉三角数字统计详解">作业猴子吃桃杨辉三角数字统计详解<a class="headerlink" href="#作业猴子吃桃杨辉三角数字统计详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="集合字典解构习题讲解">集合字典解构习题讲解<a class="headerlink" href="#集合字典解构习题讲解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="选择排序精讲">选择排序精讲<a class="headerlink" href="#选择排序精讲" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表解析式和生成器表达式">列表解析式和生成器表达式<a class="headerlink" href="#列表解析式和生成器表达式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="集合和字典解析式">集合和字典解析式<a class="headerlink" href="#集合和字典解析式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="内建函数和迭代器">内建函数和迭代器<a class="headerlink" href="#内建函数和迭代器" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播开班典礼u0026amp学习路线">【直播】开班典礼\u0026amp;学习路线<a class="headerlink" href="#直播开班典礼u0026amp学习路线" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="开班典礼u0026amp学习路线">开班典礼\u0026amp;学习路线<a class="headerlink" href="#开班典礼u0026amp学习路线" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="linux操作系统的发展历史和虚拟化学习环境">Linux操作系统的发展历史和虚拟化学习环境<a class="headerlink" href="#linux操作系统的发展历史和虚拟化学习环境" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第一天录播视频计算机基础">第一天录播视频：计算机基础<a class="headerlink" href="#第一天录播视频计算机基础" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="开班典礼">开班典礼<a class="headerlink" href="#开班典礼" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="01-计算机五大组成部分">01 计算机五大组成部分<a class="headerlink" href="#01-计算机五大组成部分" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-计算机三大核心组件">02 计算机三大核心组件<a class="headerlink" href="#02-计算机三大核心组件" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-操作系统基本概念">03 操作系统基本概念<a class="headerlink" href="#03-操作系统基本概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-linux基本介绍">04 linux基本介绍<a class="headerlink" href="#04-linux基本介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-安装centos7系统">05 安装CentOS7系统<a class="headerlink" href="#05-安装centos7系统" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-虚拟机快照和克隆">06 虚拟机快照和克隆<a class="headerlink" href="#06-虚拟机快照和克隆" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-windows连接linux过程">07 windows连接linux过程<a class="headerlink" href="#07-windows连接linux过程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-bash基础">08 bash基础<a class="headerlink" href="#08-bash基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-bash基础语法结构">09 bash基础语法结构<a class="headerlink" href="#09-bash基础语法结构" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第一天录播视频计算机基础_1">第一天录播视频：计算机基础<a class="headerlink" href="#第一天录播视频计算机基础_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="10-bash基础特性">10 bash基础特性<a class="headerlink" href="#10-bash基础特性" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="11-linux目录结构说明">11 Linux目录结构说明<a class="headerlink" href="#11-linux目录结构说明" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-linux路径定位">12 linux路径定位<a class="headerlink" href="#12-linux路径定位" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-linux常用命令">13 linux常用命令<a class="headerlink" href="#13-linux常用命令" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播用户管理-sudo-su-权限管理-特殊权限-特殊属性">【直播】用户管理-sudo-su-权限管理-特殊权限-特殊属性<a class="headerlink" href="#直播用户管理-sudo-su-权限管理-特殊权限-特殊属性" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="上午">上午<a class="headerlink" href="#上午" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="下午">下午<a class="headerlink" href="#下午" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第二天录播视频用户管理">第二天录播视频：用户管理<a class="headerlink" href="#第二天录播视频用户管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-回顾-今日内容">01-回顾-今日内容<a class="headerlink" href="#01-回顾-今日内容" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-基础命令习题讲解">02-基础命令习题讲解<a class="headerlink" href="#02-基础命令习题讲解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-文件属性-文件类型">03-文件属性-文件类型<a class="headerlink" href="#03-文件属性-文件类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-文件属性-软链接">04-文件属性-软链接<a class="headerlink" href="#04-文件属性-软链接" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-文件编辑-vim模式与操作">05-文件编辑-vim模式与操作<a class="headerlink" href="#05-文件编辑-vim模式与操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-文件编辑-vim-练习讲解">06-文件编辑-vim-练习讲解<a class="headerlink" href="#06-文件编辑-vim-练习讲解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-用户管理-用户基本介绍">07-用户管理-用户基本介绍<a class="headerlink" href="#07-用户管理-用户基本介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-useradd-usermod-userdel">08-useradd-usermod-userdel<a class="headerlink" href="#08-useradd-usermod-userdel" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-用户管理-passwd">09-用户管理-passwd<a class="headerlink" href="#09-用户管理-passwd" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-用户管理-用户组">10-用户管理-用户组<a class="headerlink" href="#10-用户管理-用户组" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第二天录播视频用户管理_1">第二天录播视频：用户管理<a class="headerlink" href="#第二天录播视频用户管理_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-用户提权-su-sudo">11-用户提权-su-sudo<a class="headerlink" href="#11-用户提权-su-sudo" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-权限管理-基本权限">12-权限管理-基本权限<a class="headerlink" href="#12-权限管理-基本权限" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-权限管理-文件权限rwx验证">13-权限管理-文件权限rwx验证<a class="headerlink" href="#13-权限管理-文件权限rwx验证" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-权限管理-目录权限rwx验证">14-权限管理-目录权限rwx验证<a class="headerlink" href="#14-权限管理-目录权限rwx验证" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="15-权限管理-变更属主的意义">15-权限管理-变更属主的意义<a class="headerlink" href="#15-权限管理-变更属主的意义" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="16-权限管理-变更属主的场景">16-权限管理-变更属主的场景<a class="headerlink" href="#16-权限管理-变更属主的场景" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="17-权限管理-特殊权限suid">17-权限管理-特殊权限suid<a class="headerlink" href="#17-权限管理-特殊权限suid" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="18-权限管理-特殊权限sgid">18-权限管理-特殊权限sgid<a class="headerlink" href="#18-权限管理-特殊权限sgid" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="19-权限管理-特殊权限sbit">19-权限管理-特殊权限sbit<a class="headerlink" href="#19-权限管理-特殊权限sbit" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播-io重定向进程管道">【直播】 IO重定向进程管道<a class="headerlink" href="#直播-io重定向进程管道" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="上午_1">上午<a class="headerlink" href="#上午_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="下午_1">下午<a class="headerlink" href="#下午_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第三天录播io重定向">第三天录播：IO重定向<a class="headerlink" href="#第三天录播io重定向" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-温故而知新">01 温故而知新<a class="headerlink" href="#01-温故而知新" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-特殊属性chattr">02 特殊属性chattr<a class="headerlink" href="#02-特殊属性chattr" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03重定向-1">03重定向-1<a class="headerlink" href="#03重定向-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04重定向-2">04重定向-2<a class="headerlink" href="#04重定向-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05重定向-3">05重定向-3<a class="headerlink" href="#05重定向-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-管道与xargs">06 管道与xargs<a class="headerlink" href="#06-管道与xargs" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-文件查找find-1">07 文件查找find-1<a class="headerlink" href="#07-文件查找find-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-文件查找find-2">08 文件查找find-2<a class="headerlink" href="#08-文件查找find-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-文件查找find-动作处理">09 文件查找find-动作处理<a class="headerlink" href="#09-文件查找find-动作处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-文件压缩-gzip">10 文件压缩-gzip<a class="headerlink" href="#10-文件压缩-gzip" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第三天录播io重定向_1">第三天录播：IO重定向<a class="headerlink" href="#第三天录播io重定向_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11文件压缩-bzip2">11文件压缩-bzip2<a class="headerlink" href="#11文件压缩-bzip2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-文件压缩-zip">12 文件压缩-zip<a class="headerlink" href="#12-文件压缩-zip" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-文件压缩-tar">13 文件压缩-tar<a class="headerlink" href="#13-文件压缩-tar" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-软件包管理-rpm">14 软件包管理-rpm<a class="headerlink" href="#14-软件包管理-rpm" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="15-软件包管理-yum介绍">15 软件包管理-yum介绍<a class="headerlink" href="#15-软件包管理-yum介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="16-软件包管理-yum基本操作">16 软件包管理-yum基本操作<a class="headerlink" href="#16-软件包管理-yum基本操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播yum操作-yum仓库构建-磁盘管理">【直播】yum操作-yum仓库构建-磁盘管理<a class="headerlink" href="#直播yum操作-yum仓库构建-磁盘管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="上午_2">上午<a class="headerlink" href="#上午_2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="下午_2">下午<a class="headerlink" href="#下午_2" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第四天录播yum操作">第四天录播：yum操作<a class="headerlink" href="#第四天录播yum操作" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-温故而知新_1">01 温故而知新<a class="headerlink" href="#01-温故而知新_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-yum搭建本地仓库">02 yum搭建本地仓库<a class="headerlink" href="#02-yum搭建本地仓库" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-yum共享仓库-服务端配置">03 yum共享仓库-服务端配置<a class="headerlink" href="#03-yum共享仓库-服务端配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-yum共享仓库-客户端配置">04 yum共享仓库-客户端配置<a class="headerlink" href="#04-yum共享仓库-客户端配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-磁盘的基本组成部分">05 磁盘的基本组成部分<a class="headerlink" href="#05-磁盘的基本组成部分" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-磁盘的接口类型">06 磁盘的接口类型<a class="headerlink" href="#06-磁盘的接口类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-磁盘命名规则-mbr-gpt">07 磁盘命名规则-mbr-gpt<a class="headerlink" href="#07-磁盘命名规则-mbr-gpt" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-磁盘分区fdisk-gdisk">08 磁盘分区fdisk-gdisk<a class="headerlink" href="#08-磁盘分区fdisk-gdisk" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-分区格式化mkfs">09 分区格式化mkfs<a class="headerlink" href="#09-分区格式化mkfs" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-分区挂载mount-umount-fstab">10 分区挂载mount-umount-fstab<a class="headerlink" href="#10-分区挂载mount-umount-fstab" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第四天录播yum操作_1">第四天录播：yum操作<a class="headerlink" href="#第四天录播yum操作_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-文件系统-文件系统修复">11 文件系统-文件系统修复<a class="headerlink" href="#11-文件系统-文件系统修复" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-磁盘阵列raid介绍">12 磁盘阵列RAID介绍<a class="headerlink" href="#12-磁盘阵列raid介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-磁盘阵列raid几种模式">13 磁盘阵列RAID几种模式<a class="headerlink" href="#13-磁盘阵列raid几种模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-磁盘阵列-软件模拟mdadm">14 磁盘阵列-软件模拟mdadm<a class="headerlink" href="#14-磁盘阵列-软件模拟mdadm" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播计划任务-ositcp协议路由">【直播】计划任务-OSI、TCP协议、路由<a class="headerlink" href="#直播计划任务-ositcp协议路由" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="上午_3">上午<a class="headerlink" href="#上午_3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="下午_3">下午<a class="headerlink" href="#下午_3" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第五天录播计划任务">第五天录播：计划任务<a class="headerlink" href="#第五天录播计划任务" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="00-课前回顾">00 课前回顾<a class="headerlink" href="#00-课前回顾" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="01-lvm实践">01 LVM实践<a class="headerlink" href="#01-lvm实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-进程管理-1">02 进程管理-1<a class="headerlink" href="#02-进程管理-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-进程管理-2">03 进程管理-2<a class="headerlink" href="#03-进程管理-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-中断程序">04 中断程序<a class="headerlink" href="#04-中断程序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-管理进程kill-pkill">05 管理进程kill-pkill<a class="headerlink" href="#05-管理进程kill-pkill" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-后台进程-screen-supervisor">06 后台进程-screen-supervisor<a class="headerlink" href="#06-后台进程-screen-supervisor" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07进程优先级nice-renice">07进程优先级nice-renice<a class="headerlink" href="#07进程优先级nice-renice" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-平均负载">08 平均负载<a class="headerlink" href="#08-平均负载" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-计划任务">09 计划任务<a class="headerlink" href="#09-计划任务" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="直播clusterarch-chrony-dhcp-nfs-dns">【直播】ClusterArch-Chrony-DHCP-NFS-DNS<a class="headerlink" href="#直播clusterarch-chrony-dhcp-nfs-dns" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="上午_4">上午<a class="headerlink" href="#上午_4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="下午_4">下午<a class="headerlink" href="#下午_4" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第六天录播clusterarch">第六天录播：ClusterArch<a class="headerlink" href="#第六天录播clusterarch" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-温故而知新_2">01 温故而知新<a class="headerlink" href="#01-温故而知新_2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-运行级别-system-单用户模式">02 运行级别-system-单用户模式<a class="headerlink" href="#02-运行级别-system-单用户模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-为什么需要网络">03 为什么需要网络<a class="headerlink" href="#03-为什么需要网络" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-osi七层模型">04 OSI七层模型<a class="headerlink" href="#04-osi七层模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-tcp三次握手">05 TCP三次握手<a class="headerlink" href="#05-tcp三次握手" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-tcp四次挥手">06 TCP四次挥手<a class="headerlink" href="#06-tcp四次挥手" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-tcp11种状态转换">07 tcp11种状态转换<a class="headerlink" href="#07-tcp11种状态转换" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-udp协议">08 udp协议<a class="headerlink" href="#08-udp协议" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-网络配置-1">09 网络配置-1<a class="headerlink" href="#09-网络配置-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-nmcli配置网络">10 nmcli配置网络<a class="headerlink" href="#10-nmcli配置网络" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第六天录播clusterarch_1">第六天录播：ClusterArch<a class="headerlink" href="#第六天录播clusterarch_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-路由案例1">11 路由案例1<a class="headerlink" href="#11-路由案例1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-路由案例-2">12 路由案例-2<a class="headerlink" href="#12-路由案例-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-路由案例-3">13 路由案例-3<a class="headerlink" href="#13-路由案例-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-dhcp服务器">14 dhcp服务器<a class="headerlink" href="#14-dhcp服务器" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="互联网集群集群架构剖析">互联网集群集群架构剖析<a class="headerlink" href="#互联网集群集群架构剖析" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-温故而知新_3">01 温故而知新<a class="headerlink" href="#01-温故而知新_3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-集群架构基本知识">02 集群架构基本知识<a class="headerlink" href="#02-集群架构基本知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-已知架构模型">03 已知架构模型<a class="headerlink" href="#03-已知架构模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-未知架构模型">04 未知架构模型<a class="headerlink" href="#04-未知架构模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-集群环境准备">05 集群环境准备<a class="headerlink" href="#05-集群环境准备" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-时间同步服务介绍">06 时间同步服务介绍<a class="headerlink" href="#06-时间同步服务介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-时间同步服务-chrony">07 时间同步服务-chrony<a class="headerlink" href="#07-时间同步服务-chrony" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-时间同步服务-chrony演示">08 时间同步服务-chrony演示<a class="headerlink" href="#08-时间同步服务-chrony演示" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-nfs共享存储">09 NFS共享存储<a class="headerlink" href="#09-nfs共享存储" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-http协议介绍">10 http协议介绍<a class="headerlink" href="#10-http协议介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="nginx-web与常用模块">Nginx Web与常用模块<a class="headerlink" href="#nginx-web与常用模块" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-http协议工作原理">11 http协议工作原理<a class="headerlink" href="#11-http协议工作原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-http请求和响应头">12 http请求和响应头<a class="headerlink" href="#12-http请求和响应头" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-nginx-1-基本介绍">13 nginx-1-基本介绍<a class="headerlink" href="#13-nginx-1-基本介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-nginx-2-搭建游戏">14 nginx-2-搭建游戏<a class="headerlink" href="#14-nginx-2-搭建游戏" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="15-nginx-3-虚拟主机">15 nginx-3-虚拟主机<a class="headerlink" href="#15-nginx-3-虚拟主机" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="16-nginx-4-目录索引-访问控制">16-nginx-4-目录索引-访问控制<a class="headerlink" href="#16-nginx-4-目录索引-访问控制" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="17-nginx-5-限速-状态监控">17-nginx-5-限速-状态监控<a class="headerlink" href="#17-nginx-5-限速-状态监控" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="18-nginx-6-location">18-nginx-6-location<a class="headerlink" href="#18-nginx-6-location" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="nginx构建应用节点-架构演变过程">Nginx构建应用节点-架构演变过程<a class="headerlink" href="#nginx构建应用节点-架构演变过程" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-lnmp环境构建">01 LNMP环境构建<a class="headerlink" href="#01-lnmp环境构建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-部署wordpress">02 部署Wordpress<a class="headerlink" href="#02-部署wordpress" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-部署wecenter">03 部署Wecenter<a class="headerlink" href="#03-部署wecenter" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-迁移数据库至独立服务器">04 迁移数据库至独立服务器<a class="headerlink" href="#04-迁移数据库至独立服务器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-扩展多个web节点">05 扩展多个web节点<a class="headerlink" href="#05-扩展多个web节点" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-静态资源统一存储至nfs">06 静态资源统一存储至NFS<a class="headerlink" href="#06-静态资源统一存储至nfs" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="企业级集群负载均衡方案-基于nginx实现7层-负载均衡">企业级集群负载均衡方案-基于Nginx实现7层 负载均衡<a class="headerlink" href="#企业级集群负载均衡方案-基于nginx实现7层-负载均衡" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="07proxy代理基本概述">07proxy代理基本概述<a class="headerlink" href="#07proxy代理基本概述" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-proxy代理场景与代理参数">08 proxy代理场景与代理参数<a class="headerlink" href="#08-proxy代理场景与代理参数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-负载均衡介绍与配置">09 负载均衡介绍与配置<a class="headerlink" href="#09-负载均衡介绍与配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-负载均衡调度算法与后端状态">10 负载均衡调度算法与后端状态<a class="headerlink" href="#10-负载均衡调度算法与后端状态" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="11-基于redis的会话共享">11 基于redis的会话共享<a class="headerlink" href="#11-基于redis的会话共享" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-架构剩余内容总结">12 架构剩余内容总结<a class="headerlink" href="#12-架构剩余内容总结" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="运维必会必知nginx-rewrite">运维必会必知Nginx  Rewrite<a class="headerlink" href="#运维必会必知nginx-rewrite" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="13-rewrite-set-if-return">13 rewrite-set-if-return<a class="headerlink" href="#13-rewrite-set-if-return" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-rewrite-flag">14 rewrite-flag<a class="headerlink" href="#14-rewrite-flag" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="01-rewrite场景实例1-2">01 rewrite场景实例1-2<a class="headerlink" href="#01-rewrite场景实例1-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-rewrite场景实例3-4">02 rewrite场景实例3-4<a class="headerlink" href="#02-rewrite场景实例3-4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-rewrite场景实例-5-7">03 rewrite场景实例-5-7<a class="headerlink" href="#03-rewrite场景实例-5-7" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-rewrite场景实例-6-8">04 rewrite场景实例-6-8<a class="headerlink" href="#04-rewrite场景实例-6-8" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="企业级集群安全解决方案-构建全站https">企业级集群安全解决方案-构建全站HTTPS<a class="headerlink" href="#企业级集群安全解决方案-构建全站https" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="05-https基本概述">05 Https基本概述<a class="headerlink" href="#05-https基本概述" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-https单节点配置-集群配置">06 Https单节点配置-集群配置<a class="headerlink" href="#06-https单节点配置-集群配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-https接入网站架构及优化配置">07 Https接入网站架构及优化配置<a class="headerlink" href="#07-https接入网站架构及优化配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="企业级java环境集群构建扩展tomcat有补充接99-102节">企业级JAVA环境集群构建，扩展（Tomcat有补充接99-102节）<a class="headerlink" href="#企业级java环境集群构建扩展tomcat有补充接99-102节" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="08-tomcat基础及管理页面">08 Tomcat基础及管理页面<a class="headerlink" href="#08-tomcat基础及管理页面" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-tomcat集群-https">09 Tomcat集群-Https<a class="headerlink" href="#09-tomcat集群-https" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-tomcat集群基于redis实现会话保持">10 Tomcat集群基于Redis实现会话保持<a class="headerlink" href="#10-tomcat集群基于redis实现会话保持" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="基于keepalived实现高可用集群">基于keepalived实现高可用集群<a class="headerlink" href="#基于keepalived实现高可用集群" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-keepalived高可用及实现过程">11 keepalived高可用及实现过程<a class="headerlink" href="#11-keepalived高可用及实现过程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-keepalived实现nginx高可用">12 keepalived实现nginx高可用<a class="headerlink" href="#12-keepalived实现nginx高可用" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="企业级集群负载均衡方案-基于lvs实现4层负载均衡应用">企业级集群负载均衡方案-基于LVS实现4层负载均衡应用<a class="headerlink" href="#企业级集群负载均衡方案-基于lvs实现4层负载均衡应用" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="13-lvs基础-nat模型">13 LVS基础-NAT模型<a class="headerlink" href="#13-lvs基础-nat模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-lvs-nat实验场景模拟">14 LVS-NAT实验场景模拟<a class="headerlink" href="#14-lvs-nat实验场景模拟" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="01-lvs-nat模型实验补充">01 LVS NAT模型实验补充<a class="headerlink" href="#01-lvs-nat模型实验补充" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-lvs-dr模型介绍">02 LVS DR模型介绍<a class="headerlink" href="#02-lvs-dr模型介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-lvs-dr模型场景-脚本">03 LVS DR模型场景-脚本<a class="headerlink" href="#03-lvs-dr模型场景-脚本" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-lvs持久化连接-高可用">04 LVS持久化连接-高可用<a class="headerlink" href="#04-lvs持久化连接-高可用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-lvs调度算法">05 LVS调度算法<a class="headerlink" href="#05-lvs调度算法" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="互联网必备组件dns域名解析实践">互联网必备组件：dns域名解析实践<a class="headerlink" href="#互联网必备组件dns域名解析实践" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="06-dns介绍">06 DNS介绍<a class="headerlink" href="#06-dns介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-dns解析原理">07 DNS解析原理<a class="headerlink" href="#07-dns解析原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-dns资源类型">08 DNS资源类型<a class="headerlink" href="#08-dns资源类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-dns安装与配置">09 DNS安装与配置<a class="headerlink" href="#09-dns安装与配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-dns自定义区域文件-场景演示">10 DNS自定义区域文件-场景演示<a class="headerlink" href="#10-dns自定义区域文件-场景演示" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="11-dns递归查询">11 DNS递归查询<a class="headerlink" href="#11-dns递归查询" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="12-dns主辅同步">12 DNS主辅同步<a class="headerlink" href="#12-dns主辅同步" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="13-dns子域配置">13 DNS子域配置<a class="headerlink" href="#13-dns子域配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="14-dns转发模式">14 DNS转发模式<a class="headerlink" href="#14-dns转发模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="15-智能dns">15 智能DNS<a class="headerlink" href="#15-智能dns" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="互联网必备组件dns域名解析实践_1">互联网必备组件：dns域名解析实践<a class="headerlink" href="#互联网必备组件dns域名解析实践_1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="16-dns对接集群环境">16 DNS对接集群环境<a class="headerlink" href="#16-dns对接集群环境" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="运维必会必知安全防火墙-iptables">运维必会必知安全防火墙-iptables<a class="headerlink" href="#运维必会必知安全防火墙-iptables" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-iptables介绍-链">01 iptables介绍-链<a class="headerlink" href="#01-iptables介绍-链" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-iptables表和链的关系">02 iptables表和链的关系<a class="headerlink" href="#02-iptables表和链的关系" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-iptables规则管理">03 iptables规则管理<a class="headerlink" href="#03-iptables规则管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-iptables基本匹配">04 iptables基本匹配<a class="headerlink" href="#04-iptables基本匹配" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-iptables扩展模块-1">05 iptables扩展模块-1<a class="headerlink" href="#05-iptables扩展模块-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-iptables扩展模块-2">06 iptables扩展模块-2<a class="headerlink" href="#06-iptables扩展模块-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-iptables扩展模块-tcp-flags">07 iptables扩展模块-tcp-flags<a class="headerlink" href="#07-iptables扩展模块-tcp-flags" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-iptables扩展模块-state">08 iptables扩展模块-state<a class="headerlink" href="#08-iptables扩展模块-state" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-iptables-nat场景实践">09 iptables-NAT场景实践<a class="headerlink" href="#09-iptables-nat场景实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-iptables自定义链">10 iptables自定义链<a class="headerlink" href="#10-iptables自定义链" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="远程服务及跳板机概念与实践">远程服务及跳板机概念与实践<a class="headerlink" href="#远程服务及跳板机概念与实践" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-ssh远程服务">11 ssh远程服务<a class="headerlink" href="#11-ssh远程服务" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="ansible自动化管理集群架构应用与实践一">Ansible自动化管理集群架构应用与实践（一）<a class="headerlink" href="#ansible自动化管理集群架构应用与实践一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="01-ansible基本-架构组件">01 Ansible基本-架构组件<a class="headerlink" href="#01-ansible基本-架构组件" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-ansible配置-adhoc">02 Ansible配置-adhoc<a class="headerlink" href="#02-ansible配置-adhoc" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-ansible常用模块-1">03 Ansible常用模块-1<a class="headerlink" href="#03-ansible常用模块-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-ansible常用模块-2">04 Ansible常用模块-2<a class="headerlink" href="#04-ansible常用模块-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-ansible-playbook基础知识">05 Ansible-Playbook基础知识<a class="headerlink" href="#05-ansible-playbook基础知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="06-ansible-playbook案例编写">06 Ansible-Playbook案例编写<a class="headerlink" href="#06-ansible-playbook案例编写" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-ansible-variables">07 Ansible-Variables<a class="headerlink" href="#07-ansible-variables" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-ansible-facts">08 Ansible-Facts<a class="headerlink" href="#08-ansible-facts" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-ansible-when-loop">09 Ansible-when-loop<a class="headerlink" href="#09-ansible-when-loop" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-ansible-tags-include">10 Ansible-tags-include<a class="headerlink" href="#10-ansible-tags-include" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="ansible自动化管理集群架构应用与实践二">Ansible自动化管理集群架构应用与实践（二）<a class="headerlink" href="#ansible自动化管理集群架构应用与实践二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="11-ansible-jinja">11 Ansible Jinja<a class="headerlink" href="#11-ansible-jinja" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="01-roles角色-1">01 Roles角色-1<a class="headerlink" href="#01-roles角色-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="02-roles角色-2">02 Roles角色-2<a class="headerlink" href="#02-roles角色-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="03-ansible场景说明">03 Ansible场景说明<a class="headerlink" href="#03-ansible场景说明" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="04-ansible基础模块">04 Ansible基础模块<a class="headerlink" href="#04-ansible基础模块" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="05-ansible应用模块-redis-mysql">05 Ansible应用模块-Redis-MySQL<a class="headerlink" href="#05-ansible应用模块-redis-mysql" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="ansible自动化管理集群架构应用与实践三">Ansible自动化管理集群架构应用与实践（三）<a class="headerlink" href="#ansible自动化管理集群架构应用与实践三" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="06-ansible应用模块-nginx-php-nfs">06 Ansible应用模块-Nginx-PHP-NFS<a class="headerlink" href="#06-ansible应用模块-nginx-php-nfs" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="07-ansible应用模块-keepalived-lvs">07 Ansible应用模块-Keepalived-LVS<a class="headerlink" href="#07-ansible应用模块-keepalived-lvs" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="08-ansible应用模块-wordpress-web">08 Ansible应用模块-wordpress-web<a class="headerlink" href="#08-ansible应用模块-wordpress-web" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="09-ansible应用模块-wordpress-proxy">09 Ansible应用模块-wordpress-proxy<a class="headerlink" href="#09-ansible应用模块-wordpress-proxy" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="10-ansible自动化部署集群整体测试">10 Ansible自动化部署集群整体测试<a class="headerlink" href="#10-ansible自动化部署集群整体测试" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="11-ansible总结">11 Ansible总结<a class="headerlink" href="#11-ansible总结" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="第二阶段python基础">【第二阶段】：Python基础<a class="headerlink" href="#第二阶段python基础" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="pythonwinlinux环境安装">PythonWinLinux环境安装<a class="headerlink" href="#pythonwinlinux环境安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟环境安装">虚拟环境安装<a class="headerlink" href="#虚拟环境安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="计算机基础理论">计算机基础理论<a class="headerlink" href="#计算机基础理论" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="基础语法">基础语法<a class="headerlink" href="#基础语法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="运算符和内建函数">运算符和内建函数<a class="headerlink" href="#运算符和内建函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="分支循环">分支循环<a class="headerlink" href="#分支循环" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="循环和三元表达式">循环和三元表达式<a class="headerlink" href="#循环和三元表达式" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="线性表">线性表<a class="headerlink" href="#线性表" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="数值和内建函数">数值和内建函数<a class="headerlink" href="#数值和内建函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线性表原理详解">线性表原理详解<a class="headerlink" href="#线性表原理详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表操作和内存模型">列表操作和内存模型<a class="headerlink" href="#列表操作和内存模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表复制原理">列表复制原理<a class="headerlink" href="#列表复制原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="random模块">Random模块<a class="headerlink" href="#random模块" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="元组_1">元组<a class="headerlink" href="#元组_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串构造">字符串构造<a class="headerlink" href="#字符串构造" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串分割替换移除">字符串分割替换移除<a class="headerlink" href="#字符串分割替换移除" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串判断">字符串判断<a class="headerlink" href="#字符串判断" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串格式化">字符串格式化<a class="headerlink" href="#字符串格式化" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="线性表二">线性表（二）<a class="headerlink" href="#线性表二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="编码的本质">编码的本质<a class="headerlink" href="#编码的本质" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字节类型">字节类型<a class="headerlink" href="#字节类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="切片_1">切片<a class="headerlink" href="#切片_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="第一章习题-九九乘法表">第一章习题-九九乘法表<a class="headerlink" href="#第一章习题-九九乘法表" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="第一章习题-登录">第一章习题-登录<a class="headerlink" href="#第一章习题-登录" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="第二章习题">第二章习题<a class="headerlink" href="#第二章习题" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="哈希表">哈希表<a class="headerlink" href="#哈希表" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="封装和解构_1">封装和解构<a class="headerlink" href="#封装和解构_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="set和哈希表原理">set和哈希表原理<a class="headerlink" href="#set和哈希表原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字典增删改查">字典增删改查<a class="headerlink" href="#字典增删改查" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="遍历和有序性">遍历和有序性<a class="headerlink" href="#遍历和有序性" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="解析式和生成器表达式">解析式和生成器表达式<a class="headerlink" href="#解析式和生成器表达式" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="函数">函数<a class="headerlink" href="#函数" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="函数概念">函数概念<a class="headerlink" href="#函数概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="第三章作业">第三章作业<a class="headerlink" href="#第三章作业" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="传实参2种方式">传实参2种方式<a class="headerlink" href="#传实参2种方式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="缺省值">缺省值<a class="headerlink" href="#缺省值" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="可变形参">可变形参<a class="headerlink" href="#可变形参" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="形参和返回值">形参和返回值<a class="headerlink" href="#形参和返回值" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作用域和嵌套函数">作用域和嵌套函数<a class="headerlink" href="#作用域和嵌套函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="局部变量赋值和global">局部变量赋值和global<a class="headerlink" href="#局部变量赋值和global" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="函数二">函数（二）<a class="headerlink" href="#函数二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="闭包原理">闭包原理<a class="headerlink" href="#闭包原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="nonlocal和legb">nonlocal和LEGB<a class="headerlink" href="#nonlocal和legb" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="匿名函数">匿名函数<a class="headerlink" href="#匿名函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="生成器函数">生成器函数<a class="headerlink" href="#生成器函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="冒泡排序">冒泡排序<a class="headerlink" href="#冒泡排序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="函数执行原理">函数执行原理<a class="headerlink" href="#函数执行原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="递归函数">递归函数<a class="headerlink" href="#递归函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业之比较大小">作业之比较大小<a class="headerlink" href="#作业之比较大小" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业上下三角打印">作业上下三角打印<a class="headerlink" href="#作业上下三角打印" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="选择排序精讲_1">选择排序精讲<a class="headerlink" href="#选择排序精讲_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="装饰器">装饰器<a class="headerlink" href="#装饰器" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="可迭代对象和内建函数">可迭代对象和内建函数<a class="headerlink" href="#可迭代对象和内建函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="高阶函数柯里化">高阶函数柯里化<a class="headerlink" href="#高阶函数柯里化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="无参装饰器">无参装饰器<a class="headerlink" href="#无参装饰器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="带参装饰器">带参装饰器<a class="headerlink" href="#带参装饰器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="类型注解和类型检查装饰器">类型注解和类型检查装饰器<a class="headerlink" href="#类型注解和类型检查装饰器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="插入排序">插入排序<a class="headerlink" href="#插入排序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="functools之reduce和partial">functools之reduce和partial<a class="headerlink" href="#functools之reduce和partial" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="lru_cache和cache原理">lru_cache和cache原理<a class="headerlink" href="#lru_cache和cache原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="文件io和序列化">文件IO和序列化<a class="headerlink" href="#文件io和序列化" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="open方法和主模式">open方法和主模式<a class="headerlink" href="#open方法和主模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="附加模式和指针">附加模式和指针<a class="headerlink" href="#附加模式和指针" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="递归作业详解">递归作业详解<a class="headerlink" href="#递归作业详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文件对象读写和迭代">文件对象读写和迭代<a class="headerlink" href="#文件对象读写和迭代" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="ospath模块">os.path模块<a class="headerlink" href="#ospath模块" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="path常用操作">Path常用操作<a class="headerlink" href="#path常用操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="path操作2">Path操作2<a class="headerlink" href="#path操作2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shutil模块使用">shutil模块使用<a class="headerlink" href="#shutil模块使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="序列化本质和pickle">序列化本质和pickle<a class="headerlink" href="#序列化本质和pickle" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="json和msgpack">json和msgpack<a class="headerlink" href="#json和msgpack" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="文件io和序列化二">文件IO和序列化（二）<a class="headerlink" href="#文件io和序列化二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="csv文件处理">csv文件处理<a class="headerlink" href="#csv文件处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="树">树<a class="headerlink" href="#树" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="正则表达式1">正则表达式1<a class="headerlink" href="#正则表达式1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="正则表达式2">正则表达式2<a class="headerlink" href="#正则表达式2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="复制作业详解">复制作业详解<a class="headerlink" href="#复制作业详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="正则习题讲解1">正则习题讲解1<a class="headerlink" href="#正则习题讲解1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="正则习题讲解2">正则习题讲解2<a class="headerlink" href="#正则习题讲解2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="re模块使用">re模块使用<a class="headerlink" href="#re模块使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="argparse模块使用">argparse模块使用<a class="headerlink" href="#argparse模块使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="面向对象">面向对象<a class="headerlink" href="#面向对象" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="面向对象概念">面向对象概念<a class="headerlink" href="#面向对象概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="类实例属性self">类、实例、属性、self<a class="headerlink" href="#类实例属性self" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="属性本质和属性访问规则">属性本质和属性访问规则<a class="headerlink" href="#属性本质和属性访问规则" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="方法类方法静态方法原理">方法、类方法、静态方法原理<a class="headerlink" href="#方法类方法静态方法原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="访问控制">访问控制<a class="headerlink" href="#访问控制" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="面向对象二">面向对象（二）<a class="headerlink" href="#面向对象二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="时间模块使用">时间模块使用<a class="headerlink" href="#时间模块使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="property装饰器">property装饰器<a class="headerlink" href="#property装饰器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="继承">继承<a class="headerlink" href="#继承" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="继承和访问控制">继承和访问控制<a class="headerlink" href="#继承和访问控制" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="覆盖">覆盖<a class="headerlink" href="#覆盖" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="初始化原则和多态">初始化原则和多态<a class="headerlink" href="#初始化原则和多态" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="多继承和mixin">多继承和Mixin<a class="headerlink" href="#多继承和mixin" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="面向对象三">面向对象（三）<a class="headerlink" href="#面向对象三" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="作业argparse模块使用">作业argparse模块使用<a class="headerlink" href="#作业argparse模块使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="高阶函数参数本质">高阶函数参数本质<a class="headerlink" href="#高阶函数参数本质" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业温度转换和图形面积">作业温度转换和图形面积<a class="headerlink" href="#作业温度转换和图形面积" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="日志层次级别根">日志层次、级别、根<a class="headerlink" href="#日志层次级别根" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="handler和formatter">handler和formatter<a class="headerlink" href="#handler和formatter" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="日志流">日志流<a class="headerlink" href="#日志流" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="异常处理">异常处理<a class="headerlink" href="#异常处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="面向对象进阶">面向对象进阶<a class="headerlink" href="#面向对象进阶" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="魔术方法之实例化">魔术方法之实例化<a class="headerlink" href="#魔术方法之实例化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之可视化">魔术方法之可视化<a class="headerlink" href="#魔术方法之可视化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之布尔等效">魔术方法之布尔等效<a class="headerlink" href="#魔术方法之布尔等效" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之比较运算符重载">魔术方法之比较运算符重载<a class="headerlink" href="#魔术方法之比较运算符重载" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之算数运算符重载">魔术方法之算数运算符重载<a class="headerlink" href="#魔术方法之算数运算符重载" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之容器化">魔术方法之容器化<a class="headerlink" href="#魔术方法之容器化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之可调用对象">魔术方法之可调用对象<a class="headerlink" href="#魔术方法之可调用对象" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之上下文管理">魔术方法之上下文管理<a class="headerlink" href="#魔术方法之上下文管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="魔术方法之反射">魔术方法之反射<a class="headerlink" href="#魔术方法之反射" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模块搜索加载缓存导入和全局变量">模块搜索加载缓存导入和全局变量<a class="headerlink" href="#模块搜索加载缓存导入和全局变量" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="面向对象进阶二">面向对象进阶（二）<a class="headerlink" href="#面向对象进阶二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="魔术方法之哈希">魔术方法之哈希<a class="headerlink" href="#魔术方法之哈希" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="包加载原理">包加载原理.<a class="headerlink" href="#包加载原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="绝对导入和相对导入">绝对导入和相对导入<a class="headerlink" href="#绝对导入和相对导入" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="导入访问控制和__all__">导入访问控制和__all__<a class="headerlink" href="#导入访问控制和__all__" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="打包分发">打包分发<a class="headerlink" href="#打包分发" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="树的遍历">树的遍历<a class="headerlink" href="#树的遍历" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="并发编程">并发编程<a class="headerlink" href="#并发编程" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="并发进程线程概念">并发、进程、线程概念<a class="headerlink" href="#并发进程线程概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线程状态">线程状态<a class="headerlink" href="#线程状态" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线程创建运行和传参">线程创建运行和传参<a class="headerlink" href="#线程创建运行和传参" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线程start和run本质">线程start和run本质<a class="headerlink" href="#线程start和run本质" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线程的daemon和join">线程的daemon和join<a class="headerlink" href="#线程的daemon和join" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="threadlocal类">ThreadLocal类<a class="headerlink" href="#threadlocal类" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="作业单向链表实现">作业单向链表实现<a class="headerlink" href="#作业单向链表实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="双向链表实现1">双向链表实现1<a class="headerlink" href="#双向链表实现1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="双向链表实现2">双向链表实现2<a class="headerlink" href="#双向链表实现2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="链表容器化">链表容器化<a class="headerlink" href="#链表容器化" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="并发编程二">并发编程（二）<a class="headerlink" href="#并发编程二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="event">Event<a class="headerlink" href="#event" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="锁">锁<a class="headerlink" href="#锁" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gil">GIL<a class="headerlink" href="#gil" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="queue多线程安全性">queue多线程安全性<a class="headerlink" href="#queue多线程安全性" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="多进程编程">多进程编程<a class="headerlink" href="#多进程编程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="concurrentfutures">concurrent.futures<a class="headerlink" href="#concurrentfutures" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="网络编辑">网络编辑<a class="headerlink" href="#网络编辑" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="网络编程基本原理">网络编程基本原理<a class="headerlink" href="#网络编程基本原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="群聊服务端实现">群聊服务端实现<a class="headerlink" href="#群聊服务端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tcp群聊服务端实现">TCP群聊服务端实现<a class="headerlink" href="#tcp群聊服务端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="线程安全问题">线程安全问题<a class="headerlink" href="#线程安全问题" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="makefile使用">makefile使用<a class="headerlink" href="#makefile使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="群聊客户端实现">群聊客户端实现<a class="headerlink" href="#群聊客户端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="socketserver模块">SocketServer模块<a class="headerlink" href="#socketserver模块" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="同步和阻塞概念">同步和阻塞概念<a class="headerlink" href="#同步和阻塞概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="io模型">IO模型<a class="headerlink" href="#io模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="io多路复用初识">IO多路复用初识<a class="headerlink" href="#io多路复用初识" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="数据库编程">数据库编程<a class="headerlink" href="#数据库编程" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="io多路复用实现echoserver">IO多路复用实现EchoServer<a class="headerlink" href="#io多路复用实现echoserver" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="数据库安装配置">数据库安装配置<a class="headerlink" href="#数据库安装配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="主键外键和实体关系">主键外键和实体关系<a class="headerlink" href="#主键外键和实体关系" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="建表和增删改语句">建表和增删改语句<a class="headerlink" href="#建表和增删改语句" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="群聊socketserver版">群聊SocketServer版<a class="headerlink" href="#群聊socketserver版" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="群聊io多路复用版">群聊IO多路复用版<a class="headerlink" href="#群聊io多路复用版" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="io多路复用版wwwserver">IO多路复用版WWWServer<a class="headerlink" href="#io多路复用版wwwserver" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="dml">DML<a class="headerlink" href="#dml" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="子查询和join">子查询和Join<a class="headerlink" href="#子查询和join" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="数据库">数据库<a class="headerlink" href="#数据库" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="查找树">查找树<a class="headerlink" href="#查找树" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql索引原理">MySQL索引原理<a class="headerlink" href="#mysql索引原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pymysql数据库编程">pymysql数据库编程<a class="headerlink" href="#pymysql数据库编程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字节序">字节序<a class="headerlink" href="#字节序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="acid和隔离级别">ACID和隔离级别<a class="headerlink" href="#acid和隔离级别" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="数据库重要概念">数据库重要概念<a class="headerlink" href="#数据库重要概念" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="前端基础">前端基础<a class="headerlink" href="#前端基础" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="html常用标签">HTML常用标签<a class="headerlink" href="#html常用标签" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="html标签之表格表单">HTML标签之表格表单<a class="headerlink" href="#html标签之表格表单" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="css">CSS<a class="headerlink" href="#css" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="前端技术发展史">前端技术发展史<a class="headerlink" href="#前端技术发展史" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="js开发环境安装">js开发环境安装<a class="headerlink" href="#js开发环境安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="标识符和类型转换">标识符和类型转换<a class="headerlink" href="#标识符和类型转换" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="字符串数值symbol">字符串数值Symbol<a class="headerlink" href="#字符串数值symbol" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="运算符">运算符<a class="headerlink" href="#运算符" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="前端基础二">前端基础二<a class="headerlink" href="#前端基础二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="分支">分支<a class="headerlink" href="#分支" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="循环">循环<a class="headerlink" href="#循环" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="函数匿名函数箭头函数">函数、匿名函数、箭头函数<a class="headerlink" href="#函数匿名函数箭头函数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="形参传参剩余参数">形参、传参、剩余参数<a class="headerlink" href="#形参传参剩余参数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="参数解构返回值作用域">参数解构、返回值、作用域<a class="headerlink" href="#参数解构返回值作用域" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="异常处理_1">异常处理<a class="headerlink" href="#异常处理_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="类和继承">类和继承<a class="headerlink" href="#类和继承" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="this绑定">this绑定<a class="headerlink" href="#this绑定" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="shell编程">shell编程<a class="headerlink" href="#shell编程" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="课程简介课程定位基础环境">课程简介【课程定位+基础环境】<a class="headerlink" href="#课程简介课程定位基础环境" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识简介简单实践">shell编程之基础知识【简介+简单实践】<a class="headerlink" href="#shell编程之基础知识简介简单实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程-变量基础本地变量全局变量">shell编程-变量基础本地变量全局变量<a class="headerlink" href="#shell编程-变量基础本地变量全局变量" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识内置变量">shell编程之基础知识【内置变量】<a class="headerlink" href="#shell编程之基础知识内置变量" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识表达式">shell编程之基础知识【表达式】<a class="headerlink" href="#shell编程之基础知识表达式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程-逻辑表达式计算表达式字符串">shell编程-逻辑表达式计算表达式字符串<a class="headerlink" href="#shell编程-逻辑表达式计算表达式字符串" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识字符串进阶">shell编程之基础知识【字符串进阶】<a class="headerlink" href="#shell编程之基础知识字符串进阶" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识数组">shell编程之基础知识【数组】<a class="headerlink" href="#shell编程之基础知识数组" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之基础知识配置文件小结">shell编程之基础知识【配置文件+小结】<a class="headerlink" href="#shell编程之基础知识配置文件小结" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程流程控制if语句case语句">shell编程流程控制if语句+case语句<a class="headerlink" href="#shell编程流程控制if语句case语句" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="虚拟化之快速入门">虚拟化之快速入门<a class="headerlink" href="#虚拟化之快速入门" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="shell编程之流程控制-循环语句循环退出">shell编程之流程控制-循环语句+循环退出<a class="headerlink" href="#shell编程之流程控制-循环语句循环退出" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="shell编程之流程控制函数小结">shell编程之流程控制【函数+小结】<a class="headerlink" href="#shell编程之流程控制函数小结" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="今日学习目标">今日学习目标<a class="headerlink" href="#今日学习目标" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之快速入门虚拟化基础kvm基础">虚拟化之快速入门【虚拟化基础+kvm基础】<a class="headerlink" href="#虚拟化之快速入门虚拟化基础kvm基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之快速入门kvm环境安装命令简">虚拟化之快速入门【kvm环境安装+命令简<a class="headerlink" href="#虚拟化之快速入门kvm环境安装命令简" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践环境初始化">虚拟化之核心实践【环境初始化】<a class="headerlink" href="#虚拟化之核心实践环境初始化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践基础管理实践">虚拟化之核心实践【基础管理实践】<a class="headerlink" href="#虚拟化之核心实践基础管理实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践基础管理实践2">虚拟化之核心实践【基础管理实践2】<a class="headerlink" href="#虚拟化之核心实践基础管理实践2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践存储池实践">虚拟化之核心实践【存储池实践】<a class="headerlink" href="#虚拟化之核心实践存储池实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践存储卷实践2">虚拟化之核心实践【存储卷实践2】<a class="headerlink" href="#虚拟化之核心实践存储卷实践2" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="虚拟化之快速入门二">虚拟化之快速入门（二）<a class="headerlink" href="#虚拟化之快速入门二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="虚拟化之核心实践存储数据操作">虚拟化之核心实践【存储数据操作】<a class="headerlink" href="#虚拟化之核心实践存储数据操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践网络管理基础">虚拟化之核心实践【网络管理基础】<a class="headerlink" href="#虚拟化之核心实践网络管理基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践网络管理实践">虚拟化之核心实践【网络管理实践】<a class="headerlink" href="#虚拟化之核心实践网络管理实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="虚拟化之核心实践镜像管理实践">虚拟化之核心实践【镜像管理实践】<a class="headerlink" href="#虚拟化之核心实践镜像管理实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之核心实践">kvm虚拟化之核心实践<a class="headerlink" href="#kvm虚拟化之核心实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之拓展思考-1">kvm虚拟化之拓展思考-1<a class="headerlink" href="#kvm虚拟化之拓展思考-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之拓展思考-2">kvm虚拟化之拓展思考-2<a class="headerlink" href="#kvm虚拟化之拓展思考-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之拓展思考-3">kvm虚拟化之拓展思考-3<a class="headerlink" href="#kvm虚拟化之拓展思考-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之拓展思考-4">kvm虚拟化之拓展思考-4<a class="headerlink" href="#kvm虚拟化之拓展思考-4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm虚拟化之拓展思考-5">kvm虚拟化之拓展思考-5<a class="headerlink" href="#kvm虚拟化之拓展思考-5" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="docker容器">Docker容器<a class="headerlink" href="#docker容器" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="docker容器之快速入门">Docker容器之快速入门<a class="headerlink" href="#docker容器之快速入门" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门环境部署">Docker容器之快速入门【环境部署】<a class="headerlink" href="#docker容器之快速入门环境部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门镜像管理">Docker容器之快速入门【镜像管理】<a class="headerlink" href="#docker容器之快速入门镜像管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门容器管理">Docker容器之快速入门【容器管理】<a class="headerlink" href="#docker容器之快速入门容器管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门数据管理">Docker容器之快速入门【数据管理】<a class="headerlink" href="#docker容器之快速入门数据管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门网络管理">Docker容器之快速入门【网络管理】<a class="headerlink" href="#docker容器之快速入门网络管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之快速入门仓库管理">Docker容器之快速入门【仓库管理】<a class="headerlink" href="#docker容器之快速入门仓库管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之dockerfile">Docker容器之Dockerfile<a class="headerlink" href="#docker容器之dockerfile" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="知识点回顾部分新内容">知识点回顾[部分新内容]<a class="headerlink" href="#知识点回顾部分新内容" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之dockerfile-1">Docker容器之Dockerfile-1<a class="headerlink" href="#docker容器之dockerfile-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="docker容器二">Docker容器（二）<a class="headerlink" href="#docker容器二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="docker容器之dockerfile-2">Docker容器之Dockerfile-2<a class="headerlink" href="#docker容器之dockerfile-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之dockerfile-3">Docker容器之Dockerfile-3<a class="headerlink" href="#docker容器之dockerfile-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之dockerfile-4">Docker容器之Dockerfile-4<a class="headerlink" href="#docker容器之dockerfile-4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之dockerfile-5">Docker容器之Dockerfile-5<a class="headerlink" href="#docker容器之dockerfile-5" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之其他内容">Docker容器之其他内容<a class="headerlink" href="#docker容器之其他内容" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之其他内容网络进阶1">Docker容器之其他内容[网络进阶1]<a class="headerlink" href="#docker容器之其他内容网络进阶1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之其他内容网络进阶2">Docker容器之其他内容[网络进阶2]<a class="headerlink" href="#docker容器之其他内容网络进阶2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之其他内容资源隔离">Docker容器之其他内容[资源隔离]<a class="headerlink" href="#docker容器之其他内容资源隔离" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker容器之其他内容资源配额">Docker容器之其他内容[资源配额]<a class="headerlink" href="#docker容器之其他内容资源配额" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="redis">Redis<a class="headerlink" href="#redis" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="redis之基础知识数据分类">Redis之基础知识[数据分类]<a class="headerlink" href="#redis之基础知识数据分类" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基础知识-1">Redis之基础知识-1<a class="headerlink" href="#redis之基础知识-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基础知识-2">Redis之基础知识-2<a class="headerlink" href="#redis之基础知识-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基础知识-3">Redis之基础知识-3<a class="headerlink" href="#redis之基础知识-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基本命令-1">Redis之基本命令-1<a class="headerlink" href="#redis之基本命令-1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基本命令-2">Redis之基本命令-2<a class="headerlink" href="#redis之基本命令-2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之基本命令-3">Redis之基本命令-3<a class="headerlink" href="#redis之基本命令-3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之持久复制持久原理及实践">Redis之持久复制[持久原理及实践]<a class="headerlink" href="#redis之持久复制持久原理及实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之持久复制主从同步及实践">Redis之持久复制[主从同步及实践]<a class="headerlink" href="#redis之持久复制主从同步及实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="redis之持久复制哨兵理论及实践">Redis之持久复制[哨兵理论及实践]<a class="headerlink" href="#redis之持久复制哨兵理论及实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="keepalived">keepalived<a class="headerlink" href="#keepalived" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="学习目标知识回顾">学习目标+知识回顾<a class="headerlink" href="#学习目标知识回顾" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础1">keepalived之集群基础1<a class="headerlink" href="#keepalived之集群基础1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础2">keepalived之集群基础2<a class="headerlink" href="#keepalived之集群基础2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础3">keepalived之集群基础3<a class="headerlink" href="#keepalived之集群基础3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础4">keepalived之集群基础4<a class="headerlink" href="#keepalived之集群基础4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础5">keepalived之集群基础5<a class="headerlink" href="#keepalived之集群基础5" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="keepalived之集群基础6">keepalived之集群基础6<a class="headerlink" href="#keepalived之集群基础6" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之基础知识1">zabbix之基础知识1<a class="headerlink" href="#zabbix之基础知识1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之基础知识2">zabbix之基础知识2<a class="headerlink" href="#zabbix之基础知识2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之基础知识3">zabbix之基础知识3<a class="headerlink" href="#zabbix之基础知识3" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="zabbix">zabbix<a class="headerlink" href="#zabbix" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="zabbix之基础知识4">zabbix之基础知识4<a class="headerlink" href="#zabbix之基础知识4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之基础知识5">zabbix之基础知识5<a class="headerlink" href="#zabbix之基础知识5" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之核心实践1">zabbix之核心实践1<a class="headerlink" href="#zabbix之核心实践1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之核心实践2">zabbix之核心实践2<a class="headerlink" href="#zabbix之核心实践2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之核心实践3">zabbix之核心实践3<a class="headerlink" href="#zabbix之核心实践3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之核心实践4">zabbix之核心实践4<a class="headerlink" href="#zabbix之核心实践4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之核心实践5">zabbix之核心实践5<a class="headerlink" href="#zabbix之核心实践5" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践1">zabbix之进阶实践1<a class="headerlink" href="#zabbix之进阶实践1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践2">zabbix之进阶实践2<a class="headerlink" href="#zabbix之进阶实践2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践3">zabbix之进阶实践3<a class="headerlink" href="#zabbix之进阶实践3" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="zabbix二">zabbix（二）<a class="headerlink" href="#zabbix二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识点回顾学习目标">知识点回顾+学习目标<a class="headerlink" href="#知识点回顾学习目标" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践核心元素综合实践">zabbix之进阶实践[核心元素综合实践]<a class="headerlink" href="#zabbix之进阶实践核心元素综合实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践邮件实践">zabbix之进阶实践[邮件实践]<a class="headerlink" href="#zabbix之进阶实践邮件实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践告警进阶实践">zabbix之进阶实践[告警进阶实践]<a class="headerlink" href="#zabbix之进阶实践告警进阶实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践主动监控">zabbix之进阶实践[主动监控]<a class="headerlink" href="#zabbix之进阶实践主动监控" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践自动监控">zabbix之进阶实践[自动监控]<a class="headerlink" href="#zabbix之进阶实践自动监控" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践分布式监控">zabbix之进阶实践[分布式监控]<a class="headerlink" href="#zabbix之进阶实践分布式监控" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zabbix之进阶实践小结">zabbix之进阶实践[小结]<a class="headerlink" href="#zabbix之进阶实践小结" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="zookeeperkafka">zookeeper、kafka<a class="headerlink" href="#zookeeperkafka" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="zookeeper之基础知识场景需求">zookeeper之基础知识[场景需求]<a class="headerlink" href="#zookeeper之基础知识场景需求" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper之基础知识zk简介">zookeeper之基础知识[zk简介]<a class="headerlink" href="#zookeeper之基础知识zk简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper之基础知识zk简介_1">zookeeper之基础知识[zk简介]<a class="headerlink" href="#zookeeper之基础知识zk简介_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper之基础知识zk实践">zookeeper之基础知识[zk实践]<a class="headerlink" href="#zookeeper之基础知识zk实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="知识点回顾学习目标_1">知识点回顾+学习目标<a class="headerlink" href="#知识点回顾学习目标_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper之基础知识">zookeeper之基础知识<a class="headerlink" href="#zookeeper之基础知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper之基础知识zk集群实践">zookeeper之基础知识[zk集群实践]<a class="headerlink" href="#zookeeper之基础知识zk集群实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kafka之基础知识消息队列原理解析">kafka之基础知识[消息队列+原理解析]<a class="headerlink" href="#kafka之基础知识消息队列原理解析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kafka之基础知识kafka环境部署">kafka之基础知识[kafka环境部署]<a class="headerlink" href="#kafka之基础知识kafka环境部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kafka之基础知识kafka实践">kafka之基础知识[kafka实践]<a class="headerlink" href="#kafka之基础知识kafka实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="elk">ELK<a class="headerlink" href="#elk" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="elk之基础知识搜索基础">ELK之基础知识[搜索基础]<a class="headerlink" href="#elk之基础知识搜索基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之基础知识es部署">ELK之基础知识[es部署]<a class="headerlink" href="#elk之基础知识es部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="知识点回顾学习目标_2">知识点回顾+学习目标<a class="headerlink" href="#知识点回顾学习目标_2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之基础知识logstash部署原理">ELK之基础知识[logstash部署+原理<a class="headerlink" href="#elk之基础知识logstash部署原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之基础知识kibana部署原理">ELK之基础知识[kibana部署+原理<a class="headerlink" href="#elk之基础知识kibana部署原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之基础知识filebeat部署原理">ELK之基础知识[filebeat部署+原理<a class="headerlink" href="#elk之基础知识filebeat部署原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之基础知识综合案例原理实践">ELK之基础知识[综合案例原理+实践]<a class="headerlink" href="#elk之基础知识综合案例原理实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之进阶知识es术语解析配置">ELK之进阶知识[ES术语解析+配置]<a class="headerlink" href="#elk之进阶知识es术语解析配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之进阶知识filebeat解析配置">ELK之进阶知识[Filebeat解析+配置<a class="headerlink" href="#elk之进阶知识filebeat解析配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之进阶知识logstash解析配置">ELK之进阶知识[Logstash解析+配置<a class="headerlink" href="#elk之进阶知识logstash解析配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="版本管理">版本管理<a class="headerlink" href="#版本管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="elk之进阶知识lkibana解析配置">ELK之进阶知识[Lkibana解析+配置<a class="headerlink" href="#elk之进阶知识lkibana解析配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="elk之进阶知识lkibana绘图案例">ELK之进阶知识[Lkibana绘图案例]<a class="headerlink" href="#elk之进阶知识lkibana绘图案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之基础知识研发模式">版本管理之基础知识【研发模式】<a class="headerlink" href="#版本管理之基础知识研发模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之基础知识研发管理">版本管理之基础知识【研发管理】<a class="headerlink" href="#版本管理之基础知识研发管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之基础知识版本基础">版本管理之基础知识【版本基础】<a class="headerlink" href="#版本管理之基础知识版本基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之基础知识版本术语研发流程">版本管理之基础知识【版本术语+研发流程】<a class="headerlink" href="#版本管理之基础知识版本术语研发流程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之git解析环境部署初始化">版本管理之git解析【环境部署+初始化】<a class="headerlink" href="#版本管理之git解析环境部署初始化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之git解析区域管理状态管理">版本管理之git解析【区域管理+状态管理】<a class="headerlink" href="#版本管理之git解析区域管理状态管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之git解析文件撤销版本回滚">版本管理之git解析【文件撤销+版本回滚】<a class="headerlink" href="#版本管理之git解析文件撤销版本回滚" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之git解析分支管理合并策略">版本管理之git解析【分支管理+合并策略】<a class="headerlink" href="#版本管理之git解析分支管理合并策略" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="版本管理二">版本管理（二）<a class="headerlink" href="#版本管理二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识点回顾学习目标_3">知识点回顾+学习目标<a class="headerlink" href="#知识点回顾学习目标_3" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之gitlab仓库软件简介">版本管理之gitlab仓库【软件简介】<a class="headerlink" href="#版本管理之gitlab仓库软件简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之gitlab仓库基本配置">版本管理之gitlab仓库【基本配置】<a class="headerlink" href="#版本管理之gitlab仓库基本配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="版本管理之gitlab仓库配置结构">版本管理之gitlab仓库【配置结构】<a class="headerlink" href="#版本管理之gitlab仓库配置结构" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="持续集成">持续集成<a class="headerlink" href="#持续集成" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="持续集成之jenkins基础基础知识">持续集成之jenkins基础【基础知识】<a class="headerlink" href="#持续集成之jenkins基础基础知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之jenkins基础任务详解">持续集成之jenkins基础【任务详解】<a class="headerlink" href="#持续集成之jenkins基础任务详解" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之jenkins基础简单构建">持续集成之jenkins基础【简单构建】<a class="headerlink" href="#持续集成之jenkins基础简单构建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之jenkins基础触发构建">持续集成之jenkins基础【触发构建】<a class="headerlink" href="#持续集成之jenkins基础触发构建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之jenkins基础">持续集成之jenkins基础<a class="headerlink" href="#持续集成之jenkins基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="知识点回顾学习目标_4">知识点回顾+学习目标<a class="headerlink" href="#知识点回顾学习目标_4" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线基础语法结构">持续集成之流水线【基础+语法结构】<a class="headerlink" href="#持续集成之流水线基础语法结构" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线简单实践语法梳理">持续集成之流水线【简单实践+语法梳理】<a class="headerlink" href="#持续集成之流水线简单实践语法梳理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线命令详解案例改造">持续集成之流水线【命令详解+案例改造】<a class="headerlink" href="#持续集成之流水线命令详解案例改造" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线语法进阶">持续集成之流水线【语法进阶】<a class="headerlink" href="#持续集成之流水线语法进阶" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="持续集成二">持续集成（二）<a class="headerlink" href="#持续集成二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="持续集成之流水线语法进阶2">持续集成之流水线【语法进阶2】<a class="headerlink" href="#持续集成之流水线语法进阶2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线blueocean">持续集成之流水线【blueocean】<a class="headerlink" href="#持续集成之流水线blueocean" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="持续集成之流水线分布式">持续集成之流水线【分布式】<a class="headerlink" href="#持续集成之流水线分布式" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="前端开发">前端开发<a class="headerlink" href="#前端开发" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="js对象模型">JS对象模型<a class="headerlink" href="#js对象模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="this和原型">this和原型<a class="headerlink" href="#this和原型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="数组和对象解构">数组和对象解构<a class="headerlink" href="#数组和对象解构" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="数组和对象操作">数组和对象操作<a class="headerlink" href="#数组和对象操作" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模块化和转义">模块化和转义<a class="headerlink" href="#模块化和转义" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="promise和async">Promise和async<a class="headerlink" href="#promise和async" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="wsgi和flask">WSGI和Flask<a class="headerlink" href="#wsgi和flask" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="wsgi原理">WSGI原理<a class="headerlink" href="#wsgi原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="wsgi原理实现">WSGI原理实现<a class="headerlink" href="#wsgi原理实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="路由和app实现原理">路由和app实现原理<a class="headerlink" href="#路由和app实现原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="flask基本使用">Flask基本使用<a class="headerlink" href="#flask基本使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="flask模板">Flask模板<a class="headerlink" href="#flask模板" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="flask蓝图">Flask蓝图<a class="headerlink" href="#flask蓝图" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="bootstrap和jquery">Bootstrap和jQuery<a class="headerlink" href="#bootstrap和jquery" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="bootstrap">Bootstrap<a class="headerlink" href="#bootstrap" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jquery基础">jQuery基础<a class="headerlink" href="#jquery基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="ajaxget请求">AjaxGet请求<a class="headerlink" href="#ajaxget请求" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="ajaxpost请求">AjaxPost请求<a class="headerlink" href="#ajaxpost请求" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="预检请求处理和ajax-json">预检请求处理和Ajax Json<a class="headerlink" href="#预检请求处理和ajax-json" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jsonp">jsonp<a class="headerlink" href="#jsonp" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统一">猛犸系统（一）<a class="headerlink" href="#猛犸系统一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="django项目构建和配置">Django项目构建和配置<a class="headerlink" href="#django项目构建和配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模型类使用">模型类使用<a class="headerlink" href="#模型类使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="orm和简单查询">ORM和简单查询<a class="headerlink" href="#orm和简单查询" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="lookup表达式和q对象">lookup表达式和Q对象<a class="headerlink" href="#lookup表达式和q对象" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="分组聚合和模型类外键">分组聚合和模型类外键<a class="headerlink" href="#分组聚合和模型类外键" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="一对多模型查询">一对多模型查询<a class="headerlink" href="#一对多模型查询" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="多对多模型">多对多模型<a class="headerlink" href="#多对多模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="admin和路由">Admin和路由<a class="headerlink" href="#admin和路由" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模板配置和加载">模板配置和加载<a class="headerlink" href="#模板配置和加载" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模板变量和标签">模板变量和标签<a class="headerlink" href="#模板变量和标签" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统二">猛犸系统（二）<a class="headerlink" href="#猛犸系统二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="模板过滤器和静态文件">模板过滤器和静态文件<a class="headerlink" href="#模板过滤器和静态文件" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="restful最佳实践">RESTFul最佳实践<a class="headerlink" href="#restful最佳实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="json视图和csrf">Json视图和CSRF<a class="headerlink" href="#json视图和csrf" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="模板作业">模板作业<a class="headerlink" href="#模板作业" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="视图类概述">视图类概述<a class="headerlink" href="#视图类概述" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="视图类本质">视图类本质<a class="headerlink" href="#视图类本质" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="中间件原理1">中间件原理1<a class="headerlink" href="#中间件原理1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="中间件原理2">中间件原理2<a class="headerlink" href="#中间件原理2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="cookie技术">Cookie技术<a class="headerlink" href="#cookie技术" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="session原理">Session原理<a class="headerlink" href="#session原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统三">猛犸系统（三）<a class="headerlink" href="#猛犸系统三" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="session弊端和解决方案">Session弊端和解决方案<a class="headerlink" href="#session弊端和解决方案" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="session编程">Session编程<a class="headerlink" href="#session编程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="drf序列化器">DRF序列化器<a class="headerlink" href="#drf序列化器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="数据校验">数据校验<a class="headerlink" href="#数据校验" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="orm状态">ORM状态<a class="headerlink" href="#orm状态" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="入库">入库<a class="headerlink" href="#入库" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="modelserializer使用">ModelSerializer使用<a class="headerlink" href="#modelserializer使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="关系序列化">关系序列化<a class="headerlink" href="#关系序列化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="apiview和请求响应">APIView和请求响应<a class="headerlink" href="#apiview和请求响应" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="全局异常处理">全局异常处理<a class="headerlink" href="#全局异常处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统四">猛犸系统（四）<a class="headerlink" href="#猛犸系统四" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="通用视图类和cvs">通用视图类和CVS<a class="headerlink" href="#通用视图类和cvs" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="分页">分页<a class="headerlink" href="#分页" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="drf视图集和路由">DRF视图集和路由<a class="headerlink" href="#drf视图集和路由" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="vue项目构建">Vue项目构建<a class="headerlink" href="#vue项目构建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="组件创建和路由配置">组件创建和路由配置<a class="headerlink" href="#组件创建和路由配置" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="less表单和双向绑定">Less表单和双向绑定<a class="headerlink" href="#less表单和双向绑定" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="前端登录功能实现1">前端登录功能实现1<a class="headerlink" href="#前端登录功能实现1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="前端登录功能实现2">前端登录功能实现2<a class="headerlink" href="#前端登录功能实现2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="django后台项目初始化">Django后台项目初始化<a class="headerlink" href="#django后台项目初始化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="django认证">Django认证<a class="headerlink" href="#django认证" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统五">猛犸系统（五）<a class="headerlink" href="#猛犸系统五" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="jwt">JWT<a class="headerlink" href="#jwt" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jwt认证和异常处理">JWT认证和异常处理<a class="headerlink" href="#jwt认证和异常处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="消息提示导航守卫token存储">消息提示、导航守卫、Token存储<a class="headerlink" href="#消息提示导航守卫token存储" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="主页布局和侧边栏">主页布局和侧边栏<a class="headerlink" href="#主页布局和侧边栏" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="导航菜单前后端功能实现">导航菜单前后端功能实现<a class="headerlink" href="#导航菜单前后端功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="用户前端组件选择和模型类重构">用户前端组件选择和模型类重构<a class="headerlink" href="#用户前端组件选择和模型类重构" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="用户序列化器和视图集构建">用户序列化器和视图集构建<a class="headerlink" href="#用户序列化器和视图集构建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="新增用户前后端实现">新增用户前后端实现<a class="headerlink" href="#新增用户前后端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="用户列表页和分页实现">用户列表页和分页实现<a class="headerlink" href="#用户列表页和分页实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统六">猛犸系统（六）<a class="headerlink" href="#猛犸系统六" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="插槽作用域插槽和激活功能实现">插槽、作用域插槽和激活功能实现<a class="headerlink" href="#插槽作用域插槽和激活功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="搜索功能实现">搜索功能实现<a class="headerlink" href="#搜索功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="修改用户功能实现">修改用户功能实现<a class="headerlink" href="#修改用户功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="删除用户功能实现">删除用户功能实现<a class="headerlink" href="#删除用户功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="用户信息菜单实现">用户信息菜单实现<a class="headerlink" href="#用户信息菜单实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="重置密码">重置密码<a class="headerlink" href="#重置密码" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="django的rbac设计">Django的RBAC设计<a class="headerlink" href="#django的rbac设计" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="权限功能实现">权限功能实现<a class="headerlink" href="#权限功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="角色和角色赋权实现">角色和角色赋权实现<a class="headerlink" href="#角色和角色赋权实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="猛犸系统七">猛犸系统（七）<a class="headerlink" href="#猛犸系统七" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="用户分配角色">用户分配角色<a class="headerlink" href="#用户分配角色" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="drf的权限">DRF的权限<a class="headerlink" href="#drf的权限" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="crud权限控制">CRUD权限控制<a class="headerlink" href="#crud权限控制" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="后台打包部署">后台打包部署<a class="headerlink" href="#后台打包部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="前端打包和项目部署">前端打包和项目部署<a class="headerlink" href="#前端打包和项目部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通一-kubernetes基础及环境搭建">kubernetes入门到精通(一) kubernetes基础及环境搭建<a class="headerlink" href="#kubernetes入门到精通一-kubernetes基础及环境搭建" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="阶段回顾和学习思路">阶段回顾和学习思路<a class="headerlink" href="#阶段回顾和学习思路" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识基础知识">快速入门之基础知识【基础知识】<a class="headerlink" href="#快速入门之基础知识基础知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识组件解析">快速入门之基础知识【组件解析】<a class="headerlink" href="#快速入门之基础知识组件解析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识环境部署1">快速入门之基础知识【环境部署1】<a class="headerlink" href="#快速入门之基础知识环境部署1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识环境部署2">快速入门之基础知识【环境部署2】<a class="headerlink" href="#快速入门之基础知识环境部署2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识命令实践">快速入门之基础知识【命令实践】<a class="headerlink" href="#快速入门之基础知识命令实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之基础知识集群环境">快速入门之基础知识【集群环境】<a class="headerlink" href="#快速入门之基础知识集群环境" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通二-高可用实践及pod解析">kubernetes入门到精通(二) 高可用实践及pod解析<a class="headerlink" href="#kubernetes入门到精通二-高可用实践及pod解析" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾资源对象梳理">知识回顾+资源对象梳理<a class="headerlink" href="#知识回顾资源对象梳理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之环境部署集群创建">快速入门之环境部署【集群创建】<a class="headerlink" href="#快速入门之环境部署集群创建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之环境部署集群升级综合实践">快速入门之环境部署【集群升级+综合实践】<a class="headerlink" href="#快速入门之环境部署集群升级综合实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之环境部署细节梳理资源清单">快速入门之环境部署【细节梳理+资源清单】<a class="headerlink" href="#快速入门之环境部署细节梳理资源清单" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="快速入门之环境部署pod概述细节解析">快速入门之环境部署【pod概述+细节解析】<a class="headerlink" href="#快速入门之环境部署pod概述细节解析" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通三-pod精讲及控制器对象1">kubernetes入门到精通(三) Pod精讲及控制器对象1<a class="headerlink" href="#kubernetes入门到精通三-pod精讲及控制器对象1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾资源对象梳理_1">知识回顾+资源对象梳理<a class="headerlink" href="#知识回顾资源对象梳理_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pod实践init实践sidecar">pod实践【init实践+sidecar】<a class="headerlink" href="#pod实践init实践sidecar" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pod实践钩子实践静态pod安全级别">pod实践【钩子实践+静态pod+安全级别】<a class="headerlink" href="#pod实践钩子实践静态pod安全级别" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pod实践三种检测">pod实践【三种检测】<a class="headerlink" href="#pod实践三种检测" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pod实践资源限制服务质量">pod实践【资源限制+服务质量】<a class="headerlink" href="#pod实践资源限制服务质量" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="deployment实践">deployment实践<a class="headerlink" href="#deployment实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通四-控制器对象2及service解析和存储管理1">kubernetes入门到精通(四) 控制器对象2及service解析和存储管理1<a class="headerlink" href="#kubernetes入门到精通四-控制器对象2及service解析和存储管理1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾">知识回顾<a class="headerlink" href="#知识回顾" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="service基础知识">service基础知识<a class="headerlink" href="#service基础知识" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="上午回顾service实践">上午回顾+service实践<a class="headerlink" href="#上午回顾service实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="service实践服务发现">service实践+服务发现<a class="headerlink" href="#service实践服务发现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="存储管理">存储管理<a class="headerlink" href="#存储管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通五-存储管理2及配置管理网络管理1">kubernetes入门到精通(五) 存储管理2及配置管理,网络管理1<a class="headerlink" href="#kubernetes入门到精通五-存储管理2及配置管理网络管理1" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾延伸今日内容">知识回顾+延伸+今日内容<a class="headerlink" href="#知识回顾延伸今日内容" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="存储进阶">存储进阶<a class="headerlink" href="#存储进阶" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="配置管理configmap">配置管理【configmap】<a class="headerlink" href="#配置管理configmap" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="配置管理">配置管理<a class="headerlink" href="#配置管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="配置管理statefulset">配置管理【statefulset】<a class="headerlink" href="#配置管理statefulset" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="网络管理flannelcalice">网络管理【flannel+calice】<a class="headerlink" href="#网络管理flannelcalice" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通六-网络管理2及认证管理">kubernetes入门到精通(六) 网络管理2及认证管理<a class="headerlink" href="#kubernetes入门到精通六-网络管理2及认证管理" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾calico网络">知识回顾+calico网络<a class="headerlink" href="#知识回顾calico网络" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="calico网络策略">calico网络策略<a class="headerlink" href="#calico网络策略" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="认证基础">认证基础<a class="headerlink" href="#认证基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="授权实践">授权实践<a class="headerlink" href="#授权实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="综合实践">综合实践<a class="headerlink" href="#综合实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通七-调度管理及ingress和prometheus基础">kubernetes入门到精通(七) 调度管理及ingress和prometheus基础<a class="headerlink" href="#kubernetes入门到精通七-调度管理及ingress和prometheus基础" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾调度框架解析">知识回顾+调度框架解析<a class="headerlink" href="#知识回顾调度框架解析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="调度实践">调度实践<a class="headerlink" href="#调度实践" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="调度实践2crd基础">调度实践2+CRD基础<a class="headerlink" href="#调度实践2crd基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="ingress">ingress<a class="headerlink" href="#ingress" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="prometheus基础">prometheus基础<a class="headerlink" href="#prometheus基础" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kubernetes入门到精通八-prometheus进阶及helm实践">kubernetes入门到精通(八) prometheus进阶及helm实践<a class="headerlink" href="#kubernetes入门到精通八-prometheus进阶及helm实践" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="知识回顾监控配置解析">知识回顾+监控配置解析<a class="headerlink" href="#知识回顾监控配置解析" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="promql定制应用指标">promQL+定制应用指标<a class="headerlink" href="#promql定制应用指标" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="告警机制prometheus部署">告警机制+prometheus部署<a class="headerlink" href="#告警机制prometheus部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kube-prometheus部署">kube-prometheus部署<a class="headerlink" href="#kube-prometheus部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="helm3实践监控进阶">helm3实践+监控进阶<a class="headerlink" href="#helm3实践监控进阶" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充35节tomcat基础-集群-https一">（补充35节）Tomcat基础-集群-Https（一）<a class="headerlink" href="#补充35节tomcat基础-集群-https一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="什么是jvm">什么是JVM<a class="headerlink" href="#什么是jvm" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="为何需要jvm">为何需要JVM<a class="headerlink" href="#为何需要jvm" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jdk-jre-jvm之间关系">JDK-JRE-JVM之间关系<a class="headerlink" href="#jdk-jre-jvm之间关系" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="安装oraclejdk两种方式">安装OracleJDK两种方式<a class="headerlink" href="#安装oraclejdk两种方式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat基本介绍">Tomcat基本介绍<a class="headerlink" href="#tomcat基本介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat二进制安装">Tomcat二进制安装<a class="headerlink" href="#tomcat二进制安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat启停配置编写">Tomcat启停配置编写<a class="headerlink" href="#tomcat启停配置编写" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat目录结构">Tomcat目录结构<a class="headerlink" href="#tomcat目录结构" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat组成结构">Tomcat组成结构<a class="headerlink" href="#tomcat组成结构" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat请求处理流程">Tomcat请求处理流程<a class="headerlink" href="#tomcat请求处理流程" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充35节tomcat基础-集群-https二">（补充35节）Tomcat基础-集群-Https（二）<a class="headerlink" href="#补充35节tomcat基础-集群-https二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="tomcat配置虚拟主机-host">Tomcat配置虚拟主机-Host<a class="headerlink" href="#tomcat配置虚拟主机-host" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat配置虚拟主机-context">Tomcat配置虚拟主机-Context<a class="headerlink" href="#tomcat配置虚拟主机-context" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat管理页面启用与介绍">Tomcat管理页面启用与介绍<a class="headerlink" href="#tomcat管理页面启用与介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat部署zrlog博客业务">Tomcat部署Zrlog博客业务<a class="headerlink" href="#tomcat部署zrlog博客业务" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat部署zrlog博客集群">Tomcat部署Zrlog博客集群<a class="headerlink" href="#tomcat部署zrlog博客集群" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat接入nginx负载均衡">Tomcat接入Nginx负载均衡<a class="headerlink" href="#tomcat接入nginx负载均衡" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat接入nfs实现共享存储">Tomcat接入NFS实现共享存储<a class="headerlink" href="#tomcat接入nfs实现共享存储" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat单机接入https">Tomcat单机接入HTTPS<a class="headerlink" href="#tomcat单机接入https" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="tomcat集群接入https">Tomcat集群接入HTTPS<a class="headerlink" href="#tomcat集群接入https" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充35节tomcat优化-jvm-gc一">（补充35节）Tomcat优化-JVM-GC（一）<a class="headerlink" href="#补充35节tomcat优化-jvm-gc一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="jvm基础架构-执行过程">JVM基础架构-执行过程<a class="headerlink" href="#jvm基础架构-执行过程" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jvm堆内存模型">JVM堆内存模型<a class="headerlink" href="#jvm堆内存模型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="jvm堆内存分配参数">JVM堆内存分配参数<a class="headerlink" href="#jvm堆内存分配参数" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="调整tomcatjvm堆空间">调整TomcatJVM堆空间<a class="headerlink" href="#调整tomcatjvm堆空间" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc-什么是垃圾-如何判断垃圾">GC-什么是垃圾-如何判断垃圾<a class="headerlink" href="#gc-什么是垃圾-如何判断垃圾" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc-引用计数算法-根可达分析算法">GC-引用计数算法-根可达分析算法<a class="headerlink" href="#gc-引用计数算法-根可达分析算法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc算法-标记清除算法">GC算法-标记清除算法<a class="headerlink" href="#gc算法-标记清除算法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc算法-标记复制算法">GC算法-标记复制算法<a class="headerlink" href="#gc算法-标记复制算法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc算法-标记整理算法">GC算法-标记整理算法<a class="headerlink" href="#gc算法-标记整理算法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc分代垃圾回收概述">GC分代垃圾回收概述<a class="headerlink" href="#gc分代垃圾回收概述" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充35节tomcat优化-jvm-gc二">（补充35节）Tomcat优化-JVM-GC（二）<a class="headerlink" href="#补充35节tomcat优化-jvm-gc二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="gc垃圾回收-年轻代-minorgc">GC垃圾回收-年轻代-MinorGC<a class="headerlink" href="#gc垃圾回收-年轻代-minorgc" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾回收-老年代-majorgc">GC垃圾回收-老年代-MajorGC<a class="headerlink" href="#gc垃圾回收-老年代-majorgc" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾回收器-类型-修改gc垃圾回收器">GC垃圾回收器-类型-修改GC垃圾回收器<a class="headerlink" href="#gc垃圾回收器-类型-修改gc垃圾回收器" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾收集器-serial">GC垃圾收集器-Serial<a class="headerlink" href="#gc垃圾收集器-serial" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾收集器-parnew">GC垃圾收集器-ParNew<a class="headerlink" href="#gc垃圾收集器-parnew" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾收集器-parallel">GC垃圾收集器-Parallel<a class="headerlink" href="#gc垃圾收集器-parallel" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gc垃圾收集器-cms">GC垃圾收集器-CMS<a class="headerlink" href="#gc垃圾收集器-cms" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="cmdb一">CMDB（一）<a class="headerlink" href="#cmdb一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="nosql分类">NoSQL分类<a class="headerlink" href="#nosql分类" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mongodb安装和驱动">MongoDB安装和驱动<a class="headerlink" href="#mongodb安装和驱动" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="新增和bson">新增和BSON<a class="headerlink" href="#新增和bson" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="查询">查询<a class="headerlink" href="#查询" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="投影排序分页">投影排序分页<a class="headerlink" href="#投影排序分页" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="聚合流水线">聚合流水线<a class="headerlink" href="#聚合流水线" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="更新删除全文搜索">更新删除全文搜索<a class="headerlink" href="#更新删除全文搜索" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mongoengine">MongoEngine<a class="headerlink" href="#mongoengine" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="itil和cmdb选型">ITIL和CMDB选型<a class="headerlink" href="#itil和cmdb选型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="核心模型设计">核心模型设计<a class="headerlink" href="#核心模型设计" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="cmdb二">CMDB（二）<a class="headerlink" href="#cmdb二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="资产类型后台实现">资产类型后台实现<a class="headerlink" href="#资产类型后台实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="资产类型前台和不分页实现">资产类型前台和不分页实现<a class="headerlink" href="#资产类型前台和不分页实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="动态改变字段">动态改变字段<a class="headerlink" href="#动态改变字段" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="动态增加表单项">动态增加表单项<a class="headerlink" href="#动态增加表单项" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="列表类型字段处理">列表类型字段处理<a class="headerlink" href="#列表类型字段处理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="硬件信息采集">硬件信息采集<a class="headerlink" href="#硬件信息采集" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="补充jsonpath">补充jsonpath<a class="headerlink" href="#补充jsonpath" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="jumpserver一">JumpServer（一）<a class="headerlink" href="#jumpserver一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="堡垒机和组织机构层级设计">堡垒机和组织机构层级设计<a class="headerlink" href="#堡垒机和组织机构层级设计" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="资产树实现">资产树实现<a class="headerlink" href="#资产树实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="增加资产子分组实现">增加资产子分组实现<a class="headerlink" href="#增加资产子分组实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="节点删除实现">节点删除实现<a class="headerlink" href="#节点删除实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="分组树删除">分组树删除<a class="headerlink" href="#分组树删除" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="主机模型设计和后端实现">主机模型设计和后端实现<a class="headerlink" href="#主机模型设计和后端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文件上传原理和前端实现">文件上传原理和前端实现<a class="headerlink" href="#文件上传原理和前端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="文件上传前后端实现">文件上传前后端实现<a class="headerlink" href="#文件上传前后端实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="主机增删查实现">主机增删查实现<a class="headerlink" href="#主机增删查实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="jumpserver二">JumpServer（二）<a class="headerlink" href="#jumpserver二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="paramiko认证登录">paramiko认证登录<a class="headerlink" href="#paramiko认证登录" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="跳板机免密登录原理">跳板机免密登录原理<a class="headerlink" href="#跳板机免密登录原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="协程原理和websocket">协程原理和WebSocket<a class="headerlink" href="#协程原理和websocket" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="跳板机功能实现">跳板机功能实现<a class="headerlink" href="#跳板机功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="运维审计实现">运维审计实现<a class="headerlink" href="#运维审计实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="echarts和仪表盘">echarts和仪表盘<a class="headerlink" href="#echarts和仪表盘" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="paramiko实现命令交互">paramiko实现命令交互<a class="headerlink" href="#paramiko实现命令交互" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="工单系统">工单系统<a class="headerlink" href="#工单系统" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="流程系统选型和camunda部署">流程系统选型和Camunda部署<a class="headerlink" href="#流程系统选型和camunda部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="bpmn2">BPMN2<a class="headerlink" href="#bpmn2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="简单流程定义和流转">简单流程定义和流转<a class="headerlink" href="#简单流程定义和流转" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="复杂流程定义和流转">复杂流程定义和流转<a class="headerlink" href="#复杂流程定义和流转" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="代码上线流程设计和流转">代码上线流程设计和流转<a class="headerlink" href="#代码上线流程设计和流转" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="流程部署实现">流程部署实现<a class="headerlink" href="#流程部署实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="流程列表实现">流程列表实现<a class="headerlink" href="#流程列表实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="启动流程实现">启动流程实现<a class="headerlink" href="#启动流程实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="待办功能实现">待办功能实现<a class="headerlink" href="#待办功能实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="完成任务实现">完成任务实现<a class="headerlink" href="#完成任务实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充视频">补充视频<a class="headerlink" href="#补充视频" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="概览和ecs介绍">概览和ecs介绍<a class="headerlink" href="#概览和ecs介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="建站一条龙加">建站一条龙加<a class="headerlink" href="#建站一条龙加" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="-rds和slb">-rds和slb<a class="headerlink" href="#-rds和slb" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="vpc和oss和api">vpc和oss和api<a class="headerlink" href="#vpc和oss和api" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="分布式链路追踪">分布式链路追踪<a class="headerlink" href="#分布式链路追踪" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="分布式链路追踪简介">分布式链路追踪简介<a class="headerlink" href="#分布式链路追踪简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="skywalking简介">skywalking简介<a class="headerlink" href="#skywalking简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="安装及案例">安装及案例<a class="headerlink" href="#安装及案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="微服务dubbo分布式框">微服务Dubbo分布式框<a class="headerlink" href="#微服务dubbo分布式框" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="zookeeper简介及单机部署">Zookeeper简介及单机部署<a class="headerlink" href="#zookeeper简介及单机部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper集群简介及部署">Zookeeper集群简介及部署<a class="headerlink" href="#zookeeper集群简介及部署" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="zookeeper集群使用">Zookeeper集群使用<a class="headerlink" href="#zookeeper集群使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kafka简介及使用">kafka简介及使用<a class="headerlink" href="#kafka简介及使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="消息队列总结">消息队列总结<a class="headerlink" href="#消息队列总结" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="微服务简介及dubbo实现微服务注册及发现">微服务简介及dubbo实现微服务注册及发现<a class="headerlink" href="#微服务简介及dubbo实现微服务注册及发现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="dubboadmin及微服务编译">dubboadmin及微服务编译<a class="headerlink" href="#dubboadmin及微服务编译" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="nexus简介及使用">nexus简介及使用<a class="headerlink" href="#nexus简介及使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="nexus使用案例">nexus使用案例<a class="headerlink" href="#nexus使用案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="vmware-vsphere">vmware vsphere<a class="headerlink" href="#vmware-vsphere" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="vmware-vsphere简介">VMware vSphere简介<a class="headerlink" href="#vmware-vsphere简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="esxi安装及创建centos-虚拟机">ESXI安装及创建CentOS 虚拟机<a class="headerlink" href="#esxi安装及创建centos-虚拟机" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="安装windows-虚拟机">安装Windows 虚拟机<a class="headerlink" href="#安装windows-虚拟机" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="vcenter安装及使用">Vcenter安装及使用<a class="headerlink" href="#vcenter安装及使用" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="实现虚拟机迁移">实现虚拟机迁移<a class="headerlink" href="#实现虚拟机迁移" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="mysql一">mysql（一）<a class="headerlink" href="#mysql一" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="数据库基础原理">数据库基础原理<a class="headerlink" href="#数据库基础原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="关系型数据库理论">关系型数据库理论<a class="headerlink" href="#关系型数据库理论" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql安装和安全加固">MySQL安装和安全加固<a class="headerlink" href="#mysql安装和安全加固" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql的基本使用和二进制安装">MySQL的基本使用和二进制安装<a class="headerlink" href="#mysql的基本使用和二进制安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql的编译安装和sql语言介绍">MySQL的编译安装和SQL语言介绍<a class="headerlink" href="#mysql的编译安装和sql语言介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql多实例和sql语句分类">MySQL多实例和SQL语句分类<a class="headerlink" href="#mysql多实例和sql语句分类" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="sql的数据库管理和表创建">SQL的数据库管理和表创建<a class="headerlink" href="#sql的数据库管理和表创建" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="dml和dql语句">DML和DQL语句<a class="headerlink" href="#dml和dql语句" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="sql的单表和多表查询">SQL的单表和多表查询<a class="headerlink" href="#sql的单表和多表查询" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="mysql二">mysql（二）<a class="headerlink" href="#mysql二" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="mysql的视图函数存储过程触发器和事件管理">MySQL的视图函数存储过程触发器和事件管理<a class="headerlink" href="#mysql的视图函数存储过程触发器和事件管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="mysql用户和权限管理">MySQL用户和权限管理<a class="headerlink" href="#mysql用户和权限管理" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="kvm">kvm<a class="headerlink" href="#kvm" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="创建win10虚拟机快速创建虚拟机方法">创建win10虚拟机、快速创建虚拟机方法<a class="headerlink" href="#创建win10虚拟机快速创建虚拟机方法" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="创建win-server虚拟机及小型web案例">创建win server虚拟机及小型web案例<a class="headerlink" href="#创建win-server虚拟机及小型web案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="将vmware虚拟机迁移到kvm环境">将vmware虚拟机迁移到kvm环境<a class="headerlink" href="#将vmware虚拟机迁移到kvm环境" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kvm实现虚拟机热迁移">KVM实现虚拟机热迁移<a class="headerlink" href="#kvm实现虚拟机热迁移" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="k8s">k8s<a class="headerlink" href="#k8s" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="kubernetes日志系统01">kubernetes日志系统(01)<a class="headerlink" href="#kubernetes日志系统01" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="kubernetes日志系统02">kubernetes日志系统(02)<a class="headerlink" href="#kubernetes日志系统02" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="pvpvc和存储类">PV、PVC和存储类<a class="headerlink" href="#pvpvc和存储类" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="jenkins">jenkins<a class="headerlink" href="#jenkins" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="sonarqube简介及安装">SonarQube简介及安装<a class="headerlink" href="#sonarqube简介及安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="sonarqube实现代码扫描">SonarQube实现代码扫描<a class="headerlink" href="#sonarqube实现代码扫描" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="gitops">GitOps<a class="headerlink" href="#gitops" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="gitops1">GitOps1<a class="headerlink" href="#gitops1" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gitops2">GitOps2<a class="headerlink" href="#gitops2" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="gitops3">GitOps3<a class="headerlink" href="#gitops3" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="docker">docker<a class="headerlink" href="#docker" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="docker-compose简介及安装">docker-compose简介及安装<a class="headerlink" href="#docker-compose简介及安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker-compose使用简介">docker-compose使用简介<a class="headerlink" href="#docker-compose使用简介" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker-compose使用简介-下">docker-compose使用简介-下<a class="headerlink" href="#docker-compose使用简介-下" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="docker-compose示例">docker-compose示例<a class="headerlink" href="#docker-compose示例" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充-老王zabbix安装和监控服务器">【补充-老王】Zabbix安装和监控服务器<a class="headerlink" href="#补充-老王zabbix安装和监控服务器" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1zabbix介绍和架构组成">1.ZABBIX介绍和架构组成<a class="headerlink" href="#1zabbix介绍和架构组成" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="2zabbix版本选择和安装介绍">2.ZABBIX版本选择和安装介绍<a class="headerlink" href="#2zabbix版本选择和安装介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="3zabbix50基于ubuntu2004安装">3.ZABBIX5.0基于Ubuntu20.04安装<a class="headerlink" href="#3zabbix50基于ubuntu2004安装" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="4zabbix基于rocky安装和汉化">4.ZABBIX基于Rocky安装和汉化<a class="headerlink" href="#4zabbix基于rocky安装和汉化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="5zabbix监控linux主机和图形展示">5.ZABBIX监控Linux主机和图形展示<a class="headerlink" href="#5zabbix监控linux主机和图形展示" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="6zabbix监控win和nginx及php应用">6.ZABBIX监控Win和nginx及php应用<a class="headerlink" href="#6zabbix监控win和nginx及php应用" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充-老王zabbix自定义监控模板和告警机制">【补充-老王】Zabbix自定义监控模板和告警机制<a class="headerlink" href="#补充-老王zabbix自定义监控模板和告警机制" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1zabbix-自定义模板和监控项">1.Zabbix 自定义模板和监控项<a class="headerlink" href="#1zabbix-自定义模板和监控项" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="2zabbixt自定义模板和监控项实战案例">2.Zabbixt自定义模板和监控项实战案例<a class="headerlink" href="#2zabbixt自定义模板和监控项实战案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="3zabbix值映射和触发器介绍">3.Zabbix值映射和触发器介绍<a class="headerlink" href="#3zabbix值映射和触发器介绍" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="4zabbix触发器和图形">4.Zabbix触发器和图形<a class="headerlink" href="#4zabbix触发器和图形" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="5zabbix聚合图形和邮件告警">5.Zabbix聚合图形和邮件告警<a class="headerlink" href="#5zabbix聚合图形和邮件告警" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="6zabbix的邮件告警脚本实现">6.Zabbix的邮件告警脚本实现<a class="headerlink" href="#6zabbix的邮件告警脚本实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="7zabbix微信告警和短信告警">7.Zabbix微信告警和短信告警<a class="headerlink" href="#7zabbix微信告警和短信告警" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充-老王zabbix分布式监控和性能优化">【补充-老王】Zabbix分布式监控和性能优化<a class="headerlink" href="#补充-老王zabbix分布式监控和性能优化" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1zabbix故障自愈和主动模式">1.Zabbix故障自愈和主动模式<a class="headerlink" href="#1zabbix故障自愈和主动模式" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="2通过java-gateway监控java程序">2.通过JAVA-Gateway监控JAVA程序<a class="headerlink" href="#2通过java-gateway监控java程序" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="3zabbix通过snmp协议的网络设备">3.Zabbix通过SNMP协议的网络设备<a class="headerlink" href="#3zabbix通过snmp协议的网络设备" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="4zabbix的分布式监控proxy实现">4.Zabbix的分布式监控proxy实现<a class="headerlink" href="#4zabbix的分布式监控proxy实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="5zabbix自动化运维">5.Zabbix自动化运维<a class="headerlink" href="#5zabbix自动化运维" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="6grafana图形展示和zabbix性能优化">6.Grafana图形展示和Zabbix性能优化<a class="headerlink" href="#6grafana图形展示和zabbix性能优化" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充-老王redis部署和基础使用">【补充-老王】Redis部署和基础使用<a class="headerlink" href="#补充-老王redis部署和基础使用" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1nosql介绍和redis特性">1NoSQL介绍和Redis特性<a class="headerlink" href="#1nosql介绍和redis特性" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="2redis多种安装方法和内核参数优化">2Redis多种安装方法和内核参数优化<a class="headerlink" href="#2redis多种安装方法和内核参数优化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="3redis多实例和客户端访问">3Redis多实例和客户端访问<a class="headerlink" href="#3redis多实例和客户端访问" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="4redis慢查询和rdb持久化实现备份还原">4Redis慢查询和RDB持久化实现备份还原<a class="headerlink" href="#4redis慢查询和rdb持久化实现备份还原" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="5redis的aof持久化和rdb比较">5Redis的AOF持久化和RDB比较<a class="headerlink" href="#5redis的aof持久化和rdb比较" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="6常见指令和数据类型">6常见指令和数据类型<a class="headerlink" href="#6常见指令和数据类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="7数据类型和消息队列">7数据类型和消息队列<a class="headerlink" href="#7数据类型和消息队列" title="Anchor link to this section for reference">&para;</a></h2>
+<h1 id="补充-老王redis集群和高可用">【补充-老王】Redis集群和高可用<a class="headerlink" href="#补充-老王redis集群和高可用" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1redis的主从复制架构和实现">1Redis的主从复制架构和实现<a class="headerlink" href="#1redis的主从复制架构和实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="2redis主从复制工作原理和参数优化">2Redis主从复制工作原理和参数优化<a class="headerlink" href="#2redis主从复制工作原理和参数优化" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="3redis主从复制常见故障和安全">3Redis主从复制常见故障和安全<a class="headerlink" href="#3redis主从复制常见故障和安全" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="4redis哨兵机制实现原理">4Redis哨兵机制实现原理<a class="headerlink" href="#4redis哨兵机制实现原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="5redis哨兵实战案例和主从节点角色切换">5Redis哨兵实战案例和主从节点角色切换<a class="headerlink" href="#5redis哨兵实战案例和主从节点角色切换" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="6redis哨兵的python访问实现">6Redis哨兵的python访问实现<a class="headerlink" href="#6redis哨兵的python访问实现" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="7redis-cluster-工作原理">7Redis cluster 工作原理<a class="headerlink" href="#7redis-cluster-工作原理" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="8redis-cluster-配置实现实战案例">8Redis Cluster 配置实现实战案例<a class="headerlink" href="#8redis-cluster-配置实现实战案例" title="Anchor link to this section for reference">&para;</a></h2>
+<h2 id="9redis-cluster扩容和缩容">9Redis Cluster扩容和缩容<a class="headerlink" href="#9redis-cluster扩容和缩容" title="Anchor link to this section for reference">&para;</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="上一页: Blog">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Blog
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Linux%20%E5%91%BD%E4%BB%A4/" class="md-footer__link md-footer__link--next" aria-label="下一页: Linux 下面的常用命令">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Linux 下面的常用命令
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.instant", "navigation.expand", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tabs.link", "content.code.annotation", "header.autohide", "announce.dismiss"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

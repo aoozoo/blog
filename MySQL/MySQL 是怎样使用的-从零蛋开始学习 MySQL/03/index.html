@@ -1,0 +1,4476 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="azoo">
+      
+      
+        <link rel="canonical" href="https://aoozoo.github.io/blog/MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/03/">
+      
+      
+        <link rel="prev" href="../02/">
+      
+      
+        <link rel="next" href="../04/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>第3章、MySQL数据类型 - aoozoo'blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#第3章mysql数据类型" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-header__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aoozoo'blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第3章、MySQL数据类型
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-tabs__link">
+        
+  
+    
+  
+  年薪50w-Devops运维开发架构师
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-tabs__link">
+        
+  
+    
+  
+  Linux 下面的常用命令
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ex/" class="md-tabs__link">
+        
+  
+    
+  
+  ex
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-tabs__link">
+        
+  
+    
+  
+  Github工作流
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-tabs__link">
+        
+  
+    
+  
+  本博客是如何搭建的
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-tabs__link">
+        
+  
+    
+  
+  运维博客收集
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-tabs__link">
+          
+  
+    
+  
+  Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00/" class="md-tabs__link">
+          
+  
+    
+  
+  MySQL
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-tabs__link">
+          
+  
+    
+  
+  中间件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  归档
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-nav__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    aoozoo'blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 下面的常用命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github工作流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    本博客是如何搭建的
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运维博客收集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            MySQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MySQL 是怎样使用的 从零蛋开始学习 MySQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            MySQL 是怎样使用的 从零蛋开始学习 MySQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    购买并阅读本小册的建议
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第1章、MySQL概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第2章、MySQL初体验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第3章、MySQL数据类型
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第3章、MySQL数据类型
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#数值类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      数值类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数值类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#整数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#定点数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      定点数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#无符号数值类型的表示" class="md-nav__link">
+    <span class="md-ellipsis">
+      无符号数值类型的表示
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#日期和时间类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      日期和时间类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="日期和时间类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#year" class="md-nav__link">
+    <span class="md-ellipsis">
+      YEAR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datetime和datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      DATE、TIME和DATETIME
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIMESTAMP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#字符串类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符串类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="字符串类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#字符和字符串" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符和字符串
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#字符编码简介" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符编码简介
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mysql的字符串类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL的字符串类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enum类型和set类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      ENUM类型和SET类型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#二进制类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      二进制类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二进制类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bit类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      BIT类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binarym与varbinarym" class="md-nav__link">
+    <span class="md-ellipsis">
+      BINARY(M)与VARBINARY(M)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#其他的二进制类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他的二进制类型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      注意
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第4章、数据库的基本操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第5章、表的基本操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第6章、列的属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    07
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    08
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    09
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    18
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    19
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    20
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    21
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    23
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    24
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    25
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    26
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    27
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../28/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    28
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    29
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    30
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    31
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    32
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    33
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    34
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    35
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../36/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    36
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../37/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    37
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../38/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    38
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../39/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    39
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    40
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    41
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    43
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    44
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    45
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../46/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    46
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../47/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    47
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../48/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    48
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../49/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    49
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    50
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../51/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    51
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../52/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    52
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../53/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    53
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../54/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    54
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../55/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    55
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../56/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    56
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../57/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    57
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../58/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    58
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../59/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    59
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../60/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    60
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../61/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    61
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../62/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    62
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../63/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    63
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../64/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    64
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    65
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../66/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    66
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../67/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    67
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../68/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    68
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../69/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    69
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    70
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../71/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    71
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../72/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    72
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../73/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    73
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../74/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    74
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../75/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    75
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../76/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    76
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../77/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    77
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../78/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    78
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../79/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    79
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    80
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    81
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../82/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    82
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../83/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    83
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    84
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    85
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    86
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../87/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    87
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../88/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    88
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../89/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    89
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    90
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../91/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    91
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../92/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    92
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    93
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../94/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    94
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    95
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../96/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    96
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../97/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    97
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../98/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    98
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    99
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    中间件
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#数值类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      数值类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数值类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#整数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      整数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#浮点数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      浮点数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#定点数类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      定点数类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#无符号数值类型的表示" class="md-nav__link">
+    <span class="md-ellipsis">
+      无符号数值类型的表示
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#日期和时间类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      日期和时间类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="日期和时间类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#year" class="md-nav__link">
+    <span class="md-ellipsis">
+      YEAR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datetime和datetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      DATE、TIME和DATETIME
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIMESTAMP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#字符串类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符串类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="字符串类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#字符和字符串" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符和字符串
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#字符编码简介" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符编码简介
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mysql的字符串类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL的字符串类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enum类型和set类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      ENUM类型和SET类型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#二进制类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      二进制类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二进制类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bit类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      BIT类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binarym与varbinarym" class="md-nav__link">
+    <span class="md-ellipsis">
+      BINARY(M)与VARBINARY(M)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#其他的二进制类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他的二进制类型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      注意
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="第3章mysql数据类型">第3章、MySQL数据类型<a class="headerlink" href="#第3章mysql数据类型" title="Anchor link to this section for reference">&para;</a></h1>
+<p>我们前边说过，<code>MySQL</code>底层其实把数据存储到了表里边，而表又是由行和列组成的，还是拿我们之前说过的<code>学生基本信息表</code>做个例子：</p>
+<p>学生基本信息表 </p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>性别</th>
+<th>身份证号</th>
+<th>学院</th>
+<th>专业</th>
+<th>入学时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20180101</td>
+<td>杜子腾</td>
+<td>男</td>
+<td>158177199901044792</td>
+<td>计算机学院</td>
+<td>计算机科学与工程</td>
+<td>2018-09-01</td>
+</tr>
+<tr>
+<td>20180102</td>
+<td>杜琦燕</td>
+<td>女</td>
+<td>151008199801178529</td>
+<td>计算机学院</td>
+<td>计算机科学与工程</td>
+<td>2018-09-01</td>
+</tr>
+<tr>
+<td>20180103</td>
+<td>范统</td>
+<td>男</td>
+<td>17156319980116959X</td>
+<td>计算机学院</td>
+<td>软件工程</td>
+<td>2018-09-01</td>
+</tr>
+<tr>
+<td>20180104</td>
+<td>史珍香</td>
+<td>女</td>
+<td>141992199701078600</td>
+<td>计算机学院</td>
+<td>软件工程</td>
+<td>2018-09-01</td>
+</tr>
+<tr>
+<td>20180105</td>
+<td>范剑</td>
+<td>男</td>
+<td>181048200008156368</td>
+<td>航天学院</td>
+<td>飞行器设计</td>
+<td>2018-09-01</td>
+</tr>
+<tr>
+<td>20180106</td>
+<td>朱逸群</td>
+<td>男</td>
+<td>197995199801078445</td>
+<td>航海学院</td>
+<td>电子信息</td>
+<td>2018-09-01</td>
+</tr>
+</tbody>
+</table>
+<p>表里的一行就代表一个学生的基本信息，这一行中的某一列就代表这个学生基本信息中的一项属性，也就是说<code>学号</code>是学生的一项属性、<code>姓名</code>也是学生的一项属性，其他的列也都是这个学生的属性。但是这些属性都有一定格式，比如说学号必须是整数格式的，入学时间必须是日期格式的，其他的属性都是字符串格式的，不同格式的数据是不能随便乱填的，你把一个日期格式的数据填在了性别里，岂不是闹出了笑话。所以设计<code>MySQL</code>的大叔们针对属性的不同格式定义了不同的数据类型，我们接下来就要详细唠叨<code>MySQL</code>中具体有哪些数据类型。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>小贴士：
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>身份证号由于最后一位可能是X，所以就归为字符串了。
+</span></code></pre></div>
+<h2 id="数值类型">数值类型<a class="headerlink" href="#数值类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="整数类型">整数类型<a class="headerlink" href="#整数类型" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="进制">进制<a class="headerlink" href="#进制" title="Anchor link to this section for reference">&para;</a></h4>
+<p>像这种每逢10个数向前进一位的计数方法就叫做十进制，这样他们就可以用很少的麦秆来表示很大的数字了。</p>
+<p>以十进制数字<code>109</code>为例，它表示有1个<code>10²</code>，加0个<code>10¹</code>，加9个<code>10⁰</code>，用数学符号表示就是：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>109 = 1 × 10² + 0 × 10¹ + 9 × 10⁰ 
+</span></code></pre></div>
+<p>也就是从八进制的逢8进一的角度上考虑，这个数可以被表示为<code>155</code>(八进制)。当然这个数也可以这么写</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>109 = 1 × 2⁶ + 1 × 2⁵ + 0 × 2⁴ + 1 × 2³ + 1 × 2² + 0 × 2¹ + 1 × 2⁰  
+</span></code></pre></div>
+<p>假如用两个字节表示十进制数<code>109</code>的话，那效果就是这样：<code>0000000001101101</code>（二进制）。</p>
+<h4 id="mysql的整数类型">MySQL的整数类型<a class="headerlink" href="#mysql的整数类型" title="Anchor link to this section for reference">&para;</a></h4>
+<p>很显然，使用的字节数越多，意味着能表示的数值范围就越大，但是也就越耗费存储空间。根据表示一个数占用字节数的不同，<code>MySQL</code>把整数划分成如下所示的类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>占用的存储空间（单位：字节）</th>
+<th>无符号数取值范围</th>
+<th>有符号数取值范围</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TINYINT</code></td>
+<td>1</td>
+<td>0 ~ 2⁸-1</td>
+<td>-2⁷ ~ 2⁷-1</td>
+<td>非常小的整数</td>
+</tr>
+<tr>
+<td><code>SMALLINT</code></td>
+<td>2</td>
+<td>0 ~ 2¹⁶-1</td>
+<td>-2¹⁵ ~ 2¹⁵-1</td>
+<td>小的整数</td>
+</tr>
+<tr>
+<td><code>MEDIUMINT</code></td>
+<td>3</td>
+<td>0 ~ 2²⁴-1</td>
+<td>-2²³ ~ 2²³-1</td>
+<td>中等大小的整数</td>
+</tr>
+<tr>
+<td><code>INT</code>（别名：<code>INTEGER</code>）</td>
+<td>4</td>
+<td>0 ~ 2³²-1</td>
+<td>-2³¹ ~ 2³¹-1</td>
+<td>标准的整数</td>
+</tr>
+<tr>
+<td><code>BIGINT</code></td>
+<td>8</td>
+<td>0 ~ 2⁶⁴-1</td>
+<td>-2⁶³ ~ 2⁶³-1</td>
+<td>大整数</td>
+</tr>
+</tbody>
+</table>
+<p>以<code>TINYINT</code>为例，用1个字节，也就是8个位表示<code>有符号数</code>的话，就是既可以表示正数，也可以表示负数的话，需要有一个比特位表示正负号。但是如果表示<code>无符号数</code>的话，也就是只表示非负数的话，就不需要表示正负号，这是<code>有符号数</code>和<code>无符号数</code>的区别。具体每个类型的取值范围是如何计算出来的我们这就不唠叨了，可以找一本计算机基础的书看看。</p>
+<h3 id="浮点数类型">浮点数类型<a class="headerlink" href="#浮点数类型" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="用二进制表示十进制小数">用二进制表示十进制小数<a class="headerlink" href="#用二进制表示十进制小数" title="Anchor link to this section for reference">&para;</a></h4>
+<p>浮点数是用来表示小数的，我们平时用的十进制小数也可以被转换成二进制后被计算机存储。比如<code>9.875</code>，这个小数可以被表示成这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>9.875 = 8 + 1 + 0.5 + 0.25 + 0.125 = 1 × 2³ + 1 × 2⁰ + 1 × 2⁻¹ + 1 × 2⁻² + 1 × 2⁻³ 
+</span></code></pre></div>
+<p>也就是说，如果十进制小数<code>9.875</code>转换成二进制小数的话就是：<code>1001.111</code>。为了在计算机里存储这种二进制小数，我们统一把它们表示成<code>a × 2ⁿ</code>的科学计数法的形式，其中1≤<code>|a|</code>＜2，比如<code>1001.111</code>可以被表示成<code>1.001111 × 2³</code>，我们把小数点之后的<code>001111</code>称为<code>尾数</code>，把<code>2³</code>中的<code>3</code>称为<code>指数</code>，然后只需要在计算机中的比特位中表示出<code>尾数</code>和<code>指数</code>就行了。另外，小数也有正负之分，我们还需要单独的部分来表示小数的正负号。综上所述，表示一个浮点数需要下边几个部分：</p>
+<ul>
+<li>符号部分，占用1个比特位即可。</li>
+<li>指数部分，视具体浮点数格式而定。</li>
+<li>尾数部分，视具体浮点数格式而定。</li>
+</ul>
+<h4 id="mysql的浮点数类型">MySQL的浮点数类型<a class="headerlink" href="#mysql的浮点数类型" title="Anchor link to this section for reference">&para;</a></h4>
+<p>很显然，我们表示一个浮点数使用的字节数越多，表示<code>尾数</code>和<code>指数</code>的范围就越大，也就是说可以表示的小数范围就越大，设计<code>MySQL</code>的大叔根据表示一个小数需要的不同字节数定义了如下的两种浮点数类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>占用的存储空间（单位：字节）</th>
+<th>绝对值最小非0值</th>
+<th>绝对值最大非0值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FLOAT</code></td>
+<td>4</td>
+<td>±1.175494351E-38</td>
+<td>±3.402823466E+38</td>
+<td>单精度浮点数</td>
+</tr>
+<tr>
+<td><code>DOUBLE</code></td>
+<td>8</td>
+<td>±2.2250738585072014E-308</td>
+<td>±1.7976931348623157E+308</td>
+<td>双精度浮点数</td>
+</tr>
+</tbody>
+</table>
+<p>以单精度浮点数类型<code>FLOAT</code>类型为例，它占用的4个字节的各个组成部分如下图所示：</p>
+<p><img alt="image_1df5js9982v3qai1tne14db17b89.png-78kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779ae10315f9~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>另外需要注意的是，虽然有的十进制小数，比如<code>1.875</code>可以被很容易的转换成二进制数<code>1.111</code>，但是更多的小数是无法直接转换成二进制的，比如说<code>0.3</code>，它转换成的二进制小数就是一个无限小数，但是我们现在只能用4个字节或者8个字节来表示这个小数，所以只能进行一些舍入来近似的表示，所以我们说<code>计算机的浮点数表示有时是不精确的</code>。</p>
+<h4 id="设置最大位数和小数位数">设置最大位数和小数位数<a class="headerlink" href="#设置最大位数和小数位数" title="Anchor link to this section for reference">&para;</a></h4>
+<p>在定义浮点数类型时，还可以在<code>FLOAT</code>或者<code>DOUBLE</code>后边跟上两个参数，就像这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>FLOAT(M, D)
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>DOUBLE(M, D)
+</span></code></pre></div>
+<p>对于我们用户而言，使用的都是十进制小数。如果我们事先知道表中的某个列要存储的小数在一定范围内，我们可以使用<code>FLOAT(M, D)</code>或者<code>DOUBLE(M, D)</code>来限制可以存储到本列中的小数范围。其中：</p>
+<ul>
+<li><code>M</code>表示该小数最多需要的十进制有效数字个数。</li>
+</ul>
+<p>注意是<code>有效数字</code>个数，比方说对于小数<code>-2.3</code>来说有效数字个数就是2，对于小数<code>0.9</code>来说有效数字个数就是<code>1</code>。</p>
+<ul>
+<li><code>D</code>表示该小数的小数点后的十进制数字个数。</li>
+</ul>
+<p>这个好理解，小数点后有几个十进制数字，<code>D</code>的值就是什么。</p>
+<p>举个例子看一下，设置了<code>M</code>和<code>D</code>的单精度浮点数的取值范围的变化：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FLOAT(4, 1)</code></td>
+<td>-999.9~999.9</td>
+</tr>
+<tr>
+<td><code>FLOAT(5, 1)</code></td>
+<td>-9999.9~9999.9</td>
+</tr>
+<tr>
+<td><code>FLOAT(6, 1)</code></td>
+<td>-99999.9~99999.9</td>
+</tr>
+<tr>
+<td><code>FLOAT(4, 0)</code></td>
+<td>-9999~9999</td>
+</tr>
+<tr>
+<td><code>FLOAT(4, 1)</code></td>
+<td>-999.9~999.9</td>
+</tr>
+<tr>
+<td><code>FLOAT(4, 2)</code></td>
+<td>-99.99~99.99</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到，在D相同的情况下，M越大，该类型的取值范围越大；在M相同的情况下，D越大，该类型的取值范围越小。当然，<code>M</code>和<code>D</code>的取值也不是无限大的，<code>M</code>的取值范围是<code>1~255</code>，<code>D</code>的取值范围是<code>0~30</code>，而且<code>D</code>的值必须不大于<code>M</code>。<code>M</code>和<code>D</code>都是可选的，如果我们省略了它们，那它们的值按照机器支持的最大值来存储。</p>
+<h3 id="定点数类型">定点数类型<a class="headerlink" href="#定点数类型" title="Anchor link to this section for reference">&para;</a></h3>
+<p>正因为用浮点数表示小数可能会有不精确的情况，在一些情况下我们必须保证小数是精确的，所以设计<code>MySQL</code>的大叔们提出一种称之为<code>定点数</code>的数据类型，它也是存储小数的一种方式：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>占用的存储空间（单位：字节）</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DECIMAL(M, D)</code></td>
+<td>取决于M和D</td>
+<td>取决于M和D</td>
+</tr>
+</tbody>
+</table>
+<p>此处的<code>M</code>和<code>D</code>的含义与浮点数中的含义一样。<code>M</code>和<code>D</code>对取值范围的影响我们之前在唠叨浮点数的时候已经介绍过了，但是我们又说单精度浮点数类型<code>FLOAT(M, D)</code>占用的字节数一直都是4字节，双精度浮点数<code>DOUBLE(M, D)</code>占用的字节数一直都是8字节，它们占用的存储空间大小并不随着M和D的值的变动而变动，为啥到了这个所谓的定点数类型<code>DECIMAL(M, D)</code>中，它占用的存储空间大小就和<code>M</code>、<code>D</code>的取值有关了呢？哈哈，回答这个问题还得且听我细细道来。</p>
+<p>我们说定点数是一种精确的小数，为了达到精确的目的我们就不能把它转换成二进制小数之后再存储(因为有很多十进制小数转为二进制小数后需要进行舍入操作，导致二进制小数表示的数值是不精确的)。其实转念一想，所谓的小数只是把两个十进制整数用小数点分割开来而已，我们只要把小数点左右的两个十进制整数给存储起来，那不就是精确的了么。比方说对于十进制小数<code>2.38</code>来说，我们可以把这个小数的小数点左右的两个整数，也就是<code>2</code>和<code>38</code>分别保存起来，那么不就相当于保存了一个精确的小数么，这波操作是不是很6。</p>
+<p>当然事情并没有这么简单，对于给定<code>M</code>、<code>D</code>值的<code>DECIMAL(M, D)</code>类型，比如<code>DEMCIMAL(16, 4)</code>来说：</p>
+<ul>
+<li>首先确定小数点左边的整数最多需要存储的十进制位数是12位，小数点右边的整数需要存储的十进制位数是4位，如图所示：</li>
+</ul>
+<p><img alt="image_1df8aio7c1lph9hn1c6l12jnee823.png-62.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779ad10263a2~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<ul>
+<li>从小数点位置出发，每个整数每隔9个十进制位划分为1组，效果就是这样：</li>
+</ul>
+<p><img alt="image_1dljnip0v1jif13rpepda9ttju9.png-35.5kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779ad21ff99f~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>从图中可以看出，如果不足9个十进制位，也会被划分成一组。</p>
+<ul>
+<li>针对每个组中的十进制数字，将其转换为二进制数字进行存储，根据组中包含的十进制数字位数不同，所需的存储空间大小也不同，具体见下表：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>组中包含的十进制位数</th>
+<th>占用存储空间大小（单位：字节）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1或2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3或4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5或6</td>
+<td>3</td>
+</tr>
+<tr>
+<td>7或8或9</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>所以<code>DECIMAL(16, 4)</code>共需要占用<code>8</code>个字节的存储空间大小，这8个字节由下边3个部分组成：</p>
+<ul>
+<li>第1组包含3个十进制位，需要使用2个字节存储。</li>
+<li>第2组包含9个十进制位，需要使用4个字节存储。</li>
+<li>
+<p>第3组包含4个十进制位，需要使用2个字节存储。</p>
+</li>
+<li>
+<p>将转换完成的比特位序列的最高位设置为1。</p>
+</li>
+</ul>
+<p>这些步骤看的有一丢丢懵逼吧，别着急，举个例子就都清楚了。比方说我们使用定点数类型<code>DECIMAL(16, 4)</code>来存储十进制小数<code>1234567890.1234</code>，这个小数会被划分成3个部分：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1 234567890 1234
+</span></code></pre></div>
+<p>也就是：</p>
+<ul>
+<li>第1组中包含整数<code>1</code>。</li>
+<li>第2组中包含整数<code>234567890</code>。</li>
+<li>第3组中包含整数<code>1234</code>。</li>
+</ul>
+<p>然后将每一组中的十进制数字转换成对应的二进制数字：</p>
+<ul>
+<li>第1组占用2个字节，整数<code>1</code>对应的二进制数就是（字节之间实际上没有空格，只不过为了大家理解上的方便我们加了一个空格）：</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>00000000 00000001
+</span></code></pre></div>
+<p>二进制看起来太难受，我们还是转换成对应的十六进制看一下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>0x0001
+</span></code></pre></div>
+<ul>
+<li>第2组占用4个字节，整数<code>234567890</code>对应的十六进制数就是：</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>0x0DFB38D2
+</span></code></pre></div>
+<ul>
+<li>第3组占用2个字节，整数<code>1234</code>对应的十六进制数就是：</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>0x04D2
+</span></code></pre></div>
+<p>所以将这些十六进制数字连起来之后就是：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>0x00010DFB38D204D2
+</span></code></pre></div>
+<p>最后还要将这个结果的最高位设置为1，所以最终十进制小数<code>1234567890.1234</code>使用定点数类型<code>DECIMAL(16, 4)</code>存储时共占用8个字节，具体内容为：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>0x80010DFB38D204D2
+</span></code></pre></div>
+<p>有的同学会问，如果我们想使用定点数类型<code>DECIMAL(16, 4)</code>存储一个负数怎么办，比方说<code>-1234567890.1234</code>，这时只需要将<code>0x80010DFB38D204D2</code>中的每一个比特位都执行一个取反操作就好，也就是得到下边这个结果：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>0x7FFEF204C72DFB2D
+</span></code></pre></div>
+<p>从上边的叙述中我们可以知道，对于<code>DECIMAL(M, D)</code>类型来说，给定的<code>M</code>和<code>D</code>的值不同，所需的存储空间大小也不同。可以看到，与浮点数相比，定点数需要更多的空间来存储数据，所以如果不是在某些需要存储精确小数的场景下，一般的小数用浮点数表示就足够了。</p>
+<p>对于定点数类型<code>DECIMAL(M, D)</code>来说，<code>M</code>和<code>D</code>都是可选的，默认的<code>M</code>的值是10，默认的<code>D</code>的值是0，也就是说下列等式是成立的：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>DECIMAL = DECIMAL(10) = DECIMAL(10, 0)
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>DECIMAL(n) = DECIMAL(n, 0)
+</span></code></pre></div>
+<p>另外<code>M</code>的范围是<code>1~65</code>，<code>D</code>的范围是<code>0~30</code>，且<code>D</code>的值不能超过<code>M</code>。</p>
+<h3 id="无符号数值类型的表示">无符号数值类型的表示<a class="headerlink" href="#无符号数值类型的表示" title="Anchor link to this section for reference">&para;</a></h3>
+<p>对于数值类型，包括整数、浮点数和定点数，有些情况下我们只需要用到无符号数（就是非负数）。<code>MySQL</code>给我们提供了一个表示无符号数值类型的方式，就是在原数值类型后加一个单词<code>UNSIGNED</code>：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>数值类型 UNSIGNED
+</span></code></pre></div>
+<p>大家可以把它当成一种新类型对待，比如<code>INT UNSIGNED</code>就表示无符号整数，<code>FLOAT UNSIGNED</code>表示无符号浮点数，<code>DECIMAL UNSIGNED</code>表示无符号定点数。</p>
+<blockquote>
+<p>在使用的存储空间大小相同的情况下，无符号整数可以表示的正整数范围比有符号整数能表示的正整数范围大一倍。不过受浮点数和定点数具体的存储格式影响，无符号浮点数和定点数并不能提升正数的表示范围。</p>
+</blockquote>
+<h2 id="日期和时间类型">日期和时间类型<a class="headerlink" href="#日期和时间类型" title="Anchor link to this section for reference">&para;</a></h2>
+<p>我们有很多场景需要表示时间或日期，比如学生基本信息中的<code>入学时间</code>就需要用日期的格式保存。<code>MySQL</code>为我们提供了多种关于时间和日期的类型，各种类型能表示的范围如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储空间要求</th>
+<th>取值范围</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>YEAR</code></td>
+<td>1字节</td>
+<td>1901~2155</td>
+<td>年份值</td>
+</tr>
+<tr>
+<td><code>DATE</code></td>
+<td>3字节</td>
+<td>'1000-01-01' ~ '9999-12-31'</td>
+<td>日期值</td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td>3字节</td>
+<td>'-838:59:59' ~ '838:59:59'</td>
+<td>时间值</td>
+</tr>
+<tr>
+<td><code>DATETIME</code></td>
+<td>8字节</td>
+<td>'1000-01-01 00:00:00' ～ '9999-12-31 23:59:59'</td>
+<td>日期加时间值</td>
+</tr>
+<tr>
+<td><code>TIMESTAMP</code></td>
+<td>4字节</td>
+<td>'1970-01-01 00:00:01' ～ '2038-01-19 03:14:07'</td>
+<td>时间戳</td>
+</tr>
+</tbody>
+</table>
+<p>在<code>MySQL5.6.4</code>这个版本之后，<code>TIME</code>、<code>DATETIME</code>、<code>TIMESTAMP</code>这几种类型添加了对毫秒、微秒的支持。由于毫秒、微秒都不到1秒，所以也被称为<code>小数秒</code>，<code>MySQL</code>最多支持6位小数秒的精度，各个位代表的意思如下：</p>
+<p><img alt="image_1dfalcttv4i7j3ulpais51q909.png-40.8kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779ad395a41d~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>如果我们想让<code>TIME</code>、<code>DATETIME</code>、<code>TIMESTAMP</code>这几种类型支持小数秒，可以这样写：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>类型(小数秒位数)
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>其中的小数秒位数可以在0、1、2、3、4、5、6中选择
+</span></code></pre></div>
+<p>比如<code>DATETIME(0)</code>表示精确到秒，<code>DATETIME(3)</code>表示精确到毫秒，<code>DATETIME(5)</code>表示精确到10微秒。如果你在选择<code>TIME</code>、<code>DATETIME</code>、<code>TIMESTAMP</code>这几种类型的时候添加了对小数秒的支持，那么所需的存储空间需要相应的扩大，保留不同的小数秒位数，那么增加的存储空间大小也不同，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>保留的小数秒位数</th>
+<th>额外需要的存储空间要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0字节</td>
+</tr>
+<tr>
+<td>1或2</td>
+<td>1字节</td>
+</tr>
+<tr>
+<td>3或4</td>
+<td>2字节</td>
+</tr>
+<tr>
+<td>5或6</td>
+<td>3字节</td>
+</tr>
+</tbody>
+</table>
+<p>也就是说如果你选择使用<code>DATETIME(1)</code>，那么需要的存储空间就是在<code>DATETIME</code>的空间上再加上小数秒需要的空间，就是<code>8 + 1 = 9</code>个字节，类似的，<code>DATETIME(3)</code>就需要<code>8 + 2 = 10</code>个字节。所以，<code>MySQL5.6.4</code>这个版本之后的各个类型需要的存储空间和取值范围就如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储空间要求</th>
+<th>取值范围</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>YEAR</code></td>
+<td>1字节</td>
+<td>1901~2155</td>
+<td>年份值</td>
+</tr>
+<tr>
+<td><code>DATE</code></td>
+<td>3字节</td>
+<td>'1000-01-01' ~ '9999-12-31'</td>
+<td>日期值</td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td>3字节+小数秒的存储空间</td>
+<td>'-838:59:59[.000000]' ~ '838:59:59[.000000]'</td>
+<td>时间值</td>
+</tr>
+<tr>
+<td><code>DATETIME</code></td>
+<td>5字节+小数秒的存储空间</td>
+<td>'1000-01-01 00:00:00[.000000]' ～ '9999-12-31 23:59:59'[.999999]</td>
+<td>日期加时间值</td>
+</tr>
+<tr>
+<td><code>TIMESTAMP</code></td>
+<td>4字节+小数秒的存储空间</td>
+<td>'1970-01-01 00:00:01[.000000]' ～ '2038-01-19 03:14:07'[.999999]</td>
+<td>时间戳</td>
+</tr>
+</tbody>
+</table>
+<p>大家应该发现其中的在没有存储小数秒的情况下，<code>DATETIME</code>类型占用的存储空间从原来的8字节变成了5字节，这是因为设计<code>MySQL</code>的大叔背后做了些努力，使存储格式变得更紧凑了些。</p>
+<p>当然，如果你使用的<code>MySQL</code>版本还没到<code>5.6.4</code>，那就不支持小数秒，可以翻上去看原来的存储空间和取值范围。下边我们来详细看一下各种类型。</p>
+<h3 id="year">YEAR<a class="headerlink" href="#year" title="Anchor link to this section for reference">&para;</a></h3>
+<p><code>YEAR</code>类型也可以写成<code>YEAR(4)</code>，它单纯表示一个年份值，取值范围为<code>1901 ～ 2155</code>，仅仅占用1个字节大小而已。因为可以存储的年份值有限，如果我们想存储更大范围的年份值，可以不使用<code>MySQL</code>自带的<code>YEAR</code>类型，换成<code>SMALLINT</code>（2字节）或者字符串类型啥的都可以。</p>
+<blockquote>
+<p>曾经也有YEAR(2)这种使用2个数字来表示年份的类型，比方说数字99表示1999年。不过在MySQL 5.7.5之后就不再支持这种类型了，我们稍微了解一下就好了。</p>
+</blockquote>
+<h3 id="datetime和datetime">DATE、TIME和DATETIME<a class="headerlink" href="#datetime和datetime" title="Anchor link to this section for reference">&para;</a></h3>
+<p>顾名思义，<code>DATE</code>表示日期，格式是<code>YYYY-MM-DD</code>；<code>TIME</code>表示时间，格式是<code>hh:mm:ss[.uuuuuu]</code>或者<code>hhh:mm:ss[.uuuuuu]</code>（有时候要存储的小时值是三位数），<code>DATETIME</code>表示日期+时间，格式是<code>YYYY-MM-DD hh:mm:ss[.uuuuuu]</code>。其中的<code>YYYY</code>、<code>MM</code>、<code>DD</code>、<code>hh</code>、<code>mm</code>、<code>ss</code>、<code>uuuuuu</code>分别表示年、月、日、时、分、秒、小数秒。</p>
+<p>需要注意的是，<strong>DATETIME</strong>中的时间部分表示的是一天内的时间(00:00:00 ~ 23:59:59)，而 <strong>TIME</strong>表示的是一段时间，而且可以表示负值。</p>
+<h3 id="timestamp">TIMESTAMP<a class="headerlink" href="#timestamp" title="Anchor link to this section for reference">&para;</a></h3>
+<p><code>1970-01-01 00:00:00</code>注定是一个特殊的时刻，我们把某个时刻距离<code>1970-01-01 00:00:00</code>的秒数称为<code>时间戳</code>。比方说当前时间是<code>2018-01-24 11:39:21</code>，距离<code>1970-01-01 00:00:00</code>的秒数为<code>1516765161</code>，那么<code>2018-01-24 11:39:21</code>这个时刻的时间戳就是<code>1516765161</code>。不过在<code>MySQL5.6.4</code>之后，时间戳的值也可以加入小数秒。</p>
+<p>用时间戳存储时间的好处就是，它展示的值可以随着时区的变化而变化。比方说我们把<code>2018-01-24 11:39:21</code>这个时刻存储到一个<code>TIMESTAMP</code>的列中，那么在中国你看到的时间就是<code>2018-01-24 11:39:21</code>，如果你去了日本，他们哪里的使用的是东京时间，比北京时间早一个小时，所以他们那显示的就是<code>2018-01-24 12:39:21</code>。而如果你用<code>DATETIME</code>存储<code>2018-01-24 11:39:21</code>的话，那不同时区看到的时间值都是一样的。</p>
+<h2 id="字符串类型">字符串类型<a class="headerlink" href="#字符串类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="字符和字符串">字符和字符串<a class="headerlink" href="#字符和字符串" title="Anchor link to this section for reference">&para;</a></h3>
+<p><code>字符</code>可以大致分为两种，一种叫<code>可见字符</code>，一种叫<code>不可见字符</code>。顾名思义，<code>可见字符</code>就是打印出来后能看见的字符。比如<code>'a'</code>，<code>'b'</code>，<code>'我'</code>，<code>'。'</code> ... 这样的人眼能看见的单个的国家文字、标点符号、图形符号、数字等这样的东东，我们就叫做一个<code>可见字符</code>。<code>不可见字符</code>也好理解，就是打印机或者在黑框框里打印字符的时候有时候需要换行，打个制表符啥的，或者在输出某个字符的时候就发出<code>嘟</code>地一声，这种我们看不到，只是为了控制输出效果的字符叫做<code>不可见字符</code>。<code>字符串</code>就是把字符连起来的样子，比如<code>'abc'</code>，就是由<code>'a'</code>、<code>'b'</code>、<code>'c'</code>三个字符连起来的一个<code>字符串</code>，下边列举了4个字符串的例子：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>&#39;我喜欢你&#39;
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>&#39;me, too&#39;
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>&#39;give me a hug&#39;
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>&#39;么么哒&#39;
+</span></code></pre></div>
+<h3 id="字符编码简介">字符编码简介<a class="headerlink" href="#字符编码简介" title="Anchor link to this section for reference">&para;</a></h3>
+<p>在具体分析<code>MySQL</code>中各个字符串类型之前，我们一定要先搞明白字符和字节的区别。字符是面向人的概念，字节是面向计算机的概念。如果你想在计算机中表示字符，那就需要将该字符与一个特定的字节序列对应起来，这个映射过程称之为<code>编码</code>。不幸的是，这种映射关系并不是唯一的，不同的人制作了不同的编码方案，根据表示一个字符使用的字节数量是不是固定的，编码方案可以分为下边两种：</p>
+<ul>
+<li>固定长度的编码方案</li>
+</ul>
+<p>表示不同的字符所需要的字节数量是相同的。比方说<code>ASCII</code>编码方案采用1个字节来编码一个字符，<code>ucs2</code>采用2个字节来编码一个字符。</p>
+<ul>
+<li>变长的编码方案</li>
+</ul>
+<p>表示不同的字符所需要的字节数量是不同的。比方说<code>utf8</code>编码方案采用<code>1~3</code>个字节来编码一个字符，<code>gb2312</code>采用<code>1~2</code>个字节来编码一个字符。</p>
+<p>对于不同的字符编码方案来说，同一个字符可能被编码成不同的字节序列。比如同样一个字符：<code>我</code>，在<code>utf8</code>和<code>gb2312</code>这两种编码方案下被映射成如下的字节序列：</p>
+<ul>
+<li>utf8编码方案</li>
+</ul>
+<p>字符<code>'我'</code>被编码成：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>111001101000100010010001
+</span></code></pre></div>
+<p>​   共占用3个字节，用十六进制表示就是：<code>0xE68891</code>。</p>
+<ul>
+<li>gb2312编码方案</li>
+</ul>
+<p>字符<code>'我'</code>被编码成：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>1100111011010010
+</span></code></pre></div>
+<p>共占用2个字节，用十六进制表示就是：<code>0xCED2</code>。</p>
+<blockquote>
+<p>注：十六进制前边的0x是前缀，表示后边的是16进制数据。</p>
+</blockquote>
+<p>另外，设计MySQL的大叔似乎对<code>编码方案</code>和<code>字符集</code>这两个概念并没做什么区分，也就是说我们之后所讲的<code>utf8</code>字符集指的就是<code>utf8</code>编码方案，<code>gb2312</code>字符集指的也就是<code>gb2312</code>编码方案。</p>
+<blockquote>
+<p>正宗的utf8字符集是使用1~4个字节来编码一个字符的，不过MySQL中对utf8字符集做了阉割，编码一个字符最多使用3个字节。如果我们之后有存储使用4个字节来编码的字符的情景，可以使用一种称之为utf8mb4的字符集，它才是正宗的utf8字符集。</p>
+</blockquote>
+<h3 id="mysql的字符串类型">MySQL的字符串类型<a class="headerlink" href="#mysql的字符串类型" title="Anchor link to this section for reference">&para;</a></h3>
+<p>现在我们可以看一下<code>MySQL</code>中提供的各种字符串类型（注：其中<code>M</code>代表该数据类型最多能存储的字符数量，<code>L</code>代表我们实际向该类型的属性中存储的字符串在特定字符集下所占的字节数，<code>W</code>代表在该特定字符集下，编码一个字符最多需要的字节数）：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>最大长度</th>
+<th>存储空间要求</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CHAR(M)</code></td>
+<td>M个字符</td>
+<td>M×W个字节</td>
+<td>固定长度的字符串</td>
+</tr>
+<tr>
+<td><code>VARCHAR(M)</code></td>
+<td>M个字符</td>
+<td>L+1 或 L+2 个字节</td>
+<td>可变长度的字符串</td>
+</tr>
+<tr>
+<td><code>TINYTEXT</code></td>
+<td>2⁸-1 个字节</td>
+<td>L+1个字节</td>
+<td>非常小型的字符串</td>
+</tr>
+<tr>
+<td><code>TEXT</code></td>
+<td>2¹⁶-1 个字节</td>
+<td>L+2 个字节</td>
+<td>小型的字符串</td>
+</tr>
+<tr>
+<td><code>MEDIUMTEXT</code></td>
+<td>2²⁴-1 个字节</td>
+<td>L+3个字节</td>
+<td>中等大小的字符串</td>
+</tr>
+<tr>
+<td><code>LONGTEXT</code></td>
+<td>2³²-1 个字节</td>
+<td>L+4个字节</td>
+<td>大型的字符串</td>
+</tr>
+</tbody>
+</table>
+<p>当然，就画这么个表格大家一准儿有些懵，我们接下来看一下各种字符串类型的细节。</p>
+<h4 id="charm">CHAR(M)<a class="headerlink" href="#charm" title="Anchor link to this section for reference">&para;</a></h4>
+<p><code>CHAR(M)</code>中的<code>M</code>代表该类型最多可以存储的字符数量，注意，是字符数量，不是字节数量。其中<code>M</code>的取值范围是<code>0~255</code>。如果省略掉<code>M</code>的值，那它的默认值就是1，也就是说<code>CHAR</code>和<code>CHAR(1)</code>是一个意思。<code>CHAR(0)</code>是一种特别的类型，它只能存储空字符串<code>''</code>或者<code>NULL</code>值（我们后边会详细介绍啥是个<code>NULL</code>）。再回头看一眼我们的学生基本信息表，如果你觉得学生的姓名不会超过5个字符，你就可以指定这个姓名列的类型为<code>CHAR(5)</code>。</p>
+<p><code>CHAR(M)</code>在不同的字符集下需要的存储空间也是不一样的，我们假设某个字符集编码一个字符最多需要<code>W</code>个字节，那么类型<code>CHAR(M)</code>占用的存储空间大小就是<code>M×W</code>个字节。比方说：</p>
+<ul>
+<li>对于采用<code>ascii</code>字符集的<code>CHAR(5)</code>类型来说，<code>ascii</code>字符集编码一个字符最多需要1个字节，也就是<code>M=5</code>、<code>W=1</code>，所以这种情况下该类型占用的存储空间大小就是<code>5×1 = 5</code>个字节。</li>
+<li>对于采用<code>gbk</code>字符集的<code>CHAR(5)</code>类型来说，<code>gbk</code>字符集编码一个字符最多需要2个字节，也就是<code>M=5</code>、<code>W=2</code>，所以这种情况下该类型占用的存储空间大小就是<code>5×2 = 10</code>个字节。</li>
+<li>对于采用<code>utf8</code>字符集的<code>CHAR(5)</code>类型来说，<code>utf8</code>字符集编码一个字符最多需要3个字节，也就是<code>M=5</code>、<code>W=3</code>，所以这种情况下该类型占用的存储空间大小就是<code>5×3 = 15</code>个字节。</li>
+</ul>
+<p>如果我们实际存储的字符串在特定字符集编码下占用的字节数不足<code>M×W</code>，那么剩余的那些存储空间用空格字符（也就是：<code>' '</code>）补齐。比方说表的某个属性的类型是采用<code>ascii</code>字符集的<code>CHAR(5)</code>类型，我们想将字符串<code>'abc'</code>存入使用这个类型的表属性中，其中字符串<code>'abc'</code>在<code>ascii</code>字符集下需要3个字节存储，而采用<code>ascii</code>字符集的<code>CHAR(5)</code>类型又需要5个字节的存储空间，那么剩下的那两个字节的存储空间就会存储空格字符<code>' '</code>的编码。这也就是说：一旦你确定了CHAR(M)类型的M的值，如果M的值很大，而你实际存储的字符串占用字节数又很少，会造成存储空间的浪费。</p>
+<blockquote>
+<p>字符'a'在ascii字符集下被编码为0x61，字符'b'在ascii字符集下被编码为0x62，字符'c'在ascii字符集下被编码为0x63，空格字符被编码为0x20，所以将字符串'abc'存入采用ascii字符集的CHAR(5)类型的表属性中时，实际存储的字节序列就是：0x6162632020。</p>
+</blockquote>
+<h4 id="varcharm">VARCHAR(M)<a class="headerlink" href="#varcharm" title="Anchor link to this section for reference">&para;</a></h4>
+<p>如果你表中的某个列需要存储字符串类型的数据，而且这些字符串长短不一，那么使用<code>CHAR(M)</code>可能会浪费很多存储空间，<code>VARCHAR(M)</code>正是为了解决这个问题而生的。</p>
+<p><code>VARCHAR(M)</code>中的<code>M</code>也是代表该类型最多可以存储的字符数量，理论上的取值范围是<code>1~65535</code>。但是<code>MySQL</code>中还有一个规定，表中某一行包含的所有列中存储的数据大小总共不得超过65535个字节（注意是字节），也就是说<code>VARCHAR(M)</code>类型实际能够容纳的字符数量是小于65535的。</p>
+<p><code>VARCHAR(M)</code>类型占用的存储空间不确定，那系统在读一个<code>VARCHAR(M)</code>类型的数据时怎么知道该数据占用多少个字节呢？答案是：不知道。所以一个<code>VARCHAR(M)</code>类型表示的数据其实是由这么两部分组成：</p>
+<ol>
+<li>真正的字符串内容。</li>
+</ol>
+<p>假设真正的字符串在特定字符集编码后占用的字节数为<code>L</code>。</p>
+<ol>
+<li>占用字节数。</li>
+</ol>
+<p>假设<code>VARCHAR(M)</code>类型采用的字符集编码一个字符最多需要<code>W</code>个字节，那么：</p>
+<ul>
+<li>当<code>M×W &lt; 256</code>时，只需要一个字节来表示占用的字节数。</li>
+<li>当<code>M×W &gt;= 256</code>且<code>M×W &lt; 65536</code>时，需要两个字节来表示占用的字节数。</li>
+</ul>
+<blockquote>
+<p>一个字节占用8个比特位，能表示的最大无符号数就是255，两个字节占用16个比特位，能表示的最大无符号数就是65535。</p>
+</blockquote>
+<p>我们还用学生的姓名属性做例子，假设我们给姓名列定义的类型为采用<code>utf8</code>字符集的<code>VARCHAR(5)</code>，也就是说<code>M = 5</code>、<code>W = 3</code>，所以<code>M × W= 5×3 = 15</code>，而<code>15 &lt; 256</code>，所以我们只需要一个字节来表示真实数据占用的字节长度就好了。对于<code>'杜子腾'</code>和<code>'范统'</code>这两个字符串来说，它们在<code>utf8</code>字符集下可以被编码成如下的样子(二进制太长了，用16进制表示)：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>&#39;杜子腾&#39;：0xE69D9CE5AD90E885BE （共9个字节）
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>&#39;范统&#39;：0xE88C83E7BB9F （共6个字节）
+</span></code></pre></div>
+<p>那么这两个字符串的实际存储示意图就是这样：</p>
+<p><img alt="image_1dfis1kur8ol1vm1ear12aar6a1j.png-86.1kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779aca2f7215~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>而如果我们给姓名列定义的类型为采用<code>utf8</code>字符集的<code>VARCHAR(100)</code>，也就是说<code>M = 100</code>、<code>W = 3</code>，所以<code>M × W= 100×3 = 300</code>，而<code>300 &gt; 256</code>，所以我们需要2个字节来表示真实数据占用的字节长度，此时<code>'杜子腾'</code>和<code>'范统'</code>这两个字符串的实际存储示意图就是这样：</p>
+<p><img alt="image_1dfis13nm1rrn1ofl17ck1chf1mvp16.png-86.7kB" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/9/25/16d6779ad14c8389~tplv-t2oaga2asx-jj-mark:2835:0:0:0:q75.awebp" /></p>
+<p>从上边的示例中可以看出，<code>VARCHAR(M)</code>类型占用的存储空间大小随着实际存储的内容变化而变化，假设实际存储的内容占用的字节长度为<code>L</code>，那么整个<code>VARCHAR(M)</code>类型占用的存储空间大小就是<code>L+1</code>或者<code>L+2</code>个字节。所以我们说<strong>VARCHAR(M)</strong>是一种可变长度的字符串类型。</p>
+<h4 id="各种text类型">各种TEXT类型<a class="headerlink" href="#各种text类型" title="Anchor link to this section for reference">&para;</a></h4>
+<p>虽然<code>VARCHAR(M)</code>已经可以存储很长的字符串了，可是有时候还是不够咋办？对于很长的字符串，设计<code>MySQL</code>的大叔们给我们提供了<code>TINYTEXT</code>、<code>TEXT</code>、<code>MEDIUMTEXT</code>、<code>LONGTEXT</code>四种可以存储大型的字符串的类型。它们也都是变长类型，也就是说这些类型占用的存储空间由实际内容和内容占用的字节长度两部分构成。</p>
+<ul>
+<li>因为<code>TINYTEXT</code>最多可以存储<code>2⁸-1</code>个字节，所以内容占用的字节长度用1个字节就可以表示</li>
+<li><code>TEXT</code>最多可以存储<code>2¹⁶-1</code>个字节，所以内容占用的字节长度用2个字节就可以表示。</li>
+<li><code>MEDIUMTEXT</code>最多可以存储<code>2²⁴-1</code>个字节，所以内容占用的字节长度用3个字节就可以表示。</li>
+<li><code>LONGTEXT</code>最多可以存储<code>2³²-1</code>个字节，所以内容占用的字节长度用4个字节就可以表示。</li>
+</ul>
+<p>不过之前不是有个规定说某一行包含的所有列中存储的数据大小总和不得超过65535个字节么？这个规定对这些TEXT类型是不起作用的，它们并不在这个规定的限制范围之内。一个表中如果有的属性需要存储特别长的文本的话，就可以考虑使用这几个类型了。</p>
+<h3 id="enum类型和set类型">ENUM类型和SET类型<a class="headerlink" href="#enum类型和set类型" title="Anchor link to this section for reference">&para;</a></h3>
+<p>视角回到我们的学生信息表，性别一列也需要填写字符串，但是比较特殊的一点是，这一列只能填<code>男</code>或者<code>女</code>，填别的字符串就尴尬了！针对这种情况，我们提出了一个叫<code>ENUM</code>的类型，也称为<code>枚举类型</code>，它的格式如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>ENUM(&#39;str1&#39;, &#39;str2&#39;, &#39;str3&#39; ⋯)
+</span></code></pre></div>
+<p>它表示在给定的字符串列表里选择一个。比如我们的性别一列可以定义成<code>ENUM('男', '女')</code>类型。这个的意思就是性别一列只能在<code>'男'</code>或者<code>'女'</code>这两个字符串之间选择一个，相当于一个单选框～</p>
+<p>有的时候某一列的值可以在给定的字符串列表中挑选多个，假设学生的基本信息加了一列<code>兴趣</code>属性，这个属性的值可以从给定的兴趣列表中挑选多个，那我们可以使用<code>SET</code>类型，它的格式如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>SET(&#39;str1&#39;, &#39;str2&#39;, &#39;str3&#39; ⋯)
+</span></code></pre></div>
+<p>它表示可以在给定的字符串列表里选择多个。我们的兴趣一列就可以定义成<code>SET('打球', '画画', '扯犊子', '玩游戏')</code>类型。这个的意思就是兴趣一列可以在给定的这几个字符串中选择一个或多个，相当于一个多选框～效果就像这样：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>···</th>
+<th>兴趣</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20180101</td>
+<td>杜子腾</td>
+<td>···</td>
+<td>'打球', '画画'</td>
+</tr>
+<tr>
+<td>20180102</td>
+<td>杜琦燕</td>
+<td>···</td>
+<td>'扯犊子'</td>
+</tr>
+<tr>
+<td>20180103</td>
+<td>范统</td>
+<td>···</td>
+<td>'扯犊子', '玩游戏'</td>
+</tr>
+<tr>
+<td>20180104</td>
+<td>史珍香</td>
+<td>···</td>
+<td>'画画', '扯犊子', '玩游戏'</td>
+</tr>
+</tbody>
+</table>
+<p>综上所述，ENUM和SET类型都是一种特殊的字符串类型，在从字符串列表中单选或多选元素的时候会用得到它们。</p>
+<h2 id="二进制类型">二进制类型<a class="headerlink" href="#二进制类型" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="bit类型">BIT类型<a class="headerlink" href="#bit类型" title="Anchor link to this section for reference">&para;</a></h3>
+<p>有时候我们有存储单个或者多个比特位的需求，此时就可以用到下边这种类型：</p>
+<p>|类型|字节数|含义| |:--:|:--:|:--:|:--:| |<code>BIT(M)</code>|近似为(M+7)/8|存储M个比特位的值|</p>
+<p>其中<code>M</code>的取值范围为<code>1~64</code>，而且<code>M</code>可以省略，它的默认值为1，也就是说<code>BIT(1)</code>和<code>BIT</code>的意思是一样的。</p>
+<p><code>MySQL</code>是以字节为单位存储数据的，一个字节拥有8个比特位。如果我们想存储的比特位个数不足整数个字节，那么<code>MySQL</code>会偷偷的填充满，比方说：</p>
+<ul>
+<li><code>BIT(1)</code>类型仅仅需要存储1个比特位的数据，但是<code>MySQL</code>会为其申请<code>(1+7)/8 = 1</code>个字节。</li>
+<li><code>BIT(5)</code>类型仅仅需要存储5个比特位的数据，但是<code>MySQL</code>会为其申请<code>(5+7)/8 = 1</code>个字节。</li>
+<li><code>BIT(9)</code>类型仅仅需要存储9个比特位的数据，但是<code>MySQL</code>会为其申请<code>(9+7)/8 = 2</code>个字节。</li>
+</ul>
+<h3 id="binarym与varbinarym">BINARY(M)与VARBINARY(M)<a class="headerlink" href="#binarym与varbinarym" title="Anchor link to this section for reference">&para;</a></h3>
+<p><code>BINARY(M)</code>和<code>VARBINARY(M)</code>对应于我们前边提到的<code>CHAR(M)</code>和<code>VARCHAR(M)</code>，都是前者是固定长度的类型，后者是可变长度的类型，只不过<code>BINARY(M)</code>和<code>VARBINARY(M)</code>是用来存放字节的，其中的<code>M</code>代表该类型最多能存放的字节数量，而<code>CHAR(M)</code>和<code>VARCHAR(M)</code>是用来存储字符的，其中的<code>M</code>代表该类型最多能存放的字符数量。</p>
+<h3 id="其他的二进制类型">其他的二进制类型<a class="headerlink" href="#其他的二进制类型" title="Anchor link to this section for reference">&para;</a></h3>
+<p><code>TINYBLOB</code>、<code>BLOB</code>、<code>MEDIUMBLOB</code>、<code>LONGBLOB</code>是针对数据量很大的二进制数据提出的，比如图片、音频、压缩文件啥的。它们很像<code>TINYTEXT</code>、<code>TEXT</code>、<code>MEDIUMTEXT</code>、<code>LONGTEXT</code>，不过各种<code>BLOB</code>类型是用来存储字节的，而各种<code>TEXT</code>类型是用来存储字符的而已。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>对于比较大的二进制数据，比方说图片、音频、压缩文件什么的，通常情况下都不直接存储到数据库管理系统中，而是将它们保存到文件系统中，然后在数据库中之存放一个文件路径即可。
+</span></code></pre></div>
+<h2 id="注意">注意<a class="headerlink" href="#注意" title="Anchor link to this section for reference">&para;</a></h2>
+<p>MySQL其实可以大致被分为server层和存储引擎层，server层用来做一些通用的逻辑，存储引擎层负责具体的数据读取和存储，针对不同的使用场景设计了许多种不同的存储引擎。各种数据类型在server层的格式是一致的，本文对各种数据类型占用存储空间的分析也是基于server层的，不同的存储引擎针对不同的数据类型可能有其特定的实现，我们就不单独唠叨了。在《MySQL是怎样运行的：从根儿上理解MySQL》这本书中介绍了InnoDB存储引擎对于VARCHAR和CHAR格式的具体实现，有兴趣的小伙伴可以到该书中查看。</p>
+<p>当然，这段话是给有经验的小伙伴看的，如果大家压根儿没听说过server层、存储引擎的概念，请自动忽略这段话，请自动忽略这段话，请自动忽略这段话！</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../02/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第2章、MySQL初体验">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第2章、MySQL初体验
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第4章、数据库的基本操作">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第4章、数据库的基本操作
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.instant", "navigation.expand", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tabs.link", "content.code.annotation", "header.autohide", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

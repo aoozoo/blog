@@ -1,0 +1,1647 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="azoo">
+      
+      
+        <link rel="canonical" href="https://aoozoo.github.io/blog/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E4%B8%89%E5%A4%A7%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%89%B9%E7%82%B9/">
+      
+      
+        <link rel="prev" href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/99/">
+      
+      
+        <link rel="next" href="../Kafka/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>RabbitMQ、RocketMQ、Kafka性能为何差距如此大？ - aoozoo'blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rabbitmqrocketmqkafka性能为何差距如此大" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-header__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aoozoo'blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RabbitMQ、RocketMQ、Kafka性能为何差距如此大？
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-tabs__link">
+        
+  
+    
+  
+  年薪50w-Devops运维开发架构师
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-tabs__link">
+        
+  
+    
+  
+  Linux 下面的常用命令
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ex/" class="md-tabs__link">
+        
+  
+    
+  
+  ex
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-tabs__link">
+        
+  
+    
+  
+  Github工作流
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-tabs__link">
+        
+  
+    
+  
+  本博客是如何搭建的
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-tabs__link">
+        
+  
+    
+  
+  运维博客收集
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-tabs__link">
+          
+  
+    
+  
+  Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-tabs__link">
+          
+  
+    
+  
+  MySQL
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  中间件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  归档
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="aoozoo&#39;blog" class="md-nav__button md-logo" aria-label="aoozoo'blog" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/15232738?v=4&size=64" alt="logo">
+
+    </a>
+    aoozoo'blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aoozoo/blog" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aoozoo/blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2022%E9%A9%AC%E5%93%A5Devops%E8%BF%90%E7%BB%B4%E5%BC%80%E5%8F%91%E9%AB%98%E8%96%AA%E7%8F%AD/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    年薪50w-Devops运维开发架构师
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux%20%E5%91%BD%E4%BB%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 下面的常用命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../github%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github工作流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%8D%9A%E5%AE%A2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    本博客是如何搭建的
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%E8%BF%90%E7%BB%B4%E5%8D%9A%E5%AE%A2%E6%94%B6%E9%9B%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运维博客收集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../Kubernetes/%E9%9F%A9%E5%85%88%E8%B6%85/001/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/00/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    中间件
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            中间件
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    消息队列
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            消息队列
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    RabbitMQ、RocketMQ、Kafka性能为何差距如此大？
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    RabbitMQ、RocketMQ、Kafka性能为何差距如此大？
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#使用mq需要面临的问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用MQ需要面临的问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#对比下常用的mq" class="md-nav__link">
+    <span class="md-ellipsis">
+      对比下常用的MQ
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rabbitmq传统方式的拷贝" class="md-nav__link">
+    <span class="md-ellipsis">
+      RabbitMQ传统方式的拷贝
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../Kafka/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Kafka
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../RocketMQ/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    RocketMQ
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#使用mq需要面临的问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用MQ需要面临的问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#对比下常用的mq" class="md-nav__link">
+    <span class="md-ellipsis">
+      对比下常用的MQ
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rabbitmq传统方式的拷贝" class="md-nav__link">
+    <span class="md-ellipsis">
+      RabbitMQ传统方式的拷贝
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="rabbitmqrocketmqkafka性能为何差距如此大"><a href="https://heapdump.cn/article/5501994">RabbitMQ、RocketMQ、Kafka性能为何差距如此大？</a><a class="headerlink" href="#rabbitmqrocketmqkafka性能为何差距如此大" title="Anchor link to this section for reference">&para;</a></h1>
+<p>MQ的作用解耦、异步、削峰填谷。</p>
+<ul>
+<li>未使用MQ的情况</li>
+</ul>
+<p><img alt="img" src="https://a.perfma.net/img/5501797" /></p>
+<p>mysql并发写大部分情况下维持在600-800之间，并发读1200-1500之间，所以消费端在消费消息的时候需控制在并发小于1000，从而达到限流的效果。</p>
+<ul>
+<li>使用MQ的情况</li>
+</ul>
+<p><img alt="img" src="https://a.perfma.net/img/5501811" /></p>
+<p>mq做个缓冲，消息放到磁盘，几个G或上t都可以存储，消息丢失的可能性比较小。</p>
+<h2 id="使用mq需要面临的问题">使用MQ需要面临的问题<a class="headerlink" href="#使用mq需要面临的问题" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>可用性降低
+</span></code></pre></div>
+<p>多了MQ，对外部依赖增加，但通过try-catch兜底，mq消息发送失败，则插入数据库。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>提高复杂度
+</span></code></pre></div>
+<p>需要搭建高可用的Kafka集群或RocketMQ集群。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>消息重复
+</span></code></pre></div>
+<p>通过消费端的幂等性实现。</p>
+<p>中间生产消息的时候，有可能会发生网络的波动，业务程序认为消息没有发送成功，其实消息已经写入了一条，应用端超时timeout，此时会进行消息的重发即2个id为1的都会写入到mq中，后端应用消费的时候，就会消费到2条消息。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>消息顺序
+</span></code></pre></div>
+<p>比如下单、支付、发送物流通知，这3个业务消息并发的产生且后端多线程消费的情况下，需要考虑消息消费顺序的问题。</p>
+<p>解决的方式是单个消费者、单个生产者、单个队列可以保证消息有序的消费。</p>
+<p>一个主题，多个队列的情况下需要通过负载均衡的方式路由到不同的队列中来。</p>
+<p>有多个消费者不能确保消息消费的顺序。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>一致性问题
+</span></code></pre></div>
+<p>A、B、C三个系统，A和B两个写入数据库成功了，C系统写库失败，这种情况可以用分布式事务解决，可以使用RocketMQ提供的分布式事务或阿里开源的Seta。</p>
+<h2 id="对比下常用的mq">对比下常用的MQ<a class="headerlink" href="#对比下常用的mq" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>RabbitMQ
+</span></code></pre></div>
+<p>支持并发1.2W。</p>
+<p>RabbitMQ集群很弱，主要确保高可用，不能拓展性能。</p>
+<p>想性能更高，得搭建多主多从，比如3主3从、4主4从，第一个可以确保高可用，第二个可以提高整个的性能，但RabbitMQ集群不可以这样拓展性能。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Kafka
+</span></code></pre></div>
+<p>支持并发100W。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>RocketMQ
+</span></code></pre></div>
+<p>支持并发10W。</p>
+<p>Kafka、RocketMQ天生支持分布式，支持动态扩展、动态扩缩容。</p>
+<p>RocketMQ相对来说功能也比较丰富，支持死信消息、延迟（基于死信消息可以实现延迟消息）消息、消息的回溯、消息的过滤。</p>
+<p>Kafka不支持死信消息。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501814" /></p>
+<p>消息端消费成功，发起ACK确认，作为RabbitMQ来说，可以直接把这个消息删掉。</p>
+<p>Kafka或RocketMQ会记录消息者的偏移量，保证下一次消费的时候不会消费同一条消息。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>死信消息
+</span></code></pre></div>
+<p>如果消费很多次还没有成功，比如10次、20次都不能消费成功，mq中的这个消息就不能被确认 ，这个时候就引入了死信消息，进入一个单独的死信队列进行保存，后续进行手工处理或额外处理，比如用消息补偿机制，实在消费不了的则异步通知生产者。</p>
+<p>RabbitMQ在ack确认很多次都没有成功返回的时候，则会设置一个标识，就会认为这个消息是死信消息，就会把这个消息写入DCL队列中。</p>
+<p>RocketMQ也有这样的死信消息，如果消息重试的次数超过16次，作为RocketMQ也会把这个消息写入专门的死信队列中去。</p>
+<p>补偿机制要根据业务来，比如微信冲电话费，在微信应用里面，通过异步的方式来通知成功或失败，如果说失败了，失败的补偿机制就是退费；如果这条消息反正也消费不了，不知道出于什么原因，也有可能加入了失信名单 或超过了消费的额度，这个时候就消费不了，多次尝试之后，在微信的后端就认为是死信消息，而退费就是一种补偿机制。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>延迟消息
+</span></code></pre></div>
+<p>一般情况下，消息只要发到mq，消费者就会里立马消费掉，但是有的业务场景需要在这个消息上加一个延迟的时间，比如延迟10分钟再被消费。</p>
+<p>应用场景比如买电影票-线上电影票的购票流程：</p>
+<p>1、选座位，对这个座位进行锁定，防止再被其他人锁定</p>
+<p>2、必须在10分钟之内支付</p>
+<p>异常情况：选了座位，不支付。</p>
+<p>对于后端系统来说，只要锁定过期且没有支付，就需要把座位释放掉。</p>
+<p>这种情况可以采用定时任务来处理，不断的去轮循数据库，但会出现新的问题，1要查询数据库，2每个人选定的时间不一样，若定时10分钟跑一次，就会出现释放座位不及时的情况，若定时1秒跑一次，系统性能开销比较大。</p>
+<p>最优的方案是采用延时消息，每一次选座位的时候，就写一个延时10分钟的消息，在消费的时候，必须等10分钟之后，消费者再处理，不需要轮询数据库。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>不同MQ为什么性能差别这么大？
+</span></code></pre></div>
+<p>主要依赖于Rabbitmq、Kafka持久化的底层机制：将消息写入磁盘的零拷贝技术。</p>
+<p>Netty、Nginx都有用到该技术。</p>
+<p>零拷贝包括MMAP的零拷贝、Sendfile的零拷贝。</p>
+<h2 id="rabbitmq传统方式的拷贝">RabbitMQ传统方式的拷贝<a class="headerlink" href="#rabbitmq传统方式的拷贝" title="Anchor link to this section for reference">&para;</a></h2>
+<p>作为消费者要拉取消息进行消费，站在IO的角度去看，为了确保消息的高可用，往往把消息放到磁盘，一旦数据没有写入磁盘就会有丢失数据的可能性，所以消息会先写入磁盘。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501817" /></p>
+<p>把数据从磁盘读出，再通过网络发送给消费者。</p>
+<p>应用发送数据要先发送给操作系统的网卡，最终通过网卡发送数据给消费者。</p>
+<p>站在磁盘的角度来看，数据首先要经过第一个拷贝，这里叫DMA拷贝到文件读取缓冲区，伪代码为buffer=file.read ，写完之后，发给消费者，创建一个socket即建立一个TCP网络通信，通过socket调用send方法，把读到的buffer进行发送。</p>
+<p>站在io的角度来看，经过了几次拷贝？</p>
+<p>第一次：数据从磁盘拷贝到内核的文件读取缓冲区，这个过程称为DMA拷贝，</p>
+<p>然后数据经过第二次拷贝：CPU拷贝，拷贝的数据放入应用缓冲区即就是刚才定义的buffer字节流。</p>
+<p>应用程序并不能直接操作网卡，底层调用socket，通过socket调用操作系统的网卡，但是操作系统网卡会有一个问题 ：不能直接读到应用的内存，所以又需要经过一次CPU拷贝到套接字发送缓冲区，最后再经过一次DMA拷贝（直接内存读取 Direct Memory Access）。</p>
+<p>内核或操作系统的驱动允许不同速度的硬件进行沟通的时候才会有DMA拷贝。</p>
+<p>如果没有DMA，就需要通过CPU的大量中断来进行负载。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>什么叫中断?
+</span></code></pre></div>
+<p>在计算机里面，启动一个线程，让CPU来跑，CPU在跑的时候，你给我发了一个消息，我的电脑怎么知道我的网卡里面进来一条消息呢？这个就需要网卡在硬件级别叫下CPU：cpu等一等，现在我要打断你一下。</p>
+<p>如果通过CPU负载的话，效率很低，因为CPU干很多事情，CPU做大量中断负载的话，比如200M的数据，如果通过CPU拷贝，大概需要200ms，而通过DMA拷贝，速度只需要2毫秒。</p>
+<p>计算机里面，越底层的东西就越快，通过CPU拷贝到话，效率往往很低，因为这个时候还需要向CPU请求负载， 这里会涉及到很多的中断负载的切换。</p>
+<p>在不考虑MQ应用程序运转多少时间的情况下，传统的拷贝大概需要404毫秒。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>RocketMQ MMAP零拷贝技术
+</span></code></pre></div>
+<p>在RocketMQ中采用一种MMAP的零拷贝技术，本身是做内存映射，当内存的应用缓冲区调用操作系统的mmap函数，可以做一个内存映射。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501832" /></p>
+<p><img alt="img" src="https://a.perfma.net/img/5501837" /></p>
+<p>拿到能够操作文件的通道到一个高级类FileChannel，这个高级类实际上是对文件进行操作。</p>
+<p>底层会调用操作系统的mmap函数来完成映射，映射的意思是内存即磁盘，磁盘即内存，如果完成映射之后，这个文件和内存的这个buffer（ByteBuffer）就一致了。</p>
+<p>mmap是内存文件通过FileChannel调用map方法间接调用的，设置读写模式，文件映射到底可以读还是可以写，内存映射的位置即从哪里开始，0表示从头开始，内存映射大小为1024即这个文件可以映射1kb左右，拿到这个buffer之后，就可以进行写入，这个ByteBuffer和Hashmap是一样的方式，直接put把字符串转换成byte数组进行写入，写入完之后，再去调用flip方法进行刷盘，这个数据就可以同步到磁盘了，当然刷完盘之后，还可以拿出来，通过mmap.get把里面的前5个数据读取出来，读取之后还可以打印，</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501848" /></p>
+<p>文件中这么多NULL，刚好长度是1024。</p>
+<p>通过mmap创建的，因为它进行内存映射，所以这个文件必须要有空格，通过NULL值进行表示，读的时候，通过偏移量+长度，指定了5个长度，就可以读取到lijin这个字符串数据。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>传统的方式
+</span></code></pre></div>
+<p><img alt="img" src="https://a.perfma.net/img/5501866" /></p>
+<p>Server端（服务端）启动，模拟一个消费者即专门启动一个Server Socket监听，接受到数据，把数据读出来就可以了。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501869" /></p>
+<p>这个是传统的客户端读一个文件发送到网络的过程，这段代码跟<img alt="img" src="https://a.perfma.net/img/5501873" /></p>
+<p>这个的业务场景是一样的。</p>
+<p>创建一个socket，因为要发给对应的消费者，先建立一个网络连接。</p>
+<p>inpuStream.read()会进行2次拷贝，一个是DMA拷贝，一次是CPU拷贝。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501890" /></p>
+<p>而这种方式只是一次拷贝，因为是内存映射。</p>
+<p>map方法在系统启动的时候就被调用了。</p>
+<p>传统的方式，每次都要new一个FileInputStream，这里涉及到了2次拷贝（每一次读取出来，读到buffer中，涉及到2次拷贝：一次DMA拷贝、一次CPU拷贝），耗时202毫秒，因为要发送网络，通过连接本机的8081端口，发送给它，还要创建一个对应的输出流拿取结果。</p>
+<p>传统的方式本质上和文件读取是一样的，这是通过流的方式读取，while true不断的读并且累加，读完之后，拿到了buffer，再写网络，网络就通过socket创建的getOutputStream（文件的输出流、socket的输出流）转到DataOutputStream。</p>
+<p>创建的socket就是一个连接，应用要跟消费者建立一个TCP的连接，这个TCP的连接在底层表示都是socket，不单单只是数据连接，还包含了数据通道，这里new一个socket就相当于跟另外一个消费者8081这样的socket通道建立了链接，通过socket通道里面的dataOutputStream.write方法输出数据，这里又会涉及到一次DMA拷贝，一次CPU拷贝。</p>
+<p>首先做一次CPU拷贝，相当于把buffer的数据首先要发到套接字缓冲区（socket里面的缓冲区），这个socket要通过网卡发给消费者最终要把应用内存发送给网卡里面的内存，网卡是一个外设，网卡通过一个USB都可以去接，所以就需要做一个DMA拷贝。</p>
+<p>这种方式共有4次拷贝，耗时为422毫秒，这是RabbitMQ的情况，而RocketMQ的mmap发送只有204毫秒，DMA拷贝速度一般是CPU的百倍。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Kafka的sendfile零拷贝技术
+</span></code></pre></div>
+<p><img alt="img" src="https://a.perfma.net/img/5501898" /></p>
+<p>Kafka不会涉及到cpu拷贝，只是进行文件描述符的传递，这点消耗的时间可以忽略。</p>
+<p>文件描述符类似一个指针，在linux上面所有东西都是文件描述符。</p>
+<p>把数据放到文件数据读取缓冲区，这里就会有一个文件描述符，类似于网盘的地址，比如百度云网盘的分享链接，而真实的数据放百度网盘，这种开销可以忽略，既然数据已经放到了文件缓冲区，只要拿到文件缓冲区的指针，指针在应用程序里面内存的大小就可以忽略不计了。</p>
+<p>在现代新的操作系统里面，既然都属于内核操作系统的进程，文件读取缓冲区的内存和套接字的内存可以共享。</p>
+<p>文件描述符（offset=1024，size=9721823），比如要读取的文件，偏移量是1024，读取9721823这个大小的数据。</p>
+<p>把文件描述符传给应用，这个速度和时间可以忽略不计，调用socket，相当于告诉socket你要去文件读取缓冲区内存找我要发送的数据，因为我已经告诉你偏移量和大小了。</p>
+<p>通过sendfile的方式，只剩下2次DMA拷贝了，数据的传输基本上在内核就完成了。<img alt="img" src="https://a.perfma.net/img/5501917" /></p>
+<p>第一步new出一个SocketChannel，使用8081的服务器地址，SocketChannel是套接字发送缓冲区的一个通道，FileChannel是针对磁盘文件的通道，2个通道通过transferTo进行共享，</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501926" /></p>
+<p>共享的位置是从0开始，长度是文件大小，这里没有使用多文件，只读了一个文件。</p>
+<p>fileName可以通过FileChannel传过去，传过去就已经网络传输了，只要调用transferTo方法就会完成网络发送，这种方式的耗时只需要16毫秒。</p>
+<p>传统的传输要转换成InputStream、FileInputStream、DataOutputStream，所以开销会大些，同样的一张图片，转换出来的字节流会多一点。</p>
+<p>通过NIO转换transferTo直接就这么转了，如果把中间的CPU拷贝的时间忽略，相当于2+2+12，传输文件描述符的话，还是会占据一点点时间。</p>
+<p>不同的序列化方式即转换的流不一样，传输的字节数大小也不一样。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>为什么Kafka不用mmap
+</span></code></pre></div>
+<p>既然sendfile零拷贝技术效率更高，RocketMQ早期版本也是基于Kakfa java版本重写改进的，那RocketMQ为什么不用sendfile技术？</p>
+<p>因为它们的设计理念不一样。</p>
+<p>作为文件描述符等同于网盘地址。</p>
+<p>RocketMQ有很多功能的延伸点是不一样的，比如延迟消息、死信消息需要数据流转到MQ应用。</p>
+<p>RocketMQ要支持延迟消息，数据最好要进入应用，不能单纯拿一个文件描述符做延迟消息，这也是为什么Kafka没有延迟消息的原因。</p>
+<p><img alt="img" src="https://a.perfma.net/img/5501955" /></p>
+<p>数据是通过这样的方式发送的，数据不会直接经过Kafka。</p>
+<p>Kafka的设计比较简单，没有延迟消息、死信消息等。</p>
+<p>比如1万条消息中有一个消息发送不成功，这种情况一定要放到mq的应用内存才能处理，</p>
+<p>而通过sendfile方式，很多的消息数据都是文件读取缓冲区的文件描述符。</p>
+<p>类似网盘资料中的数据很多，是一个代码压缩包，单独把其中的一段代码拿出来是非常麻烦的。</p>
+<p>Kafka做死信消息，要写一个定时器，不断的轮询，如果消息失败了，把这个消息写入到Kafka的一个文件或一个队列中，可以这样变相的实现，但自身原生是不支持死信消息的。</p>
+<h1 id="详解三大mqrabbitmqrocketmqkafka"><a href="https://developer.aliyun.com/article/1535404?spm=a2c6h.12873639.article-detail.23.60d22044bv0ExW&amp;scm=20140722.ID_community@@article@@1535404._.ID_community@@article@@1535404-OR_rec-V_1-RL_community@@article@@1206478#slide-7">详解三大MQ：RabbitMQ、RocketMQ、Kafka</a><a class="headerlink" href="#详解三大mqrabbitmqrocketmqkafka" title="Anchor link to this section for reference">&para;</a></h1>
+<h2 id="1概述">1.概述<a class="headerlink" href="#1概述" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="11mq简介">1.1.MQ简介<a class="headerlink" href="#11mq简介" title="Anchor link to this section for reference">&para;</a></h3>
+<p>消息中间件，其实准确的叫法应该叫消息队列（message queue），简称MQ。其本质上是个队列，有FIFO的性质，即first in first out，先入先出。</p>
+<p>目前市场上主流的MQ有三款：</p>
+<ol>
+<li>RabbitMQ</li>
+<li>RocketMQ</li>
+<li>Kafka</li>
+</ol>
+<h3 id="12mq的应用场景">1.2.MQ的应用场景<a class="headerlink" href="#12mq的应用场景" title="Anchor link to this section for reference">&para;</a></h3>
+<p>MQ一般用在几种场景：</p>
+<ol>
+<li>流量削锋</li>
+<li>应用解耦</li>
+<li>异步任务</li>
+</ol>
+<p><strong>1.流量削锋</strong></p>
+<p>流量过大的时候，用MQ作为一个中间层，暂时存储流量，让流量在队列中排队去访问服务，从而控制直接访问服务的流量，减轻服务的实时流量压力。</p>
+<p>以网购下订单为例：</p>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_eb80e0f715184e1997f22d0258a588fa.png" /></p>
+<p><strong>2.应用解耦</strong></p>
+<p>使用MQ作为应用之间的中间层，从而使得应用直接不存在直接调用的关系，解除应用之间的耦合。这样在被调用的应用挂掉以后，应用之间的调用不会直接产生异常，请求仍可以正常发送，待被调用应用重新起来以后，再去消费处理MQ中挤压的调用请求，为系统的修复争取到了时间</p>
+<p>以支付系统为例：</p>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_3530e765a65448c4b0fac7f415b3850f.png" /></p>
+<p><strong>3.异步任务</strong></p>
+<p>有些服务调用对于响应的实时性要求不高，允许延迟响应、异步处理。使用MQ可以将这些可以异步处理的请求，暂存在队列中，调用方不必等待，直接向下执行其他任务，被调用方消费MQ中消息后自行返回给调用方响应。</p>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_0d0bb889fe824a73abdb440fde74f11f.png" /></p>
+<h3 id="13关注mq的角度">1.3.关注MQ的角度<a class="headerlink" href="#13关注mq的角度" title="Anchor link to this section for reference">&para;</a></h3>
+<p>虽然市面上的MQ数量众多、种类繁杂，但MQ其本质上就是用来暂时存放消息的一种中间件，其实从三个角度去关注MQ即可抓住MQ的核心：</p>
+<ol>
+<li>消息可靠性</li>
+<li>消息模型</li>
+<li>吞吐量</li>
+</ol>
+<p><strong>1.消息可靠性</strong></p>
+<p>消息可靠性，即消息会不会丢失？围绕防止消息丢失做了哪些工作？</p>
+<p><strong>2.消息模型</strong></p>
+<p>消息模型，即支持以什么样的模式去消费消息？点对点？广播？发布订阅？其消息模型丰富度如何？</p>
+<p><strong>3.吞吐量</strong></p>
+<p>MQ作为用来减轻系统压力的中间件，其自身势必会经常面对很大的流量，吞吐量如何自然是要考虑的。</p>
+<p>本文在最后横向对比三大MQ的时候就会从以上三点出发。除了以上三点，还有一点是值得额外关注的，就是扩容是否方便，即是否在架构上能很好的支持分布式架构。当然这不是核心点，要扩容怎么都能扩，只是看方便与否。</p>
+<h2 id="2rabbitmq">2.RabbitMQ<a class="headerlink" href="#2rabbitmq" title="Anchor link to this section for reference">&para;</a></h2>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_41715246328647299f0fa6606ffa2912.jpeg" /></p>
+<p>RabbitMQ有几个特点：</p>
+<ol>
+<li>遵从AMQP协议</li>
+<li>丰富的消息模型极</li>
+<li>消息可靠性高但是吞吐量不高</li>
+</ol>
+<p><strong>1.遵从AMQP</strong></p>
+<p>博主在之前的中间件系列中详细介绍了AMQP：</p>
+<p><a href="https://blog.csdn.net/Joker_ZJN/article/details/132037929?ops_request_misc=%7B%22request%5Fid%22%3A%22169401634716800185871169%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fblog.%22%7D&amp;request_id=169401634716800185871169&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-132037929-null-null.268^v1^koosearch&amp;utm_term=AMQP&amp;spm=1018.2226.3001.4450">详解AMQP协议__BugMan的博客-CSDN博客</a></p>
+<p><strong>2.丰富的消息模型</strong>AMQP简单来说就是规定好了MQ的各个抽象组件，RabbitMQ则是一款完全严格按照AMQP来实现的开源MQ，使得很好被开源框架所集成，比如Spring AMQP专门就是用来操作AMQP架构的中间件的，因此RabbitMQ可以被Spring Boot很方便的集成。</p>
+<p>RabbitMQ也是三大MQ里提供的消息模型最丰富的一种MQ。</p>
+<p>3.消息可靠性高但是吞吐量不高</p>
+<p>RabbitMQRabbitMQ 提供了多种机制来确保消息的可靠性，包括持久化、消息确认、发布确认等。这些机制确保消息不会丢失，并且能够在各种情况下处理消息传递失败。但是由于存在这些用于保证消息可靠性的机制，RabbitMQ的吞吐量在三大中间件中是最低的。</p>
+<h2 id="3rocketmq">3.RocketMQ<a class="headerlink" href="#3rocketmq" title="Anchor link to this section for reference">&para;</a></h2>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_8da06b28108c4f3aac50034068b51cbf.png" /></p>
+<p>RocketMQ是一款开源的分布式消息中间件，最初由阿里巴巴集团开发并开源。它旨在为分布式系统提供可靠、高性能、可扩展的消息通信能力。其已经是阿里内部最核心的消息中间件，用来保证每年双十一期间系统的稳定。</p>
+<p>Rocket安装使用：</p>
+<p><a href="https://blog.csdn.net/Joker_ZJN/article/details/131654750">RocketMQ下载安装、集群搭建保姆级教程_rocketmq集群安装__BugMan的博客-CSDN博客</a></p>
+<p>RocketMQ有以下几个特点：</p>
+<ol>
+<li>
+<p>天生的分布式架构</p>
+</li>
+<li>
+<p>兼顾消息可靠性和高吞吐量</p>
+</li>
+<li>消息模型够用</li>
+</ol>
+<p><strong>1.天生的分布式架构</strong></p>
+<p>RocketMQ 的设计采用了分布式架构，可以将消息存储和处理分散到多个节点上。这样可以实现消息的并行处理，提高系统的吞吐量和并发性能。整个RocketMQ集群的架构和微服务架构类似，有一个存放节点信息的name server，生产者和消费者都去找name server拿broker的信息，再去定位到具体的某一个broker上，进行消息的收发。 broker之间可以用主从的方式进行互相备份，进行容错。</p>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_71d27d275eb343f4b0faffe74a618938.png" /></p>
+<p>2.兼顾消息可靠性和高吞吐量</p>
+<p>可靠性和吞吐量其实是互斥的两点，为了保证可靠性，消息就一定要落在磁盘存储防止断电丢失。落在磁盘存储后，读这条消息的时候的磁盘IO就会拉低吞吐量。所以RocketMQ的核心其实就是数据落磁盘，然后想尽一切办法来提高吞吐量。RocketMQ主采用了顺序读写、异步刷盘、零拷贝三大机制来拉升了吞吐量。</p>
+<p>3.消息模型够用</p>
+<p>RocketMQ的消息模型没有RabbitMQ那么够用，但是基本的点对点、广播、发布订阅、事务等都是有的，面对绝大多数场景基本上是够用的。</p>
+<h2 id="4kafka">4.Kafka<a class="headerlink" href="#4kafka" title="Anchor link to this section for reference">&para;</a></h2>
+<p><img alt="image" src="https://imgs.ilee.xyz/img/lni4yqsropaa4_88082c3bcfa4451abba20377c5b1e888.png" /></p>
+<p>Kafka其实和RocketMQ很相似，一款具有高吞吐量、高可靠性的分布式消息中间件。其采用<strong>分布式架构</strong>、<strong>顺序写</strong>、<strong>序列化</strong>、<strong>零拷贝</strong>等机制保证了高吞吐量，<strong>数据自动落磁盘</strong>完成持久化来保证消息不会丢失。</p>
+<h2 id="5三大mq的对比">5.三大MQ的对比<a class="headerlink" href="#5三大mq的对比" title="Anchor link to this section for reference">&para;</a></h2>
+<p>重头戏来了，在实际开发中，要用到MQ时，对MQ的选型是很重要的，选型的基础是一定要了解MQ的特点和适用的场景。</p>
+<p><strong>Kafka:</strong></p>
+<ul>
+<li>优点：</li>
+<li>吞吐量：Kafka的设计目标是实现高吞吐量的消息传递，拥有很大的吞吐量，适用于处理大量的实时数据流。</li>
+<li>
+<p>扩展性：Kafka采用分布式架构，允许构建具有高可用性和可伸缩性的消息系统。</p>
+</li>
+<li>
+<p>可靠性：Kafka将消息持久化到磁盘上，可以长期保留数据，并支持高效的消息回放。</p>
+</li>
+<li>
+<p>缺点：</p>
+</li>
+<li>
+<p>复杂性：Kafka的配置和管理相对较复杂，需要一定的学习和运维成本。</p>
+</li>
+<li>
+<p>实时性：由于Kafka是批量处理数据的，并且由于需要在分区之间进行数据的复制和同步，所以相对于其它MQ，kafka会存在一定时延。</p>
+</li>
+<li>功能丰富度：支持的消费模式比较单一</li>
+</ul>
+<p><strong>RabbitMQ:</strong></p>
+<ul>
+<li>
+<p>优点：</p>
+</li>
+<li>
+<p>功能丰富度：RabbitMQ支持灵活的路由机制和多种消息模式，如点对点、发布-订阅和主题订阅等。</p>
+</li>
+<li>
+<p>可靠性：RabbitMQ通过消息确认机制和持久化可以保证消息的可靠传递。</p>
+</li>
+<li>
+<p>兼容性：RabbitMQ使用标准的AMQP协议，支持跨语言和平台的互操作性。</p>
+</li>
+<li>
+<p>缺点：</p>
+</li>
+<li>
+<p>吞吐量：没有做拉升吞吐量的优化所以相比于其他消息队列系统，RabbitMQ的吞吐量较低。</p>
+</li>
+<li>
+<p>扩展性：RabbitMQ的集群管理较为复杂，需要很多额外的配置和管理。</p>
+</li>
+</ul>
+<p><strong>RocketMQ:</strong></p>
+<ul>
+<li>
+<p>优点：</p>
+</li>
+<li>
+<p>高吞吐量和低延迟：RocketMQ是为处理大规模数据流设计的，具有高吞吐量和低延迟的特点。RocketMQ的时延。</p>
+</li>
+<li>
+<p>可靠性：存在持久化机制、确认机制，具有高可靠性。</p>
+</li>
+<li>
+<p>扩展性：RocketMQ支持水平扩展，可以通过添加更多的节点来提高系统的性能和容量。</p>
+</li>
+<li>
+<p>缺点：</p>
+</li>
+<li>
+<p>社区支持：相对于Kafka和RabbitMQ，RocketMQ的社区支持相对较弱。</p>
+</li>
+<li>功能丰富度：RocketMQ在功能上相对较为简化，可能不适用于复杂的消息处理场景。</li>
+</ul>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>RabbitMQ适用于对消息可靠性要求高或者灵活的消息路由和多种消息模式的场景，如任务队列、发布-订阅和事件驱动架构。</li>
+</ul>
+<p>Kafka虽然存在一些时延，但是这个时延并不会很大，总体上来说Kafka和rocket适用的场景是高度重叠的，RocketMQ和Kafka都专注于高吞吐量和低延迟的场景，因此它们都适用于需要处理大规模数据流和实时消息传递的应用。Kafka在大数据领域具有广泛的应用，与Hadoop、Spark等工具有良好的集成。RocketMQ在互联网领域应用较为广泛，适用于电商、物流等场景。</p>
+<h1 id="为什么kafka延迟比rocketmq延迟高"><a href="https://developer.aliyun.com/article/1206478">为什么kafka延迟比rocketmq延迟高</a><a class="headerlink" href="#为什么kafka延迟比rocketmq延迟高" title="Anchor link to this section for reference">&para;</a></h1>
+<p>说kafka延迟比rocketmq延迟高 是有一个前提的 就是topic较多的时候 这个和这2个MQ的数据存储结构有关系的 在topic少的时候延迟基本一致。</p>
+<p>kafka的数据存储结构设计师尽可能的保证吞吐量，所以在设计时是尽可能保证log日志小，它的数据结构如下 其中topic是逻辑概念，分区对应就是一个物理文件夹：</p>
+<p><img alt="11.png" src="https://imgs.ilee.xyz/img/julu4p6dzrf6a_07b6e8a2dc5c4bbdb5f04856b77ae077.png" /></p>
+<p>所以在topic比较多时，分区文件数量会非常庞大 磁盘顺序读效率还不如随机读效率，则会在topic比较多时 磁盘顺序读就蜕变为随机读，延迟也就高了。</p>
+<p>即 kafka 性能对于topic 有阈值（20 个）。</p>
+<p>淘宝业务比较复杂，topic会比较多 则为了解决这个痛点 rockertmq 就诞生了 它的数据存储结构 对此做了优化 日志目录只有一个 commit log ，结构如下：</p>
+<p><img alt="10.png" src="https://imgs.ilee.xyz/img/julu4p6dzrf6a_381b251b925f4d968b01908fa7a7f3c1.png" /></p>
+<p>出发点不一样，kafka定位就是处理日志和大数据 在这些业务领域，topic不会太多，延迟问题自然也就没有。</p>
+<p>数据存储结构是主要原因，还有就是kafka只支持pull模式。而rocketmq有pull、push两种模式 （虽然这个push模式是假push），push模式延迟肯定是比pull模式延迟低。</p>
+<p>push模式是基于pull模式的，本地有个定时线程去pull broker的消息，缓存到本地，然后push到消费线程那边。</p>
+<p>rabbit 的push模式 是真的push 所以 延迟最低的就是兔子。 兔子不支持分布式，只支持主从模式 本身设计就是小而美的单机版。cpu消耗比kafka之类低多了。</p>
+<h1 id="rabbitmqrocketmq-和-kafka-介绍"><a href="https://developer.aliyun.com/article/1548626?spm=a2c6h.12873639.article-detail.26.60d22044bv0ExW&amp;scm=20140722.ID_community@@article@@1548626._.ID_community@@article@@1548626-OR_rec-V_1-RL_community@@article@@1206478">RabbitMQ、RocketMQ 和 Kafka 介绍</a><a class="headerlink" href="#rabbitmqrocketmq-和-kafka-介绍" title="Anchor link to this section for reference">&para;</a></h1>
+<p>我了解 RabbitMQ、RocketMQ 和 Kafka。以下是对这三种消息队列系统的详细介绍：</p>
+<h2 id="rabbitmq">RabbitMQ<a class="headerlink" href="#rabbitmq" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="概念">概念<a class="headerlink" href="#概念" title="Anchor link to this section for reference">&para;</a></h3>
+<p>RabbitMQ 是一个由 Pivotal 开发的开源消息代理，基于 AMQP（Advanced Message Queuing Protocol）协议。它支持多种消息模型，如发布/订阅、点对点和 RPC。</p>
+<h3 id="优点">优点<a class="headerlink" href="#优点" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>灵活性</strong>：支持多种消息模型和协议，包括 AMQP、MQTT 和 STOMP。</li>
+<li><strong>可靠性</strong>：提供消息持久化、确认机制，确保消息不丢失。</li>
+<li><strong>社区支持</strong>：有广泛的社区支持和丰富的插件。</li>
+<li><strong>易于使用</strong>：配置和管理相对简单，适合中小型应用。</li>
+</ol>
+<h3 id="缺点">缺点<a class="headerlink" href="#缺点" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>性能</strong>：在高吞吐量场景下性能可能不如 Kafka 和 RocketMQ。</li>
+<li><strong>复杂性</strong>：AMQP 协议较为复杂，需要一定的学习成本。</li>
+<li><strong>扩展性</strong>：在大规模分布式系统中扩展性相对较弱。</li>
+</ol>
+<h2 id="rocketmq">RocketMQ<a class="headerlink" href="#rocketmq" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="概念_1">概念<a class="headerlink" href="#概念_1" title="Anchor link to this section for reference">&para;</a></h3>
+<p>RocketMQ 是阿里巴巴开源的分布式消息中间件，支持高吞吐量和低延迟。它适用于大规模消息处理场景，如日志处理和交易系统。</p>
+<h3 id="优点_1">优点<a class="headerlink" href="#优点_1" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>高性能</strong>：支持大规模消息的快速传输，低延迟。</li>
+<li><strong>丰富功能</strong>：支持事务消息、定时消息和顺序消息。</li>
+<li><strong>伸缩性</strong>：易于水平扩展，适合大规模分布式系统。</li>
+<li><strong>可靠性</strong>：消息存储采用了多副本机制，确保数据的高可用性。</li>
+</ol>
+<h3 id="缺点_1">缺点<a class="headerlink" href="#缺点_1" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>生态系统</strong>：相比 RabbitMQ 和 Kafka，RocketMQ 的社区和生态系统相对较小。</li>
+<li><strong>运维复杂</strong>：需要较多的运维操作和监控，尤其是在大规模集群环境中。</li>
+</ol>
+<h2 id="kafka">Kafka<a class="headerlink" href="#kafka" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="概念_2">概念<a class="headerlink" href="#概念_2" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Kafka 是 Apache 基金会的一个开源流处理平台，最初由 LinkedIn 开发。Kafka 提供高吞吐量、低延迟的消息传输，特别适用于实时数据流和事件流处理。</p>
+<h3 id="优点_2">优点<a class="headerlink" href="#优点_2" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>高吞吐量</strong>：能够处理每秒数百万条消息，非常适合大数据场景。</li>
+<li><strong>持久性</strong>：支持将消息持久化到磁盘，确保数据安全。</li>
+<li><strong>生态系统丰富</strong>：拥有丰富的生态系统和工具，如 Kafka Streams 和 Kafka Connect。</li>
+<li><strong>扩展性</strong>：易于扩展，支持分布式部署。</li>
+</ol>
+<h3 id="缺点_2">缺点<a class="headerlink" href="#缺点_2" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li><strong>复杂性</strong>：需要熟悉其架构和配置，初次上手有一定难度。</li>
+<li><strong>延迟</strong>：在某些场景下，消息的实时性不如 RocketMQ。</li>
+<li><strong>消息顺序</strong>：在某些场景下保证消息的全局顺序可能比较复杂。</li>
+</ol>
+<h2 id="对比总结">对比总结<a class="headerlink" href="#对比总结" title="Anchor link to this section for reference">&para;</a></h2>
+<ol>
+<li><strong>性能</strong>：Kafka 和 RocketMQ 通常具有更高的吞吐量和性能，适合大规模数据流处理。RabbitMQ 在高吞吐量场景下可能表现不如前两者。</li>
+<li><strong>灵活性</strong>：RabbitMQ 支持多种消息模型和协议，适合各种不同场景，但其协议复杂性较高。Kafka 和 RocketMQ 更专注于高吞吐量和低延迟。</li>
+<li><strong>生态系统</strong>：Kafka 拥有最为丰富的生态系统和工具支持，如 Kafka Streams 和 Kafka Connect。RabbitMQ 和 RocketMQ 的生态系统相对较小。</li>
+<li><strong>易用性</strong>：RabbitMQ 配置和管理相对简单，适合中小型应用。Kafka 和 RocketMQ 需要更多的运维和配置工作，适合大规模分布式系统。</li>
+</ol>
+<h2 id="使用场景">使用场景<a class="headerlink" href="#使用场景" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li><strong>RabbitMQ</strong>：适用于中小型应用，需要多样化的消息模型和协议支持的场景，如企业应用集成、分布式系统的组件间通信。</li>
+<li><strong>RocketMQ</strong>：适用于需要高吞吐量和低延迟的大规模消息处理场景，如电商交易系统、日志处理系统。</li>
+<li><strong>Kafka</strong>：适用于需要处理大规模实时数据流和事件流的场景，如大数据分析、实时日志处理、数据管道。</li>
+</ul>
+<p>以上是对 RabbitMQ、RocketMQ 和 Kafka 的详细介绍及其优缺点和适用场景的分析。根据具体的需求和场景选择合适的消息队列系统，可以更好地满足项目需求。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../../../MySQL/MySQL%20%E6%98%AF%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%9A%84-%E4%BB%8E%E9%9B%B6%E8%9B%8B%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%20MySQL/99/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 99">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                99
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Kafka/%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="md-footer__link md-footer__link--next" aria-label="下一页: Kafka 工作原理">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Kafka 工作原理
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024-06-26 <a href="ttps://github.com/aoozoo/blog"  target="_blank" rel="noopener">aoozoo</a>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="hhttps://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/aoozoo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.instant", "navigation.expand", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tabs.link", "content.code.annotation", "header.autohide", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
